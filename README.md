@@ -1,4 +1,5 @@
 # Falkonry's integration examples
 
-## Examples
+Integrational examples to connect with Falkonry easily.
+
 * PubNub
