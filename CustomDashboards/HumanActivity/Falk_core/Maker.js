@@ -41,19 +41,19 @@ module.exports.getPL_list = function (done) {
 };
 
 //GET Pipeline Output
-module.exports.getPLoutput = function(pl_id, done) {
+module.exports.getPLoutput = function (pl_id, done) {
     console.log("Continuous Output");
     var get_options = {
-        url: V.url + 'pipeline/' + pl_id+ '/output',
+        url: V.url + 'pipeline/' + pl_id + '/output',
         headers: {
             'Authorization': 'Bearer ' + API_key,
             'Content-Type': 'application/json'
         }
     };
+
     function get_callback(error, response, body) {
         if (!error && response.statusCode == 200) {
-            var info = JSON.parse(body);
-            return done(null, info);
+            return done(null, body);
         }
         else if (response.statusCode == 400)
             return done(response.message, null);
@@ -61,6 +61,7 @@ module.exports.getPLoutput = function(pl_id, done) {
             return done(error, null);
         }
     }
+
     V.request.get(get_options, get_callback);
 };
 
@@ -89,7 +90,6 @@ module.exports.makeEB = function (time_type, name, entityID, timeID, done) {
     };
 
     function post_callback(err, response, body) {
-        console.log(err, response, body);
         if (!err && response.statusCode == 201) {
             var info = JSON.parse(body);
             return done(null, info);
@@ -175,7 +175,6 @@ module.exports.makePL = function (name, a_name, EB, done) {
     };
 
     function post_callback(error, response, body) {
-        console.log(body);
         if (!error && response.statusCode == 201) {
             var info = JSON.parse(body);
             return done(null, info);
@@ -287,33 +286,47 @@ module.exports.sendFactsToPL = function (filename, p_id, done) {
 
 //POST: Open a Pipeline. Returns message when successful
 module.exports.openPL = function (p_id, done) {
-    console.log("Opening  Pipeline ID " + p_id + " now...");
+    _this=this;
+    this.getPL(p_id, function (e, pipeline) {
+        if (!e) {
+            _this.getEB(pipeline.input, function (e, r) {
+                if(!e) {
+                    console.log("Opening  Pipeline ID " + p_id + " now...");
+                    var startTime = new Date(r.earliestDataPoint).toISOString();
+                    var post_options = {
+                        url: V.url + 'pipeline/' + p_id + '/open?startTime=' + startTime,
+                        headers: {
+                            'Authorization': 'Bearer ' + API_key,
+                            'Content-Type': 'application/json'
+                        }
+                    };
 
-    var post_options = {
-        url: V.url + 'pipeline/' + p_id + '/open',
-        headers: {
-            'Authorization': 'Bearer ' + API_key,
-            'Content-Type': 'application/json'
-        }
-    };
 
-    function post_callback(error, response, body) {
-        if (!error && response.statusCode == 201) {
+                    function post_callback(error, response, body) {
+                        if (!error && response.statusCode == 201) {
 
-            return done(null, "Pipeline opened");
-        }
-        else if (!error && response.statusCode == 400) {
-            return done("Model Revision going on", null);
-        }
-        else if (!error && response.statusCode == 404) {
-            return done("Pipeline id " + id + " not found. ", null);
-        }
-        else {
-            return done(error, null);
-        }
-    }
+                            return done(null, "Pipeline opened");
+                        }
+                        else if (!error && response.statusCode == 400) {
+                            return done("Model Revision going on", null);
+                        }
+                        else if (!error && response.statusCode == 404) {
+                            return done("Pipeline id " + id + " not found. ", null);
+                        }
+                        else {
+                            return done(error, null);
+                        }
+                    }
 
-    V.request.post(post_options, post_callback);
+
+                    V.request.post(post_options, post_callback);
+
+                }
+            });
+
+        }
+    });
+
 };
 
 //POST: Close a Pipeline. Returns message when successful
@@ -413,7 +426,7 @@ module.exports.getRevisionOutput = function (p_id, MR_index, done) {
     };
 
     function get_callback(error, response, body) {
-        console.log("Response is "+response.statusCode);
+        console.log("Response is " + response.statusCode);
         if (response.statusCode == 200) {
             return done(null, body);
         }
@@ -506,6 +519,45 @@ module.exports.removePL = function (id, done) {
     V.request.delete(del_options, del_callback);
 };
 
+//Check if Model has been made
+var ctr = 1;
+module.exports.checkModelComplete = function (res, k, done) {
+    var _this = this;
+    var retry = true;
+    arr = res.modelRevisionList;
+    for (i = 0; i < arr.length; i++) {
+        if (arr[i].index == k) {
+            MR = arr[i];
+            break;
+        }
+    }
+    console.log("Ping: " + ctr + ", Model Revision INDEX " + MR.index + ", Status: " + MR.status);
+    if (MR.status == "COMPLETED") {
+        retry = false;
+    }
+    else if (MR.status == "FAILED") {
+        done("Model Revision: Internal Server Error", null);
+    }
+    if (retry) {
+        ctr++;
+        console.log("Trying again...");
+        setTimeout(function (res, k, done) {
+            _this.getPL(res.id, function (err, res) {
+                if (!err)
+                    _this.checkModelComplete(res, k, done);
+                else {
+                    return done(err, null);
+                }
+            });
+        }, 10000, res, k, done);
+    }
+    else {
+        ctr = 1;
+        retry = true;
+        return done(null, res);
+    }
+};
+
 //POST live data
 module.exports.dataStream = function(EB){
     module.exports.sendDataToEB('file2.csv',EB.id,function(error,response){
@@ -534,14 +586,14 @@ module.exports.postLive = function(fileObj,EBObject,counter,baseTime){
     }
 
     setTimeout(function () {
-            module.exports.sendDataToEBLIVE(str, EBObject.id,function(err){
+        module.exports.sendDataToEBLIVE(str, EBObject.id,function(err){
             if(!err){
                 if(counter <12) {
                     console.log("Posting data...");
                     counter++;
 
-                        module.exports.postLive(EBobject,counter);
-                    }
+                    module.exports.postLive(EBobject,counter);
+                }
 
                 else
                     return done("Done!!");
@@ -558,66 +610,30 @@ module.exports.postLive = function(fileObj,EBObject,counter,baseTime){
 module.exports.sendDataToEBLIVE = function (filename, id, done) {
 
 
-        console.log("Loading Data onto EB...");
-        var post_options = {
-            url: V.url + 'eventBuffer/' + id,
-            headers: {
-                    'Authorization': 'Bearer ' + API_key,
-                    'Content-Type': 'text/plain'
-            },
-            body: filename
-        };
-
-        function post_callback(error, response, body) {
-            if (!error && response.statusCode == 202) {
-                    return done(null, "Data uploaded");
-            }
-            else if (!error && response.statusCode == 404) {
-                    return done("Event Buffer given does not exist", null);
-            }
-            else
-                return done(error, null);
-        }
-
-        V.request.post(post_options, post_callback);
+    console.log("Loading Data onto EB...");
+    var post_options = {
+        url: V.url + 'eventBuffer/' + id,
+        headers: {
+            'Authorization': 'Bearer ' + API_key,
+            'Content-Type': 'text/plain'
+        },
+        body: filename
     };
 
-//Check if Model has been made
-var ctr = 1;
-module.exports.checkModelComplete = function (res, k, done) {
-    var _this = this;
-    var retry = true;
-    arr = res.modelRevisionList;
-    for (i = 0; i < arr.length; i++) {
-        if (arr[i].index == k) {
-            MR = arr[i];
-            break;
+    function post_callback(error, response, body) {
+        if (!error && response.statusCode == 202) {
+            return done(null, "Data uploaded");
         }
+        else if (!error && response.statusCode == 404) {
+            return done("Event Buffer given does not exist", null);
+        }
+        else
+            return done(error, null);
     }
-    console.log("Ping: " + ctr + ", Model Revision INDEX " + MR.index + ", Status: " + MR.status);
-    if (MR.status == "COMPLETED") {
-        retry = false;
-    }
-    else if (MR.status == "FAILED") {
-        done("Model Revision: Internal Server Error", null);
-    }
-    if (retry) {
-        ctr++;
-        console.log("Trying again...");
-        setTimeout(this.getPL(res.id, function (err, res) {
-            if (!err)
-                _this.checkModelComplete(res, k, done);
-            else {
-                return done(err, null);
-            }
-        }));
-    }
-    else {
-        ctr = 1;
-        retry = true;
-        return done(null, res);
-    }
+
+    V.request.post(post_options, post_callback);
 };
+
 
 //Read a CSV file
 function readCSVFile(filename, done) {

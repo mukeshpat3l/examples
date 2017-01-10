@@ -29,8 +29,8 @@ app.get('/output', function (req, res) {
     M.setKey(req.query.api_key, function (e, r) {
         if (!e) {
             console.log("Done with setting the key");
-            M.getRevisionOutput(req.query.P_id, 1, function (err, r) {
-                console.log("RO ended");
+            M.getPLoutput(req.query.P_id, function (err, r) {
+                console.log("/output falkonry call ended");
                 if (!err) {
                     return res.status(200).send(r);
                 }

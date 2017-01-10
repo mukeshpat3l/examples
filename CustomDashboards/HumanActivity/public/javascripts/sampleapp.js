@@ -23,6 +23,8 @@ app.controller('HomeController', ['$scope', '$rootScope', '$timeout', function (
 
     $rootScope.getPipes = function () {
         $scope.load_show = 1;
+        $scope.refresh_rate = 1;
+        $scope.time_range = 2;
         $timeout(function () {
             $.ajax({
                 url: 'http://localhost:3000/pipelist?api_key=' + $scope.mykey,
@@ -140,30 +142,22 @@ app.controller('PipelineDetailController', ['$scope', '$rootScope', function ($s
 
                     dataTable.addColumn({type: 'string', id: 'Group'});
                     dataTable.addColumn({type: 'string', id: 'President'});
-                    dataTable.addColumn({type: 'date', id: 'Start'});
-                    dataTable.addColumn({type: 'date', id: 'End'});
+                    dataTable.addColumn({type:  'date', id: 'Start'});
+                     dataTable.addColumn({type: 'date', id: 'End'});
                     var c = res.split("\n");
                     c.splice(-1,1);
-                    for (var i = 0; i <c.length-1; i++) {
+                    for (var i = 1; i <c.length-1; i++) {
                         console.log(i);
-                        var k1 = JSON.parse(c[i]);
-                        var k2 = JSON.parse(c[i + 1]);
-                        while(JSON.parse(c[i+1]).activityAssessment==k1.activityAssessment && i<c.length-2) {
+                        var arr1 = c[i].split(',');
+                        var arr2 = c[i+1].split(',');
+                        while(arr2[2]==arr1[2] && i<c.length-2) {
                             i++;
-                            k2 = JSON.parse(c[i + 1]);
+                            arr2 = c[i+1].split(',');
                         }
-                        D1 = new Date(k1.time);
-                        D2 = new Date(k2.time);
-                        dataTable.addRow([k1.entity, k1.activityAssessment, D1, D2]);
-
-
+                        D1 = new Date(parseInt(arr1[0]));
+                        D2 = new Date(parseInt(arr2[0]));
+                        dataTable.addRow([arr1[1],arr1[2], D1, D2]);
                     }
-                    /*
-                     dataTable.addRows([
-                     ['A'    , 'Rainy', new Date(1789, 3, 30), new Date(1789, 3, 31)],
-                     ['A', 'Clear', new Date(1789, 4, 4), new Date(1801, 2, 4)],
-                     ['A', 'Rainy', new Date(1801, 2, 4), new Date(1809, 2, 4)]]);
-                     */
 
                     chart.draw(dataTable);
                 }
@@ -171,7 +165,7 @@ app.controller('PipelineDetailController', ['$scope', '$rootScope', function ($s
         }
     });
     $scope.goBack = function () {
-        $rootScope.leave = 0;
+            $rootScope.leave = 0;
         $rootScope.stay = 1;
         $rootScope.chosen_pipe = null;
     };

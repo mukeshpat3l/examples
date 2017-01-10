@@ -69,6 +69,16 @@
     </div>
 
     <div ng-controller="PipelineDetailController" ng-if="leave">
+        <!--<div class="row white">
+            <div class="input-field col s1 black-text">
+                <input id="time" value="2" type="number" ng-model="time_range" >
+                <label class="active" for="time_range">Display time (days)</label>
+            </div>
+            <div class="input-field col s1 black-text">
+                <input id="time" value="1" type="number" ng-model="refresh_rate">
+                <label class="active" for="refresh_rate">Refresh Rate (mins)</label>
+            </div>
+        </div>-->
         <div id="timeline" style="height: 180px;"></div>
         <button type="button" class="btn-floating waves-effect waves-light orange material-icons"   ng-click="goBack()">BACK</button>
     </div>
