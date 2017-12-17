@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+     
+               
+    <body>
+            <nav class="navbar navbar-inverse">
+                    <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">Falkonry</a>
+                    </div>
+                      
+                    <form class="form-inline" #apiForm="ngForm" (ngSubmit)="onSubmit(apiForm.value)">
+                        <div class="form-group">
+                            <input type="text" placeholder="Host" class="form-control mr-sm-2" name="host" ngModel>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" placeholder="API Key" class="form-control mr-sm-2" name="api" ngModel>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                                Fetch
+                        </button>
+                            
+                    </form>
+                
+                        
+                      
+                    </div>
+                  </nav>
+                  
+                  
+                    <div class="row">
+                        <div class="col-sm-1">
+                            <div class="form-group">
+                                <label for="assessment" >Assessments</label>
+                            
+                                        <select id="assessment" class="form-control"name="select" [(ngModel)]="selectedValue" (change)="Filter_Assessment($event.target.value)">
+                                                <option *ngFor="let c of fetched_assessments" [ngValue]="c.id">{{c.name}}</option>
+                                        </select>   
+                       
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                                <div class="form-group">
+                                <label for="entity">Entity</label>
+                                
+                                        <select id=entity class="form-control"name="select" [(ngModel)]="selectedValue" (change)="Filter_Entity($event.target.value)">
+                                                <option *ngFor="let entity of list_of_entities" [ngValue]="entity">{{entity}}</option>
+                                        </select>   
+                                </div>
+                    
+                        </div>
+              </div>
+
+              
+              
+            
+                  
+                  
+        <div class="graphs">
+            <h3>{{entity}}</h3>
+            <google-chart #ctchart [data]="columnChartData" (chartError)='error_column($event)'></google-chart>
+            <google-chart #cchart [data]="timelineChartData"(chartError)='error_timeline($event)'></google-chart>    
+            <google-chart #cchart [data]="timelineChartData_dummy"></google-chart>      
+            
+        </div>
+        
+        
+    </body>
+    
+</html>
