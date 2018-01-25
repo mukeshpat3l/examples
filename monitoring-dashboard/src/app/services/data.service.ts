@@ -53,11 +53,6 @@ export class DataService {
     this.headers = new Headers();
     host=host+"/assessment"
     this.headers.set("Authorization", "Bearer ".concat(api_key));
-    //const headers = new HttpHeaders().set("Authorization", "Bearer jyllg9c76nc4c44k6wvkck7y6pl9b27k");
-    //this.options.headers({headers:this.headers});
-    //4tbcp67c89rpqp2k2wjygcvtrdtcmlmv
-    //https://dev.falkonry.ai/assessment
-    //this.headers.append("Authorization", "Bearer jyllg9c76nc4c44k6wvkck7y6pl9b27k");
     this.options=new RequestOptions({headers:this.headers})
     console.log(this.headers.keys());
     console.log(this.http.get(host,this.options).map(result=>this.result=result.json()));
