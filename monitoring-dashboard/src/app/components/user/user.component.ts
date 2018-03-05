@@ -15,8 +15,8 @@ var randomColor = require('randomcolor');
 })
 
 
-export class UserComponent implements OnInit 
-{ 
+export class UserComponent implements OnInit
+{
   @ViewChild('cchart') cchart;
   @ViewChild('ctchart') column_chart;
   assesments:Assessment[];
@@ -34,11 +34,11 @@ export class UserComponent implements OnInit
   pairs:any=new Array();
   entity:string;
   fetched_assessments:any = [];
-  selectedValue:any= null;
-  list_of_entities=[];
+  selectedAssessment:any= null;
   selectedEntity:any=null;
+  list_of_entities=[];
   selected_entity:string;
-  
+
   columnChartData =  {
     chartType: 'ColumnChart',
     dataTable:[[{type:'string',id:"Label"}, {type:'number',id:"Frequency"},{ role: 'style' }]],
@@ -87,54 +87,52 @@ export class UserComponent implements OnInit
           }
         }*/
       }
-      
+
     }
   };
-  constructor(private dataService:DataService) 
+  constructor(private dataService:DataService)
   {
-   
-    
+
+
   }
-  
+
   Filter_Assessment(value:any)
-  { 
-    
-    
-   
+  {
+    this.selectedEntity = null;
     this.assessment_id=value.slice(3);
     this.getLiveData();
-    
+
   }
   Filter_Entity(value:any)
-  {  
+  {
     this.colors={};
     this.draw_charts_for_selected_entity(value.slice(3));
   }
-  public changeData2():void 
+  public changeData2():void
   {
     this.cchart.wrapper.draw();
     this.column_chart.wrapper.draw();
   }
-  
+
   getLiveData()
   {
     var eventSourceInitDict={headers:{Authorization:"Bearer ".concat(this.api_key)}};
     this.URL=this.host+"/assessment"+"/"+this.assessment_id+"/output";
     const output=new EventSourcePolyfill(this.URL,eventSourceInitDict);
-    var counter=0
-    
+    var counter=0;
+
     output.onmessage=evt=>{
       const data=evt.data;
       var json_data=JSON.parse(data);
       console.log("JSON",json_data);
-      
+
       if(!this.list_of_entities.includes(json_data["entity"]))
       {
         this.list_of_entities.push(json_data["entity"]);
         this.assessment_dict[json_data["entity"]]=[];
-      
+
       }
-      
+
       let entity=json_data["entity"];
       let flag_for_duplicate=0;
       this.assessment_dict[entity].forEach(element => {
@@ -144,14 +142,14 @@ export class UserComponent implements OnInit
         }
       });
       if(flag_for_duplicate==0)
-      { 
-        
+      {
+
         this.assessment_dict[entity].push(json_data);
         counter=counter+1;
       }
       console.log("Assessment dict",this.assessment_dict[entity])
-      if(counter%5==0)
-      { 
+      if(counter%5==0 && this.selected_entity != null)
+      {
         this.update_color_list(this.assessment_dict[this.selected_entity]);
         this.update_ColumnChart(this.assessment_dict[this.selected_entity]);
         this.update_TimeLineChart(this.assessment_dict[this.selected_entity]);
@@ -159,7 +157,7 @@ export class UserComponent implements OnInit
         Object.values(this.colors).forEach(element => {
           this.timelineChartData.options.colors.push(element);
         });
-        
+
         this.changeData2();
       }
 
@@ -172,7 +170,7 @@ export class UserComponent implements OnInit
     this.URL=this.host+"/assessment"+"/"+this.assessment_id+"/output";
     const output=new EventSourcePolyfill(this.URL,eventSourceInitDict);
     var counter=0
-    
+
     output.onmessage=evt=>{
       const data=evt.data;
       var json_data=JSON.parse(data);
@@ -180,7 +178,7 @@ export class UserComponent implements OnInit
       {
         this.list_of_entities.push(json_data["entity"]);
         this.assessment_dict[json_data["entity"]]=[];
-        
+
       }
       let entity=json_data["entity"];
       let flag_for_duplicate=0;
@@ -192,16 +190,16 @@ export class UserComponent implements OnInit
       });
 
       if(flag_for_duplicate==0)
-      { 
-        
+      {
+
         this.assessment_dict[entity].push(json_data);
         counter=counter+1;
       }
       let len_of_assessments=(this.assessment_dict[entity]).length-1;
       console.log("Time difference",(this.assessment_dict[entity][len_of_assessments]["time"]/1000)-(this.assessment_dict[entity][0]["time"]/1000))
       while((this.assessment_dict[entity][len_of_assessments]["time"]/1000)-(this.assessment_dict[entity][0]["time"]/1000)>=10000)
-      { 
-        
+      {
+
         this.assessment_dict[entity].splice(0,1);
         len_of_assessments=(this.assessment_dict[entity]).length-1
         console.log("The time window increasred more than 60 secs",this.assessment_dict[entity])
@@ -209,7 +207,7 @@ export class UserComponent implements OnInit
       }
       console.log("Assessment dict",this.assessment_dict[entity])
       if(counter%5==0)
-      { 
+      {
         this.update_color_list(this.assessment_dict[this.selected_entity]);
         this.update_ColumnChart(this.assessment_dict[this.selected_entity]);
         this.update_TimeLineChart(this.assessment_dict[this.selected_entity]);
@@ -217,7 +215,7 @@ export class UserComponent implements OnInit
         Object.values(this.colors).forEach(element => {
           this.timelineChartData.options.colors.push(element);
         });
-        
+
         this.changeData2();
       }
 
@@ -230,14 +228,17 @@ export class UserComponent implements OnInit
     this.list_of_entities.forEach(element => {
       this.assessment_dict[element]=[];
     });
-    this.update_color_list(this.assessment_dict[this.selected_entity]);
-    this.update_ColumnChart(this.assessment_dict[this.selected_entity]);
-    this.update_TimeLineChart(this.assessment_dict[this.selected_entity]);
-    this.timelineChartData.options.colors=[];
-    Object.values(this.colors).forEach(element => {
-      this.timelineChartData.options.colors.push(element);
-    });
-    
+    if(this.assessment_dict[this.selected_entity][0] != null){
+      this.update_color_list(this.assessment_dict[this.selected_entity]);
+      this.update_ColumnChart(this.assessment_dict[this.selected_entity]);
+      this.update_TimeLineChart(this.assessment_dict[this.selected_entity]);
+      this.timelineChartData.options.colors=[];
+      Object.values(this.colors).forEach(element => {
+        this.timelineChartData.options.colors.push(element);
+      });
+
+    }
+
     this.changeData2();
   }
   onSubmit(value:any)
@@ -245,16 +246,20 @@ export class UserComponent implements OnInit
     this.host=value.host;
     this.api_key=value.api;
     this.dataService.getAssesments(this.host,this.api_key).subscribe((assesments)=>{
-      
-      assesments.forEach(element => {
-        this.fetched_assessments.push(element);
+
+      assesments.forEach(assessment => {
+        if(assessment.live == "ON"){
+          this.fetched_assessments.push(assessment);
+          this.fetched_assessments = Array.from(new Set(this.fetched_assessments));
+          console.log(this.fetched_assessments);
+        }
       });
     });
   }
 
   update_TimeLineChart(assessments)
   {
-    
+
     var episodes=[];
     var len=assessments.length-1;
     this.entity=assessments[0]["entity"];
@@ -269,7 +274,7 @@ export class UserComponent implements OnInit
       while(assessments[i]["value"]===assessments[index]["value"] && i<len)
       {
         i=i+1;
-      
+
       }
       index=i;
       var end_time=parseInt(assessments[index]["time"]);
@@ -281,14 +286,14 @@ export class UserComponent implements OnInit
       var tooltip_text:string= (value+" Start:"+start_time.toString()+" End:"+end_time.toString());
       episodes.push(["Condition",value,this.generate_custom_HTML(value,new Date(start_time),new Date(end_time)),new Date(start_time),new Date(end_time)]);
       if(index==len)
-      {  
+      {
         episodes.push(["Condition",assessments[index]["value"],this.generate_custom_HTML(assessments[index]["value"],new Date(end_time),new Date(end_time+1000)),new Date(end_time),new Date(end_time+1000)]);
         index++;
       }
     }
     index=0;
     let num=this.cchart.wrapper.getDataTable().getNumberOfRows();
-    this.cchart.wrapper.getDataTable().removeRows(0,num);  
+    this.cchart.wrapper.getDataTable().removeRows(0,num);
     //console.log("Episodes",assessments,episodes,);
     episodes.forEach(element => {
       //console.log("Entered");
@@ -297,7 +302,7 @@ export class UserComponent implements OnInit
     });
 
   }
-  
+
   update_color_list(assessments)
   {
     var values=[];
@@ -318,23 +323,23 @@ export class UserComponent implements OnInit
     });
 
   }
-   
+
    remove(array, element) {
     const index = array.indexOf(element);
     array.splice(index, 1);
 }
   update_ColumnChart(assessments)
   {
-    
+
     var colors=this.colors;
     var values=new Array();
     var color_len=colors.length;
     var rand=Math.round(Math.random()*color_len) + 1;
     var len=assessments.length;
     for (var index = 0; index < len; index++) {
-      
+
         values.push(assessments[index]["value"]);
-      
+
     }
     var counts={};
     //set operation on values
@@ -358,25 +363,25 @@ export class UserComponent implements OnInit
     set.forEach(element => {
       var new_row=[element,(counts[element]/len*100),colors[element]];
       this.column_chart.wrapper.getDataTable().addRow(new_row);
-     
+
     });
   }
-  
+
   public error_column(event: ChartErrorEvent) {
-   
+
     console.log("Error",event.id,event.message,event.options)
 
   }
   public error_timeline(event: ChartErrorEvent) {
-  
+
     console.log("Error",event.id,event.message,event.detailedMessage,event.options)
-   
-    
+
+
   }
-  ngOnInit() 
-  { 
-  
-    
+  ngOnInit()
+  {
+
+
 
   }
   generate_custom_HTML(value,Start,End){
@@ -395,12 +400,12 @@ export class UserComponent implements OnInit
     '</tr>'+
    ' </table>';
   }
-    
-    
- 
-   
+
+
+
+
   }
-  
+
 
 interface Assessment{
   time:string,
@@ -412,4 +417,3 @@ interface Assessment{
 
 
 
- 
