@@ -11,25 +11,25 @@ export class DataService {
   private headers = new Headers();
   private options:RequestOptions;
   result:any;
-  
-  
-  constructor(private http:Http) 
-  { 
-    
+
+
+  constructor(private http:Http)
+  {
+
     console.log("Data service connected");
     var obj;
-    
+
   }
   getLiveJSON()
   {
-   
-    
-    
+
+
+
   }
   getJson(){
-    
+
     let data='[{"time":"1509954840000", "entity": "P123", "value":"1"},'
-    +'{"time":"1509954841000", "entity": "P123", "value":"3"},'                                            
+    +'{"time":"1509954841000", "entity": "P123", "value":"3"},'
     +'{"time":"1509954842000", "entity": "P123", "value":"2"},'
     +'{"time":"1509954843000", "entity": "P123", "value":"2"},'
     +'{"time":"1509954844000", "entity": "P123", "value":"2"},'
@@ -48,15 +48,15 @@ export class DataService {
     return data;
   }
 
-  
+
   getAssesments( host:string,api_key:string){
     this.headers = new Headers();
     host=host+"/assessment"
     this.headers.set("Authorization", "Bearer ".concat(api_key));
-    this.options=new RequestOptions({headers:this.headers})
+    this.options=new RequestOptions({headers:this.headers});
     console.log(this.headers.keys());
     console.log(this.http.get(host,this.options).map(result=>this.result=result.json()));
     return this.http.get(host,this.options).map(result=>this.result=result.json());
-  
+
     }
 }

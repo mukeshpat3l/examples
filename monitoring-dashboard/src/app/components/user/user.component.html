@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
-
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
 
     <body>
             <nav class="navbar navbar-inverse">
@@ -29,38 +31,40 @@
 
 
                     <div class="row">
-                        <div class="col-sm-1">
+                        <div class="col-sm-2 col-md-2">
                             <div class="form-group">
                                 <label for="assessment" >Assessments</label>
 
-                                        <select id="assessment" class="form-control"name="select" [(ngModel)]="selectedAssessment" (change)="Filter_Assessment($event.target.value)">
+                                        <select id="assessment" class="form-control fix-width" name="select" [(ngModel)]="selectedAssessment" (change)="Filter_Assessment($event.target.value)">
                                                 <option *ngFor="let c of fetched_assessments" [ngValue]="c.id">{{c.name}}</option>
                                         </select>
 
                             </div>
                         </div>
-                        <div class="col-sm-1">
+                        <div class="col-sm-2 col-md-2">
                                 <div class="form-group">
-                                <label for="entity">Entity</label>
-
-                                        <select id=entity class="form-control"name="select" [(ngModel)]="selectedEntity" (change)="Filter_Entity($event.target.value)">
-                                                <option *ngFor="let entity of list_of_entities" [ngValue]="entity">{{entity}}</option>
+                                <label for="entity">Entities</label>
+                                 <!--<span [hidden]="!loaderEnabled">Fetching...<i class="fa fa-circle-o-notch fa-spin" ></i></span>-->
+                                        <select id=entity class="form-control fix-width" [hidden]="loaderEnabled" name="select" [(ngModel)]="selectedEntity" (change)="Filter_Entity($event.target.value)">
+                                                <option *ngFor="let entity of assessment_entity_map[selectedAssessment]" [ngValue]="entity">{{entity}}</option>
                                         </select>
+
                                 </div>
 
                         </div>
-              </div>
+                    </div>
 
 
 
 
 
-
-        <div class="graphs">
-            <h3>{{entity}}</h3>
+            <div [hidden]="!loaderEnabled" class="loading">Loading&#8230;</div>
+        <div class="graphs" >
+            <h3 [hidden]="loaderEnabled">{{selectedEntity}}</h3>
             <google-chart #ctchart [data]="columnChartData" (chartError)='error_column($event)'></google-chart>
+          <div [hidden]="loaderEnabled">
             <google-chart #cchart [data]="timelineChartData"(chartError)='error_timeline($event)'></google-chart>
-
+          </div>
         </div>
 
 
