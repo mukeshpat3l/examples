@@ -109,14 +109,6 @@ export class UserComponent implements OnInit
     }
     this.selectedEntity = '';
     this.loaderEnabled = true;
-    // let num=this.cchart.wrapper.getDataTable().getNumberOfRows();
-    // if(this.cchart.wrapper.getDataTable() && this.cchart.wrapper.getDataTable().getNumberOfRows()>=1){
-    //   this.cchart.wrapper.getDataTable().removeRows(0,num);
-    //   num=this.column_chart.wrapper.getDataTable().getNumberOfRows();
-    //   this.column_chart.wrapper.getDataTable().removeRows(0,num);
-    // }
-    this.changeData2();
-    console.log(this.cchart.wrapper.getDataTable());
     this.selectedAssessment=value.slice(3);
     this.getLiveData();
 
@@ -126,13 +118,6 @@ export class UserComponent implements OnInit
     this.colors={};
     this.loaderEnabled = true;
     this.selectedEntity = value.slice(3);
-    // let num=this.cchart.wrapper.getDataTable().getNumberOfRows();
-    // if(this.cchart.wrapper.getDataTable() && this.cchart.wrapper.getDataTable().getNumberOfRows()>=1) {
-    //   this.cchart.wrapper.getDataTable().removeRows(0, num);
-    //   num = this.column_chart.wrapper.getDataTable().getNumberOfRows();
-    //   this.column_chart.wrapper.getDataTable().removeRows(0, num);
-    //   this.changeData2();
-    // }
     this.draw_charts_for_selectedEntity(this.selectedEntity);
   }
   public changeData2():void

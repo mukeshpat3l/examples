@@ -1,9 +1,14 @@
 h1{
     color:green
 }
-body{
-  overflow: hidden;
+.flex-container{
+  display: flex;
+  flex-flow: column;
 }
+.test{
+  visibility: hidden;
+}
+
 .fix-width{
   width: 150px;
   margin-right: 10px;
