@@ -3,7 +3,7 @@ import {DataService} from '../../services/data.service';
 import {EventSourcePolyfill} from 'ng-event-source';
 import{EventSourceInit} from 'ng-event-source';
 import {ViewChild} from '@angular/core';
-import { ChartErrorEvent } from 'ng2-google-charts';
+import { ChartErrorEvent, ChartMouseOverEvent, ChartMouseOutEvent } from 'ng2-google-charts';
 import * as _ from 'underscore';
 declare var require:any;
 declare var $:any;
@@ -20,7 +20,7 @@ export class UserComponent implements OnInit
 {
   @ViewChild('cchart') cchart;
   @ViewChild('ctchart') column_chart;
-  html='<table style="width:100%;border:1px solid #ddd;"><tr style="background-color:beige"><td style="border-bottom: 1px solid #ddd;padding:5px">Label</td><td style="border-bottom: 1px solid #ddd;padding:5px">Unlabeled 1</td> </tr><tr ><td style="border-bottom: 1px solid #ddd;padding:5px">Start</td><td style="border-bottom: 1px solid #ddd;padding:5px">6/12/2017grttrbrtbybytb</td> </tr><tr><td style="padding:5px;">End</td><td style="padding:5px;">7/12/2017</td> </tr></table>'
+  html='<table style="width:100%;border:1px solid #ddd;"><tr style="background-color:beige"><td style="border-bottom: 1px solid #ddd;padding:5px">Label</td><td style="border-bottom: 1px solid #ddd;padding:5px">Unlabeled 1</td> </tr><tr ><td style="border-bottom: 1px solid #ddd;padding:5px">Start</td><td style="border-bottom: 1px solid #ddd;padding:5px">6/12/2017</td> </tr><tr><td style="padding:5px;">End</td><td style="padding:5px;">7/12/2017</td> </tr></table>'
   colors:any={};
   host:string;
   api_key:string;
@@ -35,36 +35,44 @@ export class UserComponent implements OnInit
   assessment_entity_map={};
   assessment_data_map={};
   loaderEnabled:boolean = false;
+  isTooltipActive:boolean = false;
 
-  columnChartData =  {
+  columnChartData = {
     chartType: 'ColumnChart',
-    dataTable:[[{type:'string',id:"Label"}, {type:'number',id:"Frequency"},{ role: 'style' }]],
-    options: {'title': 'Percentage Distribution of Assessments',
-                'height':window.screen.availHeight*0.4,'width':window.screen.availWidth*0.4,
-                'vAxis':{maxValue:110,minValue:0},
-                'titleTextStyle':{fontName:"Calibri",fontSize:17},
-                legend:{position:"none"}},
+    dataTable: [[{type: 'string', id: "Label"}, {type: 'number', id: "Frequency"}, {role: 'style'}]],
+    options: {
+      'title': 'Percentage Distribution of Assessments',
+      'height': window.screen.availHeight * 0.4, 'width': window.screen.availWidth * 0.4,
+      'vAxis': {maxValue: 110, minValue: 0},
+      'titleTextStyle': {fontName: "Calibri", fontSize: 17},
+      legend: {position: "none"}
+    },
   };
 
 
- timelineChartData={
-    chartType:'Timeline',
-    dataTable:[[{type:'string',id:"Type"},{type:'string',id:"Class",label:""},{ type: 'string', role: 'tooltip','p': {'html': true}},{type:'datetime',id:"Start"},{type:'datetime',id:"End"}],
-    ["Condition","Label X",this.generate_custom_HTML("Unlabeled X",new Date(Date.now()),new Date(Date.now())),Date.now(),new Date(Date.now()+14400000)]],
-    groupByRowLabel:false,
-    options:{
-      timelines:{showRowLabels: false},
-      title:'Timeline',
-      colors:["white"],
-      groupByRowLabel: false ,
-      height:300,width:window.screen.availWidth*0.9,
-      timeline:{showBarLabels: false},
-      tooltip: { isHtml: true },
-      hAxis:{
-        format:'M/d/yy HH:mm:ss',
+  timelineChartData = {
+    chartType: 'Timeline',
+    dataTable: [
+                [ {type: 'string', id: "Type"},
+                  {type: 'string', id: "Class", label: ""},
+                  {type: 'string', role: 'tooltip', 'p': {'html': true}},
+                  {type: 'datetime', id: "Start"}, {type: 'datetime', id: "End"}
+                ],
+                ["Condition", "Label X", this.generate_custom_HTML("Unlabeled X", new Date(Date.now()), new Date(Date.now())), Date.now(), new Date(Date.now() + 14400000)]
+              ],
+    groupByRowLabel: false,
+    options: {
+      timelines: {showRowLabels: false},
+      title: 'Timeline',
+      colors: ["white"],
+      height: 300, width: window.screen.availWidth * 0.9,
+      timeline: {showBarLabels: false},//, groupByRowLabel: false},
+      tooltip: {isHtml: true, trigger: 'focus'},
+      hAxis: {
+        format: 'M/d/yy HH:mm:ss',
         viewWindow: {
           min: new Date(Date.now()),
-          max: new Date(Date.now()+24400000)
+          max: new Date(Date.now() + 24400000)
         },
         /*
         gridlines:{
@@ -97,20 +105,18 @@ export class UserComponent implements OnInit
   {
     if(this.output){
       this.output.close();
-      console.log(this.output);
-      console.log('closed');
 
     }
     this.selectedEntity = '';
     this.loaderEnabled = true;
-    let num=this.cchart.wrapper.getDataTable().getNumberOfRows();
-    if(this.cchart.wrapper.getDataTable() && this.cchart.wrapper.getDataTable().getNumberOfRows()>=1){
-      this.cchart.wrapper.getDataTable().removeRows(0,num);
-      num=this.column_chart.wrapper.getDataTable().getNumberOfRows();
-      this.column_chart.wrapper.getDataTable().removeRows(0,num);
-      this.changeData2();
-    }
-
+    // let num=this.cchart.wrapper.getDataTable().getNumberOfRows();
+    // if(this.cchart.wrapper.getDataTable() && this.cchart.wrapper.getDataTable().getNumberOfRows()>=1){
+    //   this.cchart.wrapper.getDataTable().removeRows(0,num);
+    //   num=this.column_chart.wrapper.getDataTable().getNumberOfRows();
+    //   this.column_chart.wrapper.getDataTable().removeRows(0,num);
+    // }
+    this.changeData2();
+    console.log(this.cchart.wrapper.getDataTable());
     this.selectedAssessment=value.slice(3);
     this.getLiveData();
 
@@ -120,19 +126,22 @@ export class UserComponent implements OnInit
     this.colors={};
     this.loaderEnabled = true;
     this.selectedEntity = value.slice(3);
-    let num=this.cchart.wrapper.getDataTable().getNumberOfRows();
-    if(this.cchart.wrapper.getDataTable() && this.cchart.wrapper.getDataTable().getNumberOfRows()>=1) {
-      this.cchart.wrapper.getDataTable().removeRows(0, num);
-      num = this.column_chart.wrapper.getDataTable().getNumberOfRows();
-      this.column_chart.wrapper.getDataTable().removeRows(0, num);
-      this.changeData2();
-    }
+    // let num=this.cchart.wrapper.getDataTable().getNumberOfRows();
+    // if(this.cchart.wrapper.getDataTable() && this.cchart.wrapper.getDataTable().getNumberOfRows()>=1) {
+    //   this.cchart.wrapper.getDataTable().removeRows(0, num);
+    //   num = this.column_chart.wrapper.getDataTable().getNumberOfRows();
+    //   this.column_chart.wrapper.getDataTable().removeRows(0, num);
+    //   this.changeData2();
+    // }
     this.draw_charts_for_selectedEntity(this.selectedEntity);
   }
   public changeData2():void
   {
-    this.cchart.wrapper.draw();
-    this.column_chart.wrapper.draw();
+    this.isTooltipActive = true;
+    this.cchart.redraw();
+    this.column_chart.redraw();
+    this.isTooltipActive = false;
+
   }
 
   getLiveData()
@@ -146,7 +155,6 @@ export class UserComponent implements OnInit
     output.onmessage=(evt)=>{
       const data=evt.data;
       var json_data=JSON.parse(data);
-      console.log("JSON",json_data);
 
       let entity=json_data["entity"];
       if(!this.assessment_entity_map[this.selectedAssessment].includes(entity))
@@ -172,8 +180,7 @@ export class UserComponent implements OnInit
       if(!this.selectedEntity){
         this.selectedEntity = entity;
       }
-      console.log("Assessment dict",this.assessment_data_map[this.selectedAssessment][entity]);
-      console.log('Check',this.assessment_data_map[this.selectedAssessment][this.selectedEntity]);
+      console.log(this.assessment_data_map[this.selectedAssessment][entity]);
       if(counter%5==0 && this.selectedEntity != null)
       {
         this.loaderEnabled = false;
@@ -184,8 +191,9 @@ export class UserComponent implements OnInit
         Object.values(this.colors).forEach(element => {
           this.timelineChartData.options.colors.push(element);
         });
-
-        this.changeData2();
+        if(!this.isTooltipActive){
+          this.changeData2();
+        }
       }
 
     }
@@ -222,7 +230,6 @@ export class UserComponent implements OnInit
           this.fetched_assessments = _.uniq(this.fetched_assessments,'id');
           this.assessment_entity_map[assessment.id] = [];//{'entity':[],'assessment_dict':{}};
           this.assessment_data_map[assessment.id] = {};
-          console.log(this.fetched_assessments);
         }
       });
     });
@@ -266,9 +273,7 @@ export class UserComponent implements OnInit
       index=0;
       let num=this.cchart.wrapper.getDataTable().getNumberOfRows();
       this.cchart.wrapper.getDataTable().removeRows(0,num);
-      //console.log("Episodes",assessments,episodes,);
       episodes.forEach(element => {
-        //console.log("Entered");
         this.cchart.wrapper.getDataTable().addRow(element);
 
       });
@@ -348,10 +353,19 @@ export class UserComponent implements OnInit
     console.log("Error",event.id,event.message,event.options)
 
   }
+  // public tooltip_mouseover(event: ChartMouseOverEvent){
+  //   this.isTooltipActive = true;
+  //   console.log("MouseOver")
+  // }
+  // public tooltip_mouseout(event: ChartMouseOutEvent){
+  //   this.isTooltipActive = false;
+  //   console.log("MouseOout");
+  //   this.changeData2();
+  //
+  // }
   public error_timeline(event: ChartErrorEvent) {
-
+    // if(this.selectedAssessment == null)
     console.log("Error",event.id,event.message,event.detailedMessage,event.options)
-
 
   }
   ngOnInit()
@@ -360,7 +374,7 @@ export class UserComponent implements OnInit
 
   }
   generate_custom_HTML(value,Start,End){
-    return '<table style="width:100%;border:1px solid #ddd;">'+
+    return '<table style="width:100%; height: 80%; border:1px solid #ddd;" class="tooltip-active-true">'+
     '<tr style="background-color:beige">'+
         '<td style="border-bottom: 1px solid #ddd;padding:5px">Label</td>'+
        '<td style="border-bottom: 1px solid #ddd;padding:5px">'+value+'</td>' +
@@ -376,7 +390,7 @@ export class UserComponent implements OnInit
    ' </table>';
   }
 
-  }
+}
 
 
 

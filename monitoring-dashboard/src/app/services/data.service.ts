@@ -54,8 +54,6 @@ export class DataService {
     host=host+"/assessment"
     this.headers.set("Authorization", "Bearer ".concat(api_key));
     this.options=new RequestOptions({headers:this.headers});
-    console.log(this.headers.keys());
-    console.log(this.http.get(host,this.options).map(result=>this.result=result.json()));
     return this.http.get(host,this.options).map(result=>this.result=result.json());
 
     }
