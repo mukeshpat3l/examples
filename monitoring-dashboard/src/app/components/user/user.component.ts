@@ -5,6 +5,7 @@ import{EventSourceInit} from 'ng-event-source';
 import {ViewChild} from '@angular/core';
 import { ChartErrorEvent, ChartMouseOverEvent, ChartMouseOutEvent } from 'ng2-google-charts';
 import * as _ from 'underscore';
+import * as _$ from 'jquery';
 declare var require:any;
 declare var $:any;
 var randomColor = require('randomcolor');
@@ -31,11 +32,9 @@ export class UserComponent implements OnInit
   fetched_assessments:any = [];
   selectedAssessment:any= null;
   selectedEntity:any=null;
-  // selectedEntity:string;
   assessment_entity_map={};
   assessment_data_map={};
   loaderEnabled:boolean = false;
-  isTooltipActive:boolean = false;
 
   columnChartData = {
     chartType: 'ColumnChart',
@@ -74,23 +73,6 @@ export class UserComponent implements OnInit
           min: new Date(Date.now()),
           max: new Date(Date.now() + 24400000)
         },
-        /*
-        gridlines:{
-          count:10,
-          units:{
-            days:{format:['dd/MM/yyy','dd/MM']},
-            hours:{format:['dd/MM/yyyy HH:mm:ss',"HH"]},
-            minutes:{format:['mm','mm:ss']},
-            seconds:{format:['ss:SSS']}
-          }
-        },
-        minorGridlines: {
-          count:-1,
-          units: {
-            hours: {format: ['hh:mm:ss a', 'ha']},
-            minutes: {format: ['HH:mm a Z', ':mm']}
-          }
-        }*/
       }
 
     }
@@ -122,10 +104,9 @@ export class UserComponent implements OnInit
   }
   public changeData2():void
   {
-    this.isTooltipActive = true;
+    _$(".google-visualization-tooltip").remove();
     this.cchart.redraw();
     this.column_chart.redraw();
-    this.isTooltipActive = false;
 
   }
 
@@ -176,9 +157,7 @@ export class UserComponent implements OnInit
         Object.values(this.colors).forEach(element => {
           this.timelineChartData.options.colors.push(element);
         });
-        if(!this.isTooltipActive){
-          this.changeData2();
-        }
+        this.changeData2();
       }
 
     }
@@ -338,18 +317,7 @@ export class UserComponent implements OnInit
     console.log("Error",event.id,event.message,event.options)
 
   }
-  // public tooltip_mouseover(event: ChartMouseOverEvent){
-  //   this.isTooltipActive = true;
-  //   console.log("MouseOver")
-  // }
-  // public tooltip_mouseout(event: ChartMouseOutEvent){
-  //   this.isTooltipActive = false;
-  //   console.log("MouseOout");
-  //   this.changeData2();
-  //
-  // }
   public error_timeline(event: ChartErrorEvent) {
-    // if(this.selectedAssessment == null)
     console.log("Error",event.id,event.message,event.detailedMessage,event.options)
 
   }

@@ -31,7 +31,11 @@ h1{
 #google-visualization-errors-all-1{
   display: none!important;
 }
-/* Absolute Center Spinner */
+div.tooltip-remove div.google-visualization-tooltip{
+  display: none;
+}
+
+  /* Absolute Center Spinner */
 .loading {
   position: fixed;
   z-index: 999;
@@ -43,31 +47,15 @@ h1{
   left: 0;
   bottom: 0;
   right: 0;
-}
-
-/* White Overlay */
-.loading:before {
-  content: '';
-  display: block;
-  position: fixed;
-  top: 11rem;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: white;
-}
-
-/* :not(:required) hides these rules from IE9 and below */
-.loading:not(:required) {
-  /* hide "loading..." text */
   font: 0/0 a;
   color: transparent;
   text-shadow: none;
   background-color: transparent;
   border: 0;
+
 }
 
-.loading:not(:required):after {
+.loading:after {
   content: '';
   display: block;
   font-size: 10px;
