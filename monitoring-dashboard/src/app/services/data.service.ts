@@ -57,4 +57,14 @@ export class DataService {
     return this.http.get(host,this.options).map(result=>this.result=result.json());
 
     }
+
+  getDatastream( host:string,api_key:string,datastream_id:string){
+    this.headers = new Headers();
+    host=host+"/datastream/"+datastream_id;
+    this.headers.set("Authorization", "Bearer ".concat(api_key));
+    this.options=new RequestOptions({headers:this.headers});
+    return this.http.get(host,this.options).map(result=>this.result=result.json());
+
+  }
+
 }

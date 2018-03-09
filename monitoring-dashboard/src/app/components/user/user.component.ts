@@ -33,8 +33,11 @@ export class UserComponent implements OnInit
   selectedAssessment:any= null;
   selectedEntity:any=null;
   assessment_entity_map={};
+  assessment_map={};
   assessment_data_map={};
   loaderEnabled:boolean = false;
+  assessment_datastream_map={};
+  datastreamList:string[] = [];
 
   columnChartData = {
     chartType: 'ColumnChart',
@@ -92,6 +95,9 @@ export class UserComponent implements OnInit
     this.selectedEntity = '';
     this.loaderEnabled = true;
     this.selectedAssessment=value.slice(3);
+    if(!_.has(this.assessment_datastream_map,this.selectedAssessment.datastream)){
+      this.fetch_datastream(this.selectedAssessment.datastream);
+    }
     this.getLiveData();
 
   }
@@ -141,23 +147,29 @@ export class UserComponent implements OnInit
       {
 
         this.assessment_data_map[this.selectedAssessment][entity].push(json_data);
+        console.log(this.assessment_data_map[this.selectedAssessment][entity]);
         counter=counter+1;
       }
       if(!this.selectedEntity){
         this.selectedEntity = entity;
       }
-      console.log(this.assessment_data_map[this.selectedAssessment][entity]);
       if(counter%5==0 && this.selectedEntity != null)
       {
-        this.loaderEnabled = false;
         this.update_color_list(this.assessment_data_map[this.selectedAssessment][this.selectedEntity]);
         this.update_ColumnChart(this.assessment_data_map[this.selectedAssessment][this.selectedEntity]);
-        this.update_TimeLineChart(this.assessment_data_map[this.selectedAssessment][this.selectedEntity]);
+        console.log(this.assessment_datastream_map[this.assessment_map[this.selectedAssessment].datastream].timePrecision);
+        this.update_TimeLineChart(
+          this.assessment_data_map[this.selectedAssessment][this.selectedEntity]
+          ,
+          this.assessment_datastream_map[this.assessment_map[this.selectedAssessment].datastream].timePrecision);
+
         this.timelineChartData.options.colors=[];
         Object.values(this.colors).forEach(element => {
           this.timelineChartData.options.colors.push(element);
         });
         this.changeData2();
+        this.loaderEnabled = false;
+
       }
 
     }
@@ -172,35 +184,76 @@ export class UserComponent implements OnInit
       });
         this.update_color_list(this.assessment_data_map[this.selectedAssessment][this.selectedEntity]);
         this.update_ColumnChart(this.assessment_data_map[this.selectedAssessment][this.selectedEntity]);
-        this.update_TimeLineChart(this.assessment_data_map[this.selectedAssessment][this.selectedEntity]);
+
+        this.update_TimeLineChart(
+          this.assessment_data_map[this.selectedAssessment][this.selectedEntity]
+          ,
+          this.assessment_datastream_map[this.assessment_map[this.selectedAssessment].datastream].timePrecision);
         this.timelineChartData.options.colors=[];
         Object.values(this.colors).forEach(element => {
           this.timelineChartData.options.colors.push(element);
         });
-
     }
-
     this.changeData2();
   }
+
   onSubmit(value:any)
   {
     this.host=value.host;
     this.api_key=value.api;
-    this.dataService.getAssesments(this.host,this.api_key).subscribe((assesments)=>{
+    this.dataService.getAssesments(this.host,this.api_key).subscribe(
+      (assesments)=>{
 
-      assesments.forEach(assessment => {
-        if(assessment.live == "ON"){
-          this.fetched_assessments.push(assessment);
+          assesments.forEach(assessment => {
+            if(assessment.live == "ON"){
+              this.fetched_assessments.push(assessment);
+              if(!_.has(this.assessment_map,assessment.id)){
+                this.assessment_map[assessment.id] = assessment
+              }
+            }
+          });
           this.fetched_assessments = _.uniq(this.fetched_assessments,'id');
-          this.assessment_entity_map[assessment.id] = [];//{'entity':[],'assessment_dict':{}};
-          this.assessment_data_map[assessment.id] = {};
+          this.fetched_assessments.forEach(assessment => {
+            this.assessment_entity_map[assessment.id] = [];//{'entity':[],'assessment_dict':{}};
+            this.assessment_data_map[assessment.id] = {};
+            this.datastreamList.push(assessment.datastream);
+          });
+
+          this.datastreamList = _.uniq(this.datastreamList);
+        },
+      (error)=>{console.log(error)},
+      ()=> {
+        this.datastreamList.forEach(datastreamid => {
+          if(!this.assessment_datastream_map[datastreamid]) {
+            this.dataService.getDatastream(this.host, this.api_key, datastreamid).subscribe((datastream) => {
+              this.assessment_datastream_map[datastream.id] = datastream;
+            });
+          }
+        });
+
         }
-      });
-    });
+      );
   }
 
-  update_TimeLineChart(assessments)
+  fetch_datastream(datastreamid){
+    if(datastreamid){
+      this.dataService.getDatastream(this.host, this.api_key, datastreamid).subscribe(
+        (datastream)=>{
+          this.assessment_datastream_map[datastream.id] = datastream
+        },
+        (error)=>{console.log(error)
+        },
+        ()=>{}
+      );
+    }
+  }
+
+  update_TimeLineChart(assessments,timePrecision)
   {
+    let precisionFactor = 1;
+    if(timePrecision === 'micro'){
+     precisionFactor = 1000
+    }
     if(assessments[0] != null){
 
       var episodes=[];
@@ -209,7 +262,7 @@ export class UserComponent implements OnInit
       var index=0;
       while(index<=len) {
         var start_time=parseInt(assessments[index]["time"]);
-        start_time=start_time/1000;
+        start_time=start_time/precisionFactor;
         var value=assessments[index]["value"];
         var i=index;
         var x=assessments[i]["value"];
@@ -221,7 +274,7 @@ export class UserComponent implements OnInit
         }
         index=i;
         var end_time=parseInt(assessments[index]["time"]);
-        end_time=end_time/1000;
+        end_time=end_time/precisionFactor;
         //if(start_time==end_time)
         //{
           //end_time=start_time+10000;
