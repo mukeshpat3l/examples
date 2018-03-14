@@ -129,8 +129,10 @@ export class UserComponent implements OnInit
     output.onmessage=(evt)=>{
       const data=evt.data;
       var json_data=JSON.parse(data);
-
-      let entity=this.datastream_entitymeta_label_map[this.assessment_map[this.selectedAssessment].datastream][json_data["entity"]];
+      let entity = json_data['entity'];
+      if(this.datastream_entity_meta_map[this.assessment_map[this.selectedAssessment].datastream].length){
+        entity=this.datastream_entitymeta_label_map[this.assessment_map[this.selectedAssessment].datastream][json_data["entity"]];
+      }
       if(!this.assessment_entity_map[this.selectedAssessment].includes(entity))
       {
         this.assessment_entity_map[this.selectedAssessment].push(entity);
