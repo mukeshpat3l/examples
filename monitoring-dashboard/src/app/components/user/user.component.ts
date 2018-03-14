@@ -30,6 +30,7 @@ export class UserComponent implements OnInit
   values:any[];
   entity:string;
   fetched_assessments:any = [];
+
   selectedAssessment:any= null;
   selectedEntity:any=null;
   assessment_entity_map={};
@@ -38,7 +39,8 @@ export class UserComponent implements OnInit
   loaderEnabled:boolean = false;
   assessment_datastream_map={};
   datastreamList:string[] = [];
-
+  datastream_entity_meta_map = {};
+  datastream_entitymeta_label_map = {};
   columnChartData = {
     chartType: 'ColumnChart',
     dataTable: [[{type: 'string', id: "Label"}, {type: 'number', id: "Frequency"}, {role: 'style'}]],
@@ -128,11 +130,11 @@ export class UserComponent implements OnInit
       const data=evt.data;
       var json_data=JSON.parse(data);
 
-      let entity=json_data["entity"];
+      let entity=this.datastream_entitymeta_label_map[this.assessment_map[this.selectedAssessment].datastream][json_data["entity"]];
       if(!this.assessment_entity_map[this.selectedAssessment].includes(entity))
       {
-        this.assessment_entity_map[this.selectedAssessment].push(json_data["entity"]);
-        this.assessment_data_map[this.selectedAssessment][json_data["entity"]]=[];
+        this.assessment_entity_map[this.selectedAssessment].push(entity);
+        this.assessment_data_map[this.selectedAssessment][entity]=[];
 
       }
 
@@ -157,7 +159,6 @@ export class UserComponent implements OnInit
       {
         this.update_color_list(this.assessment_data_map[this.selectedAssessment][this.selectedEntity]);
         this.update_ColumnChart(this.assessment_data_map[this.selectedAssessment][this.selectedEntity]);
-        console.log(this.assessment_datastream_map[this.assessment_map[this.selectedAssessment].datastream].timePrecision);
         this.update_TimeLineChart(
           this.assessment_data_map[this.selectedAssessment][this.selectedEntity]
           ,
@@ -229,6 +230,17 @@ export class UserComponent implements OnInit
               this.assessment_datastream_map[datastream.id] = datastream;
             });
           }
+         if(!(_.has(this.datastream_entity_meta_map,datastreamid))){
+            this.dataService.getEntityMeta(this.host, this.api_key, datastreamid).subscribe((entityMeta) => {
+              this.datastream_entity_meta_map[datastreamid] = entityMeta;
+              if(!(_.has(this.datastream_entitymeta_label_map,datastreamid))){
+                this.datastream_entitymeta_label_map[datastreamid] = {};
+                this.datastream_entity_meta_map[datastreamid].forEach((entityMetaObj) =>{
+                  this.datastream_entitymeta_label_map[datastreamid][entityMetaObj.sourceId] = entityMetaObj.label;
+                });
+              }
+            })
+         }
         });
 
         }
