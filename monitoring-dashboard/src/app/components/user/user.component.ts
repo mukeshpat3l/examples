@@ -94,6 +94,7 @@ export class UserComponent implements OnInit
       this.output.close();
 
     }
+    this.colors = {};
     this.selectedEntity = '';
     this.loaderEnabled = true;
     this.selectedAssessment=value.slice(3);
