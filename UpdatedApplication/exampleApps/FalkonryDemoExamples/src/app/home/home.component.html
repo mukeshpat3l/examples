@@ -1,0 +1,24 @@
+<div class="container">
+  <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="center stretch">
+      <mat-card fxFlex="20%" fxFlex.xs="40%" mat-ripple>
+          <mat-list-item fxLayout="row" fxLayoutAlign="center">
+            <mat-card-content>
+              <h3>Human Activity</h3>
+            </mat-card-content>
+          </mat-list-item>
+          <mat-list-item fxLayout="row" fxLayoutAlign="center">
+              <button mat-raised-button (click)="selectExample('HumanActivity')" routerLink="/example" class="start_button">Start</button>
+          </mat-list-item>
+        </mat-card>
+      <mat-card fxFlex="20%" fxFlex.xs="40%" mat-ripple>
+        <mat-list-item fxLayout="row" fxLayoutAlign="center">
+          <mat-card-content>
+            <h3>Weather</h3>
+          </mat-card-content>
+        </mat-list-item>
+        <mat-list-item fxLayout="row" fxLayoutAlign="center">
+            <button mat-raised-button (click)="selectExample('Weather')" routerLink="/example" class="start_button">Start</button>
+        </mat-list-item>
+      </mat-card>
+    </div>
+</div>

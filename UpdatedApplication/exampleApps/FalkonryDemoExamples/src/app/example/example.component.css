@@ -1,0 +1,34 @@
+.container{
+    position:fixed;
+    top: 25%;
+    left: 40%;
+    align-items: center;
+}
+
+mat-card{
+    color: rgb(255, 153, 66);
+}
+
+mat-progress-bar{
+    position:fixed;
+    bottom: 15%;
+    width: 50%;
+    left: 25%;
+}
+
+.result{
+    position:fixed;
+    bottom: 10%;
+    width: 10%;
+    left: 43.5%;
+}
+
+.completed{
+    background-image: url('/ng-material-demo/src/assets/img/gr_tick.png');
+    width: 20px;
+    height: 20px;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+  }
