@@ -125,22 +125,36 @@
       </mat-toolbar>
     </div>
      -->
-     <mat-toolbar style="background-color:#494949">
-      <mat-toolbar-row class="mat-elevation-z4">
-       <div class="logo">
-         <img src="../../assets/img/logo.png" width="150px" height="50px"/>
-       </div>
-        <span class="example-spacer"></span>
-        <form class="example-form">
-            <mat-form-field class="example-padding">
-              <input matInput placeholder="Host" [(ngModel)]="host" name="hostUrl">
-            </mat-form-field>
-            <mat-form-field class="example-padding">
-              <input matInput placeholder="Token" [(ngModel)]="token" name="apiToken">
-            </mat-form-field>
-        </form>
-        <button mat-raised-button style="background-color:rgb(255, 153, 66)" (click)="connect()">Connect</button>
-      </mat-toolbar-row>
-    </mat-toolbar>
-  <router-outlet></router-outlet>
+<mat-toolbar style="background-color:  #494949;">
+  <mat-toolbar-row class="mat-elevation-z4">
+    <!-- <div class="example-header-image"></div> -->
+    <img src="../assets/img/logo.png" width="150px" height="60px">
+    <!-- <span>Falkonry</span> -->
+    <span class="example-spacer"></span>
+    <form class="example-form">
+      <mat-form-field class="example-form-field">
+        <input matInput placeholder="Host" [(ngModel)]="host" name="hostUrl">
+      </mat-form-field>
+      <mat-form-field class="example-form-field">
+        <input matInput placeholder="Token" [(ngModel)]="token" name="apiToken">
+      </mat-form-field>
+    </form>
+    <button mat-raised-button style="background-color: #FF9E00" (click)="connect()">Connect</button>
+  </mat-toolbar-row>
+</mat-toolbar>
+<router-outlet></router-outlet>
   <!-- <div google-chart chart="myChartObject" style="height:600px; width:100%;"></div> -->
+  <!-- <table style="width:100%;border:1px solid #ddd;">
+    <tr style="background-color:beige">
+        <td style="border-bottom: 1px solid #ddd;padding:5px">Label</td>
+        <td style="border-bottom: 1px solid #ddd;padding:5px">Unlabeled 1</td> 
+    </tr>
+    <tr >
+        <td style="border-bottom: 1px solid #ddd;padding:5px">Start</td>
+        <td style="border-bottom: 1px solid #ddd;padding:5px">6/12/2017</td> 
+    </tr>
+    <tr>
+        <td style="padding:5px;">End</td>
+        <td style="padding:5px;">7/12/2017</td> 
+    </tr>
+    </table> -->

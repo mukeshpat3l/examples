@@ -57,7 +57,7 @@ mat-sidenav-container, mat-sidenav-content, mat-sidenav {
     max-width: 500px;
 }
 
-.example-padding {
+.example-form-field {
     padding: 10px;
     color: white;
 }

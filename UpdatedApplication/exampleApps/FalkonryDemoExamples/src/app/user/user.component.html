@@ -1,0 +1,46 @@
+<!-- <mat-toolbar style="background-color:  #494949;">
+    <mat-toolbar-row class="mat-elevation-z4">
+      <img src="../assets/img/logo.png" width="150px" height="60px">
+      <span class="example-spacer"></span>
+      <form class="example-form">
+        <mat-form-field class="example-form-field">
+          <input matInput placeholder="Host" [(ngModel)]="host" name="hostUrl">
+        </mat-form-field>
+        <mat-form-field class="example-form-field">
+          <input matInput placeholder="Token" [(ngModel)]="api_key" name="apiToken">
+        </mat-form-field>
+      </form>
+      <button mat-raised-button style="background-color: #FF9E00" (click)="onSubmit()">Connect</button>
+    </mat-toolbar-row>
+  </mat-toolbar> -->
+<div class="flex-container">
+    <!-- <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" style="margin: 10px">
+        <mat-form-field>
+            <mat-select placeholder="Assessments" name="select" [(ngModel)]="selectedAssessment" (change)="Filter_Assessment($event.target.value)">
+                <mat-option *ngFor="let c of fetched_assessments" [value]="c.id">
+                    {{c.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-select id=entity placeholder="Entities" [hidden]="loaderEnabled" name="select" [(ngModel)]="selectedEntity" (change)="Filter_Entity($event.target.value)">
+                <span [hidden]="!loaderEnabled">Loading...
+                    <i class="fa fa-circle-o-notch fa-spin"></i>
+                </span>
+                <mat-option *ngFor="let entity of assessment_entity_map[selectedAssessment]" [value]="entity">
+                    {{entity}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div> -->
+
+    <div [hidden]="!loaderEnabled" class="loading">Loading&#8230;</div>
+    <div [ngClass]="{'test':loaderEnabled, 'tooltip-remove':isTooltipActive}">
+        <div class="graphs" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+        <button mat-raised-button style="background-color: #FF9E00" (click)="changeData()">Test</button>
+            <h3 [hidden]="loaderEnabled || selectedEntity==null">{{selectedEntity}}</h3>
+            <google-chart #ctchart [data]="columnChartData" (chartError)='error_column($event)'></google-chart>
+            <google-chart #cchart [data]="timelineChartData" (chartError)='error_timeline($event)'></google-chart>
+        </div>
+    </div>
+</div>

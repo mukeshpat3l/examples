@@ -32,3 +32,8 @@ mat-progress-bar{
 .example-spacer {
     flex: 1 1 auto;
   }
+
+.viewResultsButton{
+    background-color: #4562E9;
+    color: white;
+}

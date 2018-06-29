@@ -8,13 +8,13 @@
         </mat-list-item>
         <span class="example-spacer"></span>
         <mat-list-item fxLayoutAlign="center" >
-            <img src="../../assets/img/gr_tick.png" width="20px" height="20px" [hidden]="dataStreamHidden">
+            <img src="assets/img/gr_tick.png" width="20px" height="20px" [hidden]="dataStreamHidden">
         </mat-list-item>
       </mat-card>
     <mat-card fxFlex="20%" fxFlex.xs="40%" mat-ripple fxLayout="row" fxLayoutGap="10px">
       <mat-list-item fxLayout="row" fxLayoutAlign="center">
         <mat-card-content class="content">
-          <h3>Adding data</h3>
+          <h3>Adding data and facts</h3>
         </mat-card-content>
       </mat-list-item>
       <span class="example-spacer"></span>
@@ -44,12 +44,12 @@
           <img src="assets/img/gr_tick.png" width="20px" height="20px" [hidden]="liveMontoringHidden">
       </mat-list-item>
     </mat-card>
-  </div>
-  <div *ngIf="isClicked; then viewResults else pb"></div>
+    <div *ngIf="isCompleted; then viewResults else pb"></div>
   <ng-template #pb>
     <mat-progress-bar mode="indeterminate" color="warn"></mat-progress-bar>
   </ng-template>
   <ng-template #viewResults>
-    <button mat-raised-button color="accent"  class="result" (click)="showDatastream()">View Results</button>
+    <button mat-raised-button class="viewResultsButton" routerLink="/user">View Results</button>
   </ng-template>
+  </div>
 </div>

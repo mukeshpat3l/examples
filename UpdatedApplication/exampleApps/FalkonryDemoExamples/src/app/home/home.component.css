@@ -1,12 +1,4 @@
-mat-sidenav-container, mat-sidenav-content, mat-sidenav {
-    height: 100%;
-  }
-
-  mat-sidenav {
-    width: 250px;
-  }
-
-  a {
+a {
     text-decoration: none;
     color: white;
   }
@@ -39,14 +31,6 @@ mat-sidenav-container, mat-sidenav-content, mat-sidenav {
     margin: 0;
     width: 85%;
   }
-
-  .example-header-image {
-    background-image: url('src/assets/img/logo.png');
-    background-size: cover;
-    width: 50px;
-    height: 50px;
-    margin: 10px;
-}
 
 .container {
     padding: 10px;
@@ -81,7 +65,8 @@ mat-toolbar-row {
     height: 85px !important;
 }
 
-.start_button{
+
+.startButton{
     background-color: #4562E9;
-    color:white;
+    color: white;
 }
