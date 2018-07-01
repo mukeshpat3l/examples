@@ -28,7 +28,15 @@ class ADKConn {
     ADKConn() throws Exception {
     }
 
+    /**
+     *  log4j Configuration.
+     */
     static Logger log = Logger.getLogger(ADKConn.class);
+
+    /**
+     *  Creates a new datastream on the Falkonry UI.
+     *  @return Datastream ID.
+     */
     public String createDataStream() throws Exception {
 
         String dataStreamName = "TESTING";
@@ -75,7 +83,15 @@ class ADKConn {
         return datastreamId;
     }
 
-
+    /**
+     *  Adding historical data to an existing datastream.
+     *  @param datastreamId The id of an existing datastream
+     *                      or received from the
+     *                      createDatastream method.
+     *  @param stream This is the stream received
+     *                from file adapters getData()
+     *                method.
+     */
     public void postHistoricalData(String datastreamId, String stream) throws Exception {
         Datastream datastream = falkonry.getDatastream(datastreamId);
 
@@ -97,6 +113,15 @@ class ADKConn {
 
     }
 
+    /**
+     *  Adding historical data stream to an existing datastream.
+     *  @param datastreamId The id of an existing datastream
+     *                      or received from the
+     *                      createDatastream method.
+     *  @param stream This is the stream received
+     *                from file adapters getDataStream()
+     *                method.
+     */
     public void postHistoricalDataFromStream(String datastreamId, ByteArrayInputStream stream) throws Exception {
 
         Datastream datastream = falkonry.getDatastream(datastreamId);
@@ -117,6 +142,17 @@ class ADKConn {
         checkStatus(inputStatus.getId());
     }
 
+    /**
+     *  This method is just an example to show how our ADK manages
+     *  multiple data files in a particular folder. It reads all
+     *  the files and passes each one of them as a stream to an existing
+     *  datastream.
+     *  @param datastreamId The id of an existing datastream
+     *                      or received from the
+     *                      createDatastream method.
+     *  @param folderPath Complete folder path where the data files
+     *                    are stored.
+     */
     public void postMoreHistoricalDataFromStream(String datastreamId, String folderPath) throws Exception {
 
         Datastream datastream = falkonry.getDatastream(datastreamId);
@@ -155,6 +191,18 @@ class ADKConn {
         }
     }
 
+    /**
+     *  This method is used post streaming data or live data
+     *  to an existing datastream and this method can only be
+     *  used if you have trained a model on Falkonry UI and then
+     *  turned ON LIVE button on Falkonry UI.
+     *  @param datastreamId The id of an existing datastream
+     *                      or received from the
+     *                      createDatastream method.
+     *  @param stream  This is the stream received
+     *                 from file adapters getDataStream()
+     *                 method.
+     */
     public void postRealtimeData(String datastreamId,  ByteArrayInputStream stream) throws Exception {
 
         Datastream datastream = falkonry.getDatastream(datastreamId);
@@ -170,15 +218,23 @@ class ADKConn {
         options.put("streaming", "true");
         options.put("hasMoreData", "false");
 
-        falkonry.addInputStream(datastreamId, stream, options);
+        InputStatus is = falkonry.addInputStream(datastreamId, stream, options);
     }
-
+    /**
+     *  This method is used get the streaming output or live data
+     *  output which is only visible if there is a live datastream
+     *  on or by calling our postRealTimeData method and this method
+     *  can only be used if you have trained a model on Falkonry UI
+     *  and then turned ON LIVE button on Falkonry UI.
+     *  @param assessmentId This ID you can find in the Assesment tab
+     *                      after you have trained a model.
+     */
     public void getLiveOutput(String assessmentId) throws Exception {
         BufferedReader outputBuffer;
         outputBuffer = falkonry.getOutput(assessmentId);
         int i;
         while((i=outputBuffer.read())!=-1){
-            System.out.print((char)i);
+            log.info((char)i);
         }
         outputBuffer.close();
     }
@@ -284,7 +340,7 @@ public class ADKConnector {
 //    final ADKConn adk = new ADKConn();
 //
 //    FileAdapter f = new FileAdapter();
-
+//
 //    String fileName = "fileName";
 //    URL url = ADKConnector.class.getResource(fileName);
 //
@@ -295,7 +351,7 @@ public class ADKConnector {
 //            try {
 //                adk.postRealtimeData("datastream_id", stream);
 //            } catch (Exception e) {
-//                e.printStackTrace();
+//                log.error(e);
 //            }
 //        }
 //    };
@@ -306,7 +362,7 @@ public class ADKConnector {
 //                adk.getLiveOutput("assessment_id");
 //
 //            } catch (Exception e) {
-//                e.printStackTrace();
+//                log.error(e);
 //            }
 //        }
 //    };
@@ -316,7 +372,6 @@ public class ADKConnector {
 //
 //    thread1.join();
 //    thread2.join();
-
 // #########################################################################
 
 /*
@@ -336,7 +391,6 @@ public class ADKConnector {
 //    adk.postMoreHistoricalDataFromStream("datastream_id", folderPath);
 
 // ########################################################################################################
-
    }
 
 }

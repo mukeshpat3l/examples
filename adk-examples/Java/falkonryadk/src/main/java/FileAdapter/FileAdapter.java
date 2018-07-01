@@ -3,13 +3,14 @@ package FileAdapter;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
 
 import java.io.*;
 
 public class FileAdapter {
     private File f;
     private String fileName;
-
+    static Logger log = Logger.getLogger(FileAdapter.class);
     public String getData(String fileName) throws FileNotFoundException {
         f= new File(fileName);
         if(f.isFile()){
@@ -21,7 +22,7 @@ public class FileAdapter {
                     String s = IOUtils.toString(br);
                     return s;
                 } catch (IOException e) {
-                    e.printStackTrace();
+                   log.error(e);
                 }
             }
         } else{
@@ -42,7 +43,7 @@ public class FileAdapter {
                     return istream;
 
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.error(e);
                 }
             }
         } else{
