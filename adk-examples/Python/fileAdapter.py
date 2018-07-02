@@ -1,8 +1,5 @@
 import os
-import csv
 import io
-import pandas as pd
-import time
 
 class FileAdapter:
 
@@ -14,11 +11,10 @@ class FileAdapter:
 
         fileName, fileExtension = os.path.splitext(fileName)
 
-        if fileExtension.lower() == ".csv" or fileExtension.lower() == ".json":
-            with open(fileName + fileExtension) as f:
-                stream = f.read()
-            fileType = fileExtension.lower()[1:]
-            return stream, fileType
+        with open(fileName + fileExtension) as f:
+            stream = f.read()
+        fileType = fileExtension.lower()[1:]
+        return stream, fileType
 
 
 
@@ -30,8 +26,7 @@ class FileAdapter:
 
         fileName, fileExtension = os.path.splitext(fileName)
 
-        if fileExtension.lower() == '.csv' or fileExtension.lower() == '.json':
-            stream = io.open(fileName + fileExtension)
-            fileType = fileExtension.lower()[1:]
-            return stream, fileType
+        stream = io.open(fileName + fileExtension)
+        fileType = fileExtension.lower()[1:]
+        return stream, fileType
 

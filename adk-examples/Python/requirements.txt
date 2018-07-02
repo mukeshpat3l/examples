@@ -1,13 +1,1 @@
-certifi==2018.4.16
-chardet==3.0.4
 falkonryclient==2.1.1
-idna==2.7
-jsonpickle==0.9.6
-numpy==1.14.5
-pandas==0.23.1
-python-dateutil==2.7.3
-pytz==2018.4
-requests==2.19.1
-six==1.11.0
-sseclient-py==1.7
-urllib3==1.23

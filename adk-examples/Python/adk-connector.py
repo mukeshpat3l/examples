@@ -2,25 +2,25 @@ from falkonryclient import client as Falkonry
 from falkonryclient import schemas as Schemas
 from fileAdapter import FileAdapter
 from multiprocessing import Process
-import pandas as pd
 import io
 import os
 import json
 import time as timepkg
 import logging
 
-# Logging configuration
+
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s:%(levelname)s:%(message)s"
     )
 
-
+class AddDataException(Exception):
+    pass
 
 
 class ADKconn:
-    url = "https://example.falkonry.ai"  ### Your account url
-    token = "token"                      ### Your account token
+    url = "https://dev.falkonry.ai"
+    token = "7gjg7pjryg6mry2ypq6jbhgd9kg2rn2q"
     falkonry   = Falkonry(url, token)
     datastream = Schemas.Datastream()
     datasource = Schemas.Datasource()
@@ -40,25 +40,25 @@ class ADKconn:
                     raise Exception()
                 if tracker_obj['status'] == 'COMPLETED' or tracker_obj['status'] == 'SUCCESS':
                     logging.info("Data added successfully.")
-                    break
+                    return "SUCCESS"
             except:
-                logging.warning("Cannot add data to datastream.")
+                pass
             timepkg.sleep(5)
 
-        if tracker_obj['status'] == 'FAILED' or tracker_obj['status'] == 'PENDING':
-            logging.error("Cannot add data to datastream. Please try again.")
+        if tracker_obj['status'] == 'PENDING':
+            raise AddDataException()
 
 
-    def postMoreHistoricalDataFromStream(self, datastreamId, path):
-        onlyfiles = [f for f in os.listdir(path) if ((os.path.isfile(os.path.join(path, f)) and (os.path.splitext(f))[1] == ".csv"))]
+    def postMoreDataFromStream(self, datastreamId, path, liveStatus):
+        onlyfiles = [f for f in os.listdir(path) if ((os.path.isfile(os.path.join(path, f)) and ((os.path.splitext(f))[1] == ".csv") or (os.path.splitext(f))[1] == ".json"))]
         onlyfiles_length = len(onlyfiles)
         for i in range(onlyfiles_length):
             datastreamId = datastreamId
             file_adapter = FileAdapter()
-            stream, fileType = file_adapter.getData(path + "/" + onlyfiles[i])
+            data, fileType = file_adapter.getData(path + "/" + onlyfiles[i])
             datastream = self.falkonry.get_datastream(datastreamId)
             options = {
-                'streaming': False,
+                'streaming': liveStatus,
                 'hasMoredata': True,
                 'timeFormat': datastream.get_field().get_time().get_format(),
                 'timeZone': datastream.get_field().get_time().get_zone(),
@@ -71,8 +71,20 @@ class ADKconn:
 
             if i == onlyfiles_length - 1:
                 options["hasMoreData"] = False
-            inputResponse = self.falkonry.add_input_data(datastreamId, fileType, options, stream)
-            self.checkDatprintaIngestion(inputResponse)
+
+            if not liveStatus:
+                for i in range(0, 3):
+                    try:
+                        inputResponse = self.falkonry.add_input_data(datastreamId, fileType, options, data)
+                        status = self.checkDataIngestion(inputResponse)
+                        if status == "SUCCESS":
+                            break
+                    except AddDataException:
+                        logging.warning("Adding data failed! Retrying({})".format(i + 1))
+                if i == 3:
+                    raise Exception("Cannot add data to the datastream!")
+            else:
+                inputResponse = self.falkonry.add_input_data(datastreamId, fileType, options, data)
 
     def createDataStream(self):
         name = "SL_MIXED_MUL_PY_1232763"
@@ -113,12 +125,12 @@ class ADKconn:
         return datastreamId
 
 
-    def postHistoricalData(self, datastreamId, data, fileType):
+    def postData(self, datastreamId, data, fileType, liveStatus):
         datastreamId = datastreamId
         datastream = self.falkonry.get_datastream(datastreamId)
 
         options = {
-        'streaming': False,
+        'streaming': liveStatus,
         'hasMoreData': False,
         'timeFormat': datastream.get_field().get_time().get_format(),
         'timeZone': datastream.get_field().get_time().get_zone(),
@@ -129,15 +141,27 @@ class ADKconn:
         'entityIdentifier': datastream.get_field().get_entityIdentifier()
         }
 
-        inputResponse = self.falkonry.add_input_data(datastreamId, fileType, options, data)
-        self.checkDataIngestion(inputResponse)
+        if not liveStatus:
+            for i in range(0, 3):
+                try:
+                    inputResponse = self.falkonry.add_input_data(datastreamId, fileType, options, data)
+                    status = self.checkDataIngestion(inputResponse)
+                    if status == "SUCCESS":
+                        break
+                except AddDataException:
+                    logging.warning("Adding data failed! Retrying({})".format(i + 1))
+            if i == 3:
+                raise Exception("Cannot add data to the datastream!")
+        else:
+            inputResponse = self.falkonry.add_input_data(datastreamId, fileType, options, data)
 
-    def postHistoricalDataFromStream(self, datastreamId, data, fileType):
+
+    def postDataFromStream(self, datastreamId, data, fileType, liveStatus):
         file_name = "simple_sliding_mixed_multi_entity_source_moreData.csv"
         datastreamId = datastreamId
         datastream = self.falkonry.get_datastream(datastreamId)
         options = {
-            'streaming': False,
+            'streaming': liveStatus,
             'hasMoreData': False,
             'timeFormat': datastream.get_field().get_time().get_format(),
             'timeZone': datastream.get_field().get_time().get_zone(),
@@ -148,8 +172,19 @@ class ADKconn:
             'entityIdentifier': datastream.get_field().get_entityIdentifier()
         }
 
-        inputResponse = self.falkonry.add_input_stream(datastreamId, fileType, options, data)
-        self.checkDataIngestion(inputResponse)
+        if not liveStatus:
+            for i in range(0, 3):
+                try:
+                    inputResponse = self.falkonry.add_input_data(datastreamId, fileType, options, data)
+                    status = self.checkDataIngestion(inputResponse)
+                    if status == "SUCCESS":
+                        break
+                except AddDataException:
+                    logging.warning("Adding data failed! Retrying({})".format(i + 1))
+            if i == 3:
+                raise Exception("Cannot add data to the datastream!")
+        else:
+            inputResponse = self.falkonry.add_input_data(datastreamId, fileType, options, data)
 
 
     def postRealtimeData(self, datastreamId, data, fileType):
@@ -187,8 +222,8 @@ class ADKconn:
         #
         #     df.to_csv(fileName + str(i + 1) + fileExtension, index=False)
 
+        
         inputResponse = self.falkonry.add_input_stream(datastreamId, fileType, options, data)
-        logging.info(inputResponse)
 
 
 
@@ -196,7 +231,7 @@ class ADKconn:
         assessmentId = assessmentId
         stream = self.falkonry.get_output(assessmentId, None)
         for event in stream.events():
-            print(json.dumps(json.loads(event.data)))
+            logging.info(json.dumps(json.loads(event.data)))
 
 
 
@@ -209,17 +244,19 @@ if __name__ == "__main__":
     #################### For creating datastream and adding historical data ################
     """
     The below code will create a datastream and post the historical data as a string to the
-    datastream. You will have to give the data as a string or give the fileName and pass it
+    datastream. You will have to give the data as a string or give the fileName and pass it 
     to the get_data() method of the file adapter.
     """
 
     # fileAdapter = FileAdapter()
     # fileName = "SL_MIXED_MUL_PY_12345.json"
     # data, fileType = fileAdapter.getData(fileName)
+    # liveStatus = True
     #
     # adk_conn = ADKconn()
     # datastreamId = adk_conn.createDataStream()
-    # adk_conn.postHistoricalData(datastreamId, data, fileType)
+    # # datastreamId = "67r7y26cnncc8l"
+    # adk_conn.postData(datastreamId, data, fileType, liveStatus)
 
     ########################################################################################
 
@@ -230,17 +267,18 @@ if __name__ == "__main__":
     ############### For creating datastream and adding historical data from a stream ################
     """
     The below code will create a datastream and post the historical data as a stream from
-    the file to the datastream. You will have to give the fileName and pass it to the
+    the file to the datastream. You will have to give the fileName and pass it to the 
     get_data_stream() method of the file adapter.
     """
 
     # fileAdapter = FileAdapter()
     # fileName = "simple_sliding_mixed_multi_entity_source_moreData.csv"
     # data, fileType = fileAdapter.getDataStream(fileName)
+    # liveStatus = True
 
     # adk_conn = ADKconn()
     # datastreamId = createDataStream()
-    # adk_conn.postHistoricalDataFromStream(datastreamId, data, fileType)
+    # adk_conn.postDataFromStream(datastreamId, data, fileType, liveStatus)
 
     ###############################################################################################
 
@@ -253,25 +291,25 @@ if __name__ == "__main__":
     live output simultaneously. You will have to enter the fileName from where
     you are getting the live data and pass it to the get_data_stream() method of
     the file adapter.
-
+    
     NOTE:-
     1. Go on the Falkonry UI and build a model.
     2. After building a model click LIVE(OFF) button to turn on the LIVE INPUT
     """
 
-    # fileAdapter = FileAdapter()
-    # fileName = "simple_sliding_mixed_multi_entity_source_moreData.csv"
-    # data, fileType = fileAdapter.getDataStream(fileName)
+    fileAdapter = FileAdapter()
+    fileName = "source1.csv"
+    data, fileType = fileAdapter.getDataStream(fileName)
+    liveStatus = True
 
-    # adk_conn = ADKconn()
-    # postLiveData(datastreamId, data, fileType)  ### For live stream input
-    # p1 = Process(target=adk_conn.getLiveOutput, args=(assessmentId, ))
-    # p1.start()
-    # p2 = Process(target=adk_conn.postRealtimeData, args=(datastreamId, data, fileType))
-    # p2.start()
-    #
-    # p1.join()
-    # p2.join()
+    adk_conn = ADKconn()### For live stream input
+    p1 = Process(target=adk_conn.getLiveOutput, args=("j7kbqmmwywy78j", ))
+    p1.start()
+    p2 = Process(target=adk_conn.postDataFromStream, args=("kc88g9knrylyvn", data, fileType, liveStatus))
+    p2.start()
+    
+    p1.join()
+    p2.join()
 
 
     ###########################################################################
@@ -282,13 +320,15 @@ if __name__ == "__main__":
     ############## For creating datastream and adding data from a folder containing multiple files ################
     """
     The below code will create a datastream and post the historical data as a stream from
-    the folder containing multiple files to the datastream. You will have to give the folder path and pass it to the
+    the folder containing multiple files to the datastream. You will have to give the folder path and pass it to the 
     postMoreHistoricalDataFromStream() in the adk connector
     """
+
     # path = "../demo-data"
+    # liveStatus = True
     #
     # adk_conn = ADKconn()
     # datastreamId = adk_conn.createDataStream()
-    # adk_conn.postMoreHistoricalDataFromStream(datastreamId, path)
+    # adk_conn.postMoreDataFromStream(datastreamId, path, liveStatus)
 
     ##############################################################################################################
