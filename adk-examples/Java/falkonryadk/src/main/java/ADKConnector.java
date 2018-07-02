@@ -272,9 +272,10 @@ class ADKConn {
     public void getLiveOutput(String assessmentId) throws Exception {
         BufferedReader outputBuffer;
         outputBuffer = falkonry.getOutput(assessmentId);
-        int i;
-        while((i=outputBuffer.read())!=-1){
-            log.info((char)i);
+        String contentLine = outputBuffer.readLine();
+        while(contentLine != null){
+            log.info(contentLine);
+            contentLine = outputBuffer.readLine();
         }
         outputBuffer.close();
     }
