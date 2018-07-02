@@ -15,15 +15,13 @@ public class FileAdapter {
         f= new File(fileName);
         if(f.isFile()){
             String fileType = FilenameUtils.getExtension(fileName);
-            if((fileType.toLowerCase().equals("csv"))||(fileType.toLowerCase().equals("json"))){
-                try {
-                    FileReader fr = new FileReader(f);
-                    BufferedReader br = new BufferedReader(fr);
-                    String s = IOUtils.toString(br);
-                    return s;
-                } catch (IOException e) {
-                   log.error(e);
-                }
+            try {
+                FileReader fr = new FileReader(f);
+                BufferedReader br = new BufferedReader(fr);
+                String s = IOUtils.toString(br);
+                return s;
+            } catch (IOException e) {
+                log.error(e);
             }
         } else{
             throw new FileNotFoundException("Please enter the correct path of the file");
@@ -35,17 +33,16 @@ public class FileAdapter {
         f= new File(fileName);
         if(f.isFile()){
             String fileType = FilenameUtils.getExtension(fileName);
-            if((fileType.toLowerCase().equals("csv"))||(fileType.toLowerCase().equals("json"))){
-                try {
+            try {
 
-                    File file = new File(fileName);
-                    ByteArrayInputStream istream = new ByteArrayInputStream(FileUtils.readFileToByteArray(file));
-                    return istream;
+                File file = new File(fileName);
+                ByteArrayInputStream istream = new ByteArrayInputStream(FileUtils.readFileToByteArray(file));
+                return istream;
 
-                } catch (IOException e) {
-                    log.error(e);
-                }
+            } catch (IOException e) {
+                log.error(e);
             }
+
         } else{
             throw new FileNotFoundException("Please enter the correct path of the file");
 
@@ -54,4 +51,3 @@ public class FileAdapter {
         return null;
     }
 }
-

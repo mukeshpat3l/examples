@@ -91,8 +91,10 @@ class ADKConn {
      *  @param stream This is the stream received
      *                from file adapters getData()
      *                method.
+     *  @param live  If you want to post live data
+     *               then keep this parameter true.
      */
-    public void postHistoricalData(String datastreamId, String stream) throws Exception {
+    public void postData(String datastreamId, String stream, Boolean live) throws Exception {
         Datastream datastream = falkonry.getDatastream(datastreamId);
 
         Map<String, String> options = new HashMap<String, String>();
@@ -104,12 +106,33 @@ class ADKConn {
 //        options.put("batchIdentifier",  datastream.getField().getBatchIdentifier());
         options.put("entityIdentifier", datastream.getField().getEntityIdentifier());
         options.put("fileFormat", "json");
-        options.put("streaming", "false");
+        options.put("streaming", live.toString());
         options.put("hasMoreData", "false");
 
-        InputStatus inputStatus = falkonry.addInput(datastreamId, stream, options);
-        log.info(inputStatus.getStatus());
-        checkStatus(inputStatus.getId());
+        if(!live){
+            int i;
+            for(i=0; i<3; i++){
+                try {
+                    InputStatus inputStatus = falkonry.addInput(datastreamId, stream, options);
+                    String status = checkStatus(inputStatus.getId());
+                    if(status == "SUCCESS"){
+                        log.info("DATA ADDED SUCCESSFULLY");
+                        break;
+                    } else {
+                        throw new Exception("Adding data failed! Retry " + (i+1) + ".");
+                    }
+                } catch (Exception e){
+                    log.warn(e);
+                }
+            }
+            if(i==3){
+                log.error("Cannot add data to the datastream!");
+                System.exit(0);
+            }
+
+        }  else {
+            InputStatus inputStatus = falkonry.addInput(datastreamId, stream, options);
+        }
 
     }
 
@@ -121,8 +144,10 @@ class ADKConn {
      *  @param stream This is the stream received
      *                from file adapters getDataStream()
      *                method.
+     *  @param live  If you want to post live data
+     *               then keep this parameter true.
      */
-    public void postHistoricalDataFromStream(String datastreamId, ByteArrayInputStream stream) throws Exception {
+    public void postDataFromStream(String datastreamId, ByteArrayInputStream stream, Boolean live) throws Exception {
 
         Datastream datastream = falkonry.getDatastream(datastreamId);
 
@@ -134,12 +159,33 @@ class ADKConn {
 //        options.put("valueIdentifier",  datastream.getField().getSignal().getValueIdentifier());
 //        options.put("batchIdentifier",  datastream.getField().getBatchIdentifier());
         options.put("entityIdentifier", datastream.getField().getEntityIdentifier());
-        options.put("streaming", "false");
+        options.put("streaming", live.toString());
         options.put("hasMoreData", "false");
 
-        InputStatus inputStatus = falkonry.addInputStream(datastreamId, stream, options);
-        log.info(inputStatus.getStatus());
-        checkStatus(inputStatus.getId());
+        if(!live){
+            int i;
+            for(i=0; i<3; i++){
+                try {
+                    InputStatus inputStatus = falkonry.addInputStream(datastreamId, stream, options);
+                    String status = checkStatus(inputStatus.getId());
+                    if(status == "SUCCESS"){
+                        log.info("DATA ADDED SUCCESSFULLY");
+                        break;
+                    } else {
+                        throw new Exception("Adding data failed! Retry " + (i+1) + ".");
+                    }
+                } catch (Exception e){
+                    log.warn(e);
+                }
+            }
+            if(i==3){
+                log.error("Cannot add data to the datastream!");
+                System.exit(0);
+            }
+
+        }  else {
+            InputStatus inputStatus = falkonry.addInputStream(datastreamId, stream, options);
+        }
     }
 
     /**
@@ -152,8 +198,10 @@ class ADKConn {
      *                      createDatastream method.
      *  @param folderPath Complete folder path where the data files
      *                    are stored.
+     *  @param live  If you want to post live data
+     *               then keep this parameter true.
      */
-    public void postMoreHistoricalDataFromStream(String datastreamId, String folderPath) throws Exception {
+    public void postMoreDataFromStream(String datastreamId, String folderPath, Boolean live) throws Exception {
 
         Datastream datastream = falkonry.getDatastream(datastreamId);
 
@@ -179,47 +227,39 @@ class ADKConn {
 //            options.put("valueIdentifier",  datastream.getField().getSignal().getValueIdentifier());
 //            options.put("batchIdentifier",  datastream.getField().getBatchIdentifier());
             options.put("entityIdentifier", datastream.getField().getEntityIdentifier());
-            options.put("streaming", "false");
-            options.put("hasMoreData", "false");
+            options.put("streaming", live.toString());
+            options.put("hasMoreData", "true");
             for (int i=0; i<files.size(); i++){
                 ByteArrayInputStream stream = f.getDataStream(folderPath + "/" + files.get(i));
-                InputStatus inputStatus = falkonry.addInputStream(datastreamId, stream, options);
                 log.info("Status for file: " + files.get(i));
-                log.info(inputStatus.getStatus());
-                checkStatus(inputStatus.getId());
+                if(!live){
+                    int j;
+                    for(j=0; j<3; j++){
+                        try {
+                            InputStatus inputStatus = falkonry.addInputStream(datastreamId, stream, options);
+                            String status = checkStatus(inputStatus.getId());
+                            if(status == "SUCCESS"){
+                                log.info("DATA ADDED SUCCESSFULLY");
+                                break;
+                            } else {
+                                throw new Exception("Adding data failed! Retry " + (j+1) + ".");
+                            }
+                        } catch (Exception e){
+                            log.warn(e);
+                        }
+                    }
+                    if(j==3){
+                        log.error("Cannot add data to the datastream!");
+                        System.exit(0);
+                    }
+
+                }  else {
+                    InputStatus inputStatus = falkonry.addInputStream(datastreamId, stream, options);
+                }
             }
         }
     }
 
-    /**
-     *  This method is used post streaming data or live data
-     *  to an existing datastream and this method can only be
-     *  used if you have trained a model on Falkonry UI and then
-     *  turned ON LIVE button on Falkonry UI.
-     *  @param datastreamId The id of an existing datastream
-     *                      or received from the
-     *                      createDatastream method.
-     *  @param stream  This is the stream received
-     *                 from file adapters getDataStream()
-     *                 method.
-     */
-    public void postRealtimeData(String datastreamId,  ByteArrayInputStream stream) throws Exception {
-
-        Datastream datastream = falkonry.getDatastream(datastreamId);
-
-        Map<String, String> options = new HashMap<String, String>();
-        options.put("timeIdentifier", datastream.getField().getTime().getIdentifier());
-        options.put("timeFormat", datastream.getField().getTime().getFormat());
-        options.put("timeZone", datastream.getField().getTime().getZone());
-//        options.put("signalIdentifier", datastream.getField().getSignal().getSignalIdentifier());
-//        options.put("valueIdentifier",  datastream.getField().getSignal().getValueIdentifier());
-//        options.put("batchIdentifier",  datastream.getField().getBatchIdentifier());
-        options.put("entityIdentifier", datastream.getField().getEntityIdentifier());
-        options.put("streaming", "true");
-        options.put("hasMoreData", "false");
-
-        InputStatus is = falkonry.addInputStream(datastreamId, stream, options);
-    }
     /**
      *  This method is used get the streaming output or live data
      *  output which is only visible if there is a live datastream
@@ -239,19 +279,16 @@ class ADKConn {
         outputBuffer.close();
     }
 
-    private void checkStatus(String trackerId) throws Exception {
+    private String checkStatus(String trackerId) throws Exception {
         for(int i=0; i < 12; i++) {
             Tracker tracker = falkonry.getStatus(trackerId);
 
-            if (tracker.getStatus().equals("FAILED") || tracker.getStatus().equals("ERROR")) {
-                log.error("PLEASE ADD THE DATA TO THE DATASTREAM AGAIN.");
-            }
-            else if(tracker.getStatus().equals("SUCCESS") || tracker.getStatus().equals("COMPLETED")){
-                log.info("DATA ADDED SUCCESSFULLY");
-                break;
+           if(tracker.getStatus().equals("SUCCESS") || tracker.getStatus().equals("COMPLETED")){
+                return "SUCCESS";
             }
             Thread.sleep(5000);
         }
+        return null;
     }
 
 
@@ -292,9 +329,9 @@ public class ADKConnector {
 //
 //    URL url = ADKConnector.class.getResource(fileName);
 //    String stream = f.getData(url.getPath());
-//
 //    String datastreamId = adk.createDataStream();
-//    adk.postHistoricalData(datastreamId, stream);
+//    Boolean liveStatus = false;
+//    adk.postData(datastreamId, stream, liveStatus);
 
 //  ##################################################################################################
 
@@ -307,7 +344,7 @@ public class ADKConnector {
     getDataStream() method of the file adapter.
 
 */
-
+//
 //    final ADKConn adk = new ADKConn();
 //
 //    FileAdapter f = new FileAdapter();
@@ -316,9 +353,9 @@ public class ADKConnector {
 //    URL url = ADKConnector.class.getResource(fileName);
 //
 //    ByteArrayInputStream stream = f.getDataStream(url.getPath());
-//
 //    String datastreamId = adk.createDataStream();
-//    adk.postHistoricalDataFromStream(datastreamId, stream);
+//    Boolean liveStatus = false;
+//    adk.postDataFromStream(datastreamId, stream, liveStatus);
 
 // ########################################################################################################
 
@@ -334,7 +371,8 @@ public class ADKConnector {
     NOTE:-
      1. Go on the Falkonry UI and build a model.
      2. After building a model click LIVE(OFF) button to turn on the LIVE INPUT.
-
+     While using this method you can choose between postData(), postDataFromStream() and postMoreDataFromStream()
+     and set live parameter as true.
 */
 
 //    final ADKConn adk = new ADKConn();
@@ -343,13 +381,13 @@ public class ADKConnector {
 //
 //    String fileName = "fileName";
 //    URL url = ADKConnector.class.getResource(fileName);
-//
+//    final Boolean liveStatus = true;
 //    final ByteArrayInputStream stream = f.getDataStream(url.getPath());
 //
 //    Thread thread1 = new Thread() {
 //        public void run() {
 //            try {
-//                adk.postRealtimeData("datastream_id", stream);
+//                adk.postDataFromStream("datastream_id", stream, liveStatus);
 //            } catch (Exception e) {
 //                log.error(e);
 //            }
@@ -385,12 +423,11 @@ public class ADKConnector {
 */
 
 //    final ADKConn adk = new ADKConn();
-//
+//    Boolean liveStatus = false;
 //    String folderPath= "../path/../demo-data/";
-//
-//    adk.postMoreHistoricalDataFromStream("datastream_id", folderPath);
+//    adk.postMoreDataFromStream("datastream_id", folderPath, liveStatus);
 
 // ########################################################################################################
-   }
+    }
 
 }
