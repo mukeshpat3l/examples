@@ -37,7 +37,7 @@
     <div [hidden]="!loaderEnabled" class="loading">Loading&#8230;</div>
     <div [ngClass]="{'test':loaderEnabled, 'tooltip-remove':isTooltipActive}">
         <div class="graphs" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
-        <button mat-raised-button style="background-color: #FF9E00" (click)="changeData()">Test</button>
+        <button mat-raised-button style="background-color: #FF9E00" (click)="getLiveData()">Visualize</button>
             <h3 [hidden]="loaderEnabled || selectedEntity==null">{{selectedEntity}}</h3>
             <google-chart #ctchart [data]="columnChartData" (chartError)='error_column($event)'></google-chart>
             <google-chart #cchart [data]="timelineChartData" (chartError)='error_timeline($event)'></google-chart>

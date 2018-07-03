@@ -6,7 +6,7 @@ import time
 
 class FileAdapter:
 
-    def get_data(self, fileName):
+    def getData(self, fileName):
         try:
             os.path.isfile(fileName)
         except:
@@ -15,14 +15,14 @@ class FileAdapter:
         fileName, fileExtension = os.path.splitext(fileName)
 
         if fileExtension.lower() == ".csv" or fileExtension.lower() == ".json":
-            with open(self.file_name) as f:
+            with open(fileName + fileExtension) as f:
                 stream = f.read()
             fileType = fileExtension.lower()[1:]
             return stream, fileType
 
 
 
-    def get_data_stream(self, fileName):
+    def getDataStream(self, fileName):
         try:
             os.path.isfile(fileName)
         except:
@@ -31,7 +31,7 @@ class FileAdapter:
         fileName, fileExtension = os.path.splitext(fileName)
 
         if fileExtension.lower() == '.csv' or fileExtension.lower() == '.json':
-            stream = io.open('source0.csv')
+            stream = io.open(fileName + fileExtension)
             fileType = fileExtension.lower()[1:]
             return stream, fileType
 

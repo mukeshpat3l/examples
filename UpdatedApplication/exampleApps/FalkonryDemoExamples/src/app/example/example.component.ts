@@ -25,7 +25,7 @@ export class ExampleComponent implements OnInit {
   async getStatus(){
     while(true){
       await this.delay(5000);
-      this.http.get("http://127.0.0.1:8000/test/").map(res => res).subscribe(response => {
+      this.http.get("http://127.0.0.1:8000/status/").map(res => res).subscribe(response => {
       this.data = response;
       console.log(this.data);
       this.dataStreamHidden = !this.data[0]["datastream"];

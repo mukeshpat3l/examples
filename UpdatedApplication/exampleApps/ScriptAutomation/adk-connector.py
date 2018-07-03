@@ -228,15 +228,15 @@ if __name__ == "__main__":
     get_data_stream() method of the file adapter.
     """
 
-    fileAdapter = FileAdapter()
-    fileName = "source0.csv"
-    data, fileType = fileAdapter.get_data_stream(fileName)
+    # fileAdapter = FileAdapter()
+    # fileName = "source0.csv"
+    # data, fileType = fileAdapter.get_data_stream(fileName)
 
     
-    adk_conn = ADKconnector()
-    datastream_id = adk_conn.createDataStream()
-    adk_conn.postHistoricalDataStream(datastream_id, data, fileType)
-    adk_conn.postRealtimeData(datastream_id, data, fileType)
+    # adk_conn = ADKconnector()
+    # datastream_id = adk_conn.createDataStream()
+    # adk_conn.postHistoricalDataStream(datastream_id, data, fileType)
+    # adk_conn.postRealtimeData(datastream_id, data, fileType)
 
     ###############################################################################################
 
@@ -251,19 +251,19 @@ if __name__ == "__main__":
     the file adapter.
     """
 
-    # fileAdapter = FileAdapter()
-    # fileName = "simple_sliding_mixed_multi_entity_source_moreData.csv"
-    # data, fileType = fileAdapter.get_data_stream(fileName)
+    fileAdapter = FileAdapter()
+    fileName = "simple_sliding_mixed_multi_entity_source_moreData.csv"
+    data, fileType = fileAdapter.get_data_stream(fileName)
 
-    # adk_conn = ADKconnector()
-    # postLiveData(datastream_id, data, fileType)  ### For live stream input
-    # p1 = Process(target=adk_conn.getLiveOutput, args=(assessmentId, ))
-    # p1.start()
-    # p2 = Process(target=adk_conn.postRealtimeData, args=(datastream_id, data, fileType))
-    # p2.start()
-    #
-    # p1.join()
-    # p2.join()
+    adk_conn = ADKconnector()
+     ### For live stream input
+    p1 = Process(target=adk_conn.getLiveOutput, args=(assessmentId, ))
+    p1.start()
+    p2 = Process(target=adk_conn.postRealtimeData, args=(datastream_id, data, fileType))
+    p2.start()
+    
+    p1.join()
+    p2.join()
 
 
     ###########################################################################

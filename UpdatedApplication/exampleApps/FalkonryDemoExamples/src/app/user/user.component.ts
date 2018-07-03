@@ -39,8 +39,8 @@ export class UserComponent implements OnInit
     </table>
   `
   colors:any={};
-  host:string;
-  api_key:string;
+  host:string = "https://dev.falkonry.ai";
+  api_key:string = "cqgw764qlydc94c7kkcppmvpbjr84dpw";
   URL:string;
   output:any;
   values:any[];
@@ -57,68 +57,72 @@ export class UserComponent implements OnInit
   datastreamList:string[] = [];
   datastream_entity_meta_map = {};
   datastream_entitymeta_label_map = {};
-  // columnChartData = {
-  //   chartType: 'ColumnChart',
-  //   dataTable: [[{type: 'string', id: "Label"}, {type: 'number', id: "Frequency"}, {role: 'style'}]],
-  //   options: {
-  //     'title': 'Percentage Distribution of Assessments',
-  //     'height': window.screen.availHeight * 0.4, 'width': window.screen.availWidth * 0.4,
-  //     'vAxis': {maxValue: 110, minValue: 0},
-  //     'titleTextStyle': {fontName: "Calibri", fontSize: 17},
-  //     legend: {position: "none"}
-  //   },
-  // };
-
   columnChartData = {
     chartType: 'ColumnChart',
-    dataTable: [
-      ['Country', 'Performance', 'Profits'],
-      ['Germany', 0, 0],
-      ['USA', 0, 0],
-      ['Brazil', 0, 0],
-      ['Canada', 0, 0],
-      ['France', 0, 0],
-      ['RU', 0, 0]
-    ],
+    dataTable: [[{type: 'string', id: "Label"}, {type: 'number', id: "Frequency"}, {role: 'style'}]],
     options: {
-      title: 'Countries',
-      animation:{
-        duration: 800,
-        easing: 'out',
-        startup: true
-      },
+      'title': 'Distribution of Conditions Over Time',
       'height': window.screen.availHeight * 0.4, 'width': window.screen.availWidth * 0.4,
-      'vAxis': {maxValue: 110, minValue: 0}
-    }
+      'vAxis': {maxValue: 110, minValue: 0},
+      'titleTextStyle': {fontName: "Calibri", fontSize: 17},
+      legend: {position: "none"}
+    },
   };
-
+ 
   public changeData():void {
     // forces a reference update (otherwise angular won't detect the change
-    this.columnChartData = Object.create(this.columnChartData);
-    for (let i = 1; i < 7; i++) {
-      this.columnChartData.dataTable[i][1] = Math.round(
-        Math.random() * 1000);
-      this.columnChartData.dataTable[i][2] = Math.round(
-        Math.random() * 1000);
-    }
+    // this.columnChartData = Object.create(this.columnChartData);
+    // for (let i = 1; i < 7; i++) {
+    //   this.columnChartData.dataTable[i][1] = Math.round(
+    //     Math.random() * 1000);
+    //   this.columnChartData.dataTable[i][2] = Math.round(
+    //     Math.random() * 1000);
+    // }
+    this.getLiveData();
   }
 
+
+  timelineChartData = {
+    chartType: 'Timeline',
+    dataTable: [
+                [ {type: 'string', id: "Type"},
+                  {type: 'string', id: "Class", label: ""},
+                  {type: 'string', role: 'tooltip', 'p': {'html': true}},
+                  {type: 'datetime', id: "Start"}, {type: 'datetime', id: "End"}
+                ],
+                ["Condition", "Label X", this.generate_custom_HTML("Unlabeled X", new Date(Date.now()), new Date(Date.now())), Date.now(), new Date(Date.now() + 14400000)]
+              ],
+    groupByRowLabel: false,
+    options: {
+      timelines: {showRowLabels: false},
+      title: 'Timeline',
+      colors: ["white"],
+      height: 300, width: window.screen.availWidth * 0.9,
+      timeline: {showBarLabels: false},//, groupByRowLabel: false},
+      tooltip: {isHtml: true, trigger: 'focus'},
+      hAxis: {
+        format: 'M/d/yy HH:mm:ss',
+        viewWindow: {
+          min: new Date(Date.now()),
+          max: new Date(Date.now() + 244)
+        },
+      }
+
+    }
+  };
 
   // timelineChartData = {
   //   chartType: 'Timeline',
   //   dataTable: [
-  //               [ {type: 'string', id: "Type"},
-  //                 {type: 'string', id: "Class", label: ""},
-  //                 {type: 'string', role: 'tooltip', 'p': {'html': true}},
-  //                 {type: 'datetime', id: "Start"}, {type: 'datetime', id: "End"}
-  //               ],
-  //               ["Condition", "Label X", this.generate_custom_HTML("Unlabeled X", new Date(Date.now()), new Date(Date.now())), Date.now(), new Date(Date.now() + 14400000)]
-  //             ],
+  //     ['Name', 'From', 'To'],
+  //     [ 'Washington', new Date(1789, 3, 30), new Date(1797, 2, 4) ],
+  //     [ 'Adams',      new Date(1797, 2, 4),  new Date(1801, 2, 4) ],
+  //     [ 'Jefferson',  new Date(1801, 2, 4),  new Date(1809, 2, 4) ]
+  //   ],
   //   groupByRowLabel: false,
   //   options: {
   //     timelines: {showRowLabels: false},
   //     title: 'Timeline',
-  //     colors: ["white"],
   //     height: 300, width: window.screen.availWidth * 0.9,
   //     timeline: {showBarLabels: false},//, groupByRowLabel: false},
   //     tooltip: {isHtml: true, trigger: 'focus'},
@@ -132,153 +136,121 @@ export class UserComponent implements OnInit
 
   //   }
   // };
-
-  timelineChartData = {
-    chartType: 'Timeline',
-    dataTable: [
-      ['Name', 'From', 'To'],
-      [ 'Washington', new Date(1789, 3, 30), new Date(1797, 2, 4) ],
-      [ 'Adams',      new Date(1797, 2, 4),  new Date(1801, 2, 4) ],
-      [ 'Jefferson',  new Date(1801, 2, 4),  new Date(1809, 2, 4) ]
-    ],
-    groupByRowLabel: false,
-    options: {
-      timelines: {showRowLabels: false},
-      title: 'Timeline',
-      height: 300, width: window.screen.availWidth * 0.9,
-      timeline: {showBarLabels: false},//, groupByRowLabel: false},
-      tooltip: {isHtml: true, trigger: 'focus'},
-      hAxis: {
-        format: 'M/d/yy HH:mm:ss',
-        viewWindow: {
-          min: new Date(Date.now()),
-          max: new Date(Date.now() + 24400000)
-        },
-      }
-
-    }
-  };
-  constructor(private dataService:DataService, private http: HttpClient){}
-
-  Filter_Assessment(value:any)
-  {
-    if(this.output){
-      this.output.close();
-
-    }
-    this.colors = {};
-    this.selectedEntity = '';
-    this.loaderEnabled = true;
-    this.selectedAssessment=value.slice(3);
-    if(!_.has(this.assessment_datastream_map,this.selectedAssessment.datastream)){
-      this.fetch_datastream(this.selectedAssessment.datastream);
-    }
-    // this.getLiveData();
-
+  constructor(private dataService:DataService, private http: HttpClient){
+    this.http.get("http://127.0.0.1:8000/status/").map(res => res).subscribe(response => {
+    this.selectedAssessment = response[0]["assessmentId"];
+    console.log(this.selectedAssessment);
+    })
+    
+    this.getAssessments()
   }
-  Filter_Entity(value:any)
-  {
-    this.colors={};
-    this.loaderEnabled = true;
-    this.selectedEntity = value.slice(3);
-    // this.draw_charts_for_selectedEntity(this.selectedEntity);
-  }
+
   public changeData2():void
   {
     _$(".google-visualization-tooltip").remove();
     this.timeline_chart.redraw();
     this.column_chart.redraw();
-
   }
 
-  // getLiveData()
-  // {
-  //   var eventSourceInitDict={headers:{Authorization:"Bearer ".concat(this.api_key)}};
-  //   this.URL=this.host+"/assessment"+"/"+this.selectedAssessment+"/output";
-  //   let output=new EventSourcePolyfill(this.URL,eventSourceInitDict);
-  //   this.output = output;
-  //   var counter=0;
-
-  //   output.onmessage=(evt)=>{
-  //     const data=evt.data;
-  //     var json_data=JSON.parse(data);
-  //     let entity = json_data['entity'];
-  //     if(this.datastream_entity_meta_map[this.assessment_map[this.selectedAssessment].datastream].length){
-  //       entity=this.datastream_entitymeta_label_map[this.assessment_map[this.selectedAssessment].datastream][json_data["entity"]];
-  //     }
-  //     if(!this.assessment_entity_map[this.selectedAssessment].includes(entity))
-  //     {
-  //       this.assessment_entity_map[this.selectedAssessment].push(entity);
-  //       this.assessment_data_map[this.selectedAssessment][entity]=[];
-
-  //     }
-
-  //     let flag_for_duplicate=0;
-  //     this.assessment_data_map[this.selectedAssessment][entity].forEach(element => {
-  //       if(element["time"]==json_data["time"])
-  //       {
-  //         flag_for_duplicate=1;
-  //       }
-  //     });
-  //     if(flag_for_duplicate==0)
-  //     {
-
-  //       this.assessment_data_map[this.selectedAssessment][entity].push(json_data);
-  //       console.log(this.assessment_data_map[this.selectedAssessment][entity]);
-  //       counter=counter+1;
-  //     }
-  //     if(!this.selectedEntity){
-  //       this.selectedEntity = entity;
-  //     }
-  //     if(counter%5==0 && this.selectedEntity != null)
-  //     {
-  //       this.update_color_list(this.assessment_data_map[this.selectedAssessment][this.selectedEntity]);
-  //       this.update_ColumnChart(this.assessment_data_map[this.selectedAssessment][this.selectedEntity]);
-  //       this.update_TimeLineChart(
-  //         this.assessment_data_map[this.selectedAssessment][this.selectedEntity]
-  //         ,
-  //         this.assessment_datastream_map[this.assessment_map[this.selectedAssessment].datastream].timePrecision);
-
-  //       this.timelineChartData.options.colors=[];
-  //       Object.values(this.colors).forEach(element => {
-  //         this.timelineChartData.options.colors.push(element);
-  //       });
-  //       this.changeData2();
-  //       this.loaderEnabled = false;
-
-  //     }
-
-  //   }
-  // }
-
-  // draw_charts_for_selectedEntity(entity)
-  // {
-  //   this.selectedEntity=entity;
-  //   if(this.assessment_data_map[this.selectedAssessment][this.selectedEntity] && this.assessment_entity_map[this.selectedAssessment]){
-  //     this.assessment_entity_map[this.selectedAssessment].forEach(element => {
-  //       this.assessment_data_map[this.selectedAssessment][element]=[];
-  //     });
-  //       this.update_color_list(this.assessment_data_map[this.selectedAssessment][this.selectedEntity]);
-  //       this.update_ColumnChart(this.assessment_data_map[this.selectedAssessment][this.selectedEntity]);
-
-  //       this.update_TimeLineChart(
-  //         this.assessment_data_map[this.selectedAssessment][this.selectedEntity]
-  //         ,
-  //         this.assessment_datastream_map[this.assessment_map[this.selectedAssessment].datastream].timePrecision);
-  //       this.timelineChartData.options.colors=[];
-  //       Object.values(this.colors).forEach(element => {
-  //         this.timelineChartData.options.colors.push(element);
-  //       });
-  //   }
-  //   this.changeData2();
-  // }
-
-  onSubmit()
+  getLiveData()
   {
-    // this.host=host;
-    // this.api_key=api;
-    this.host = "https://dev.falkonry.ai";
-    this.api_key = "p6qvt9mlcplyjq2ygn972q6n9g8mmdnq";
+    // this.selectedAssessment = "qljlch4rpy4rd2";
+  
+    var eventSourceInitDict={headers:{Authorization:"Bearer ".concat(this.api_key)}};
+    this.URL=this.host+"/assessment/"+this.selectedAssessment+"/output";
+    let output=new EventSourcePolyfill(this.URL,eventSourceInitDict);
+    this.output = output;
+    var counter=0;
+    this.http.get("http://127.0.0.1:8000/viewResults/").subscribe();
+
+    output.onmessage=(evt)=>{
+      const data=evt.data;
+      var json_data=JSON.parse(data);
+      console.log(data);
+      // console.log("json data\n");
+      // console.log(json_data["value"]);
+      
+      let entity = json_data['entity'];
+      console.log(entity);
+      
+      if(this.datastream_entity_meta_map[this.assessment_map[this.selectedAssessment].datastream].length){
+        entity=this.datastream_entitymeta_label_map[this.assessment_map[this.selectedAssessment].datastream][json_data["entity"]];
+      }
+      if(!this.assessment_entity_map[this.selectedAssessment].includes(entity))
+      {
+        this.assessment_entity_map[this.selectedAssessment].push(entity);
+        this.assessment_data_map[this.selectedAssessment][entity]=[];
+
+      }
+
+      let flag_for_duplicate=0;
+      this.assessment_data_map[this.selectedAssessment][entity].forEach(element => {
+        if(element["time"]==json_data["time"])
+        {
+          flag_for_duplicate=1;
+        }
+      });
+      if(flag_for_duplicate==0)
+      {
+
+        this.assessment_data_map[this.selectedAssessment][entity].push(json_data);
+        console.log(this.assessment_data_map[this.selectedAssessment][entity]);
+        counter=counter+1;
+      }
+      if(!this.selectedEntity){
+        this.selectedEntity = entity;
+      }
+      if(counter%5==0 && this.selectedEntity != null)
+      {
+        this.update_color_list(this.assessment_data_map[this.selectedAssessment][this.selectedEntity]);
+        this.update_ColumnChart(this.assessment_data_map[this.selectedAssessment][this.selectedEntity]);
+        this.update_TimeLineChart(
+          this.assessment_data_map[this.selectedAssessment][this.selectedEntity]
+          ,
+          this.assessment_datastream_map[this.assessment_map[this.selectedAssessment].datastream].timePrecision);
+
+        this.timelineChartData.options.colors=[];
+        Object.values(this.colors).forEach(element => {
+          this.timelineChartData.options.colors.push(String(element));
+        });
+        console.log(this.assessment_data_map);
+        console.log(this.assessment_entity_map);
+        
+        
+        this.changeData2();
+        this.loaderEnabled = false;
+
+      }
+
+    }
+  }
+
+  draw_charts_for_selectedEntity(entity)
+  {
+    this.selectedEntity=entity;
+    if(this.assessment_data_map[this.selectedAssessment][this.selectedEntity] && this.assessment_entity_map[this.selectedAssessment]){
+      this.assessment_entity_map[this.selectedAssessment].forEach(element => {
+        this.assessment_data_map[this.selectedAssessment][element]=[];
+      });
+        this.update_color_list(this.assessment_data_map[this.selectedAssessment][this.selectedEntity]);
+        this.update_ColumnChart(this.assessment_data_map[this.selectedAssessment][this.selectedEntity]);
+
+        this.update_TimeLineChart(
+          this.assessment_data_map[this.selectedAssessment][this.selectedEntity]
+          ,
+          this.assessment_datastream_map[this.assessment_map[this.selectedAssessment].datastream].timePrecision);
+        this.timelineChartData.options.colors=[];
+        Object.values(this.colors).forEach(element => {
+          this.timelineChartData.options.colors.push(String(element));
+        });
+    }
+    this.changeData2();
+  }
+
+  getAssessments()
+  {
+    this.host = "https://example.falkonry.ai";
+    this.api_key = "token";
     console.log(this.host);
     console.log(this.api_key);
     this.dataService.getAssesments(this.host,this.api_key).subscribe(
@@ -300,7 +272,7 @@ export class UserComponent implements OnInit
           });
 
           this.datastreamList = _.uniq(this.datastreamList);
-          console.log(this.datastreamList);
+          // console.log(this.datastreamList);
         },
       (error)=>{console.log(error)},
       ()=> {
