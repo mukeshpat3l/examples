@@ -1,12 +1,16 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject} from '@angular/core';
 import { Router } from '@angular/router';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json'
   })
 };
+
+export interface DialogData {
+}
 
 @Component({
   selector: 'app-example',
@@ -22,7 +26,7 @@ export class ExampleComponent implements OnInit {
   liveMontoringHidden = true;
   data: any = [];
 
-  constructor(private http: HttpClient, private router: Router) { 
+  constructor(private http: HttpClient, private router: Router,public dialog: MatDialog) { 
     this.getStatus();
   }
 
@@ -47,11 +51,37 @@ export class ExampleComponent implements OnInit {
     }
     this.isCompleted = true;
   }
-
+  goToExample(){
+    this.router.navigate(['/example']);
+  }
+  
   deleteClicked() {
+    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+      width: '250px',
+      data: "You sure to delete the datastream?"
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
     this.http.post("http://127.0.0.1:8000/delete/", JSON.stringify({"delete": "true"}), httpOptions).subscribe();
     this.router.navigate(['/']);
   }
 
   ngOnInit() {}
+}
+
+@Component({
+  selector: 'app-example',
+  templateUrl: './example.component.html',
+})
+export class DialogOverviewExampleDialog {
+
+  constructor(
+    public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
 }
