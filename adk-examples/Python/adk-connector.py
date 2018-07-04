@@ -19,8 +19,8 @@ class AddDataException(Exception):
 
 
 class ADKconn:
-    url = "https://dev.falkonry.ai"
-    token = "7gjg7pjryg6mry2ypq6jbhgd9kg2rn2q"
+    url = "https://example.falkonry.ai"
+    token = "enter your token here"
     falkonry   = Falkonry(url, token)
     datastream = Schemas.Datastream()
     datasource = Schemas.Datasource()
@@ -187,45 +187,6 @@ class ADKconn:
             inputResponse = self.falkonry.add_input_data(datastreamId, fileType, options, data)
 
 
-    def postRealtimeData(self, datastreamId, data, fileType):
-        file_name = "simple_sliding_mixed_multi_entity_source_moreData.csv"
-        datastreamId = datastreamId
-
-        datastream = self.falkonry.get_datastream(datastreamId)
-        options = {
-            'streaming': True,
-            'hasMoreData': False,
-            'timeFormat': datastream.get_field().get_time().get_format(),
-            'timeZone': datastream.get_field().get_time().get_zone(),
-            'timeIdentifier': datastream.get_field().get_time().get_identifier(),
-            # 'signalIdentifier': datastream.get_field().get_signal().get_signalIdentifier(),  ### Narrow Datastream Format
-            # 'valueIdentifier': datastream.get_field().get_signal().get_valueIdentifier(),    ### Narrow Datastream Format
-            # 'batchIdentifier': datastream.get_field().get_batchIdentifier(),                 ### Batch window type
-            'entityIdentifier': datastream.get_field().get_entityIdentifier()
-        }
-
-        # for i in range(5):
-        #     fileName, fileExtension = os.path.splitext(file_name)
-        #     stream = io.open(fileName + str(i) + fileExtension)
-        #     inputResponse = self.falkonry.add_input_stream(datastreamId, fileType, options, stream)
-        #     df = pd.read_csv(fileName + str(i) + fileExtension)
-        #     time_colm = df.loc[:, "time"]
-        #     prev_time = df.loc[len(df) - 1, "time"]
-        #     time_difference = df.loc[1, "time"] - df.loc[0, "time"]
-        #     for j in range(len(time_colm)):
-        #         if j == 0:
-        #             df.loc[j, "time"] = prev_time + time_difference
-        #         else:
-        #             df.loc[j, "time"] = df.loc[j - 1, "time"] + time_difference
-        #
-        #     df = df.loc[:, ]
-        #
-        #     df.to_csv(fileName + str(i + 1) + fileExtension, index=False)
-
-        
-        inputResponse = self.falkonry.add_input_stream(datastreamId, fileType, options, data)
-
-
 
     def getLiveOutput(self, assessmentId):
         assessmentId = assessmentId
@@ -255,7 +216,6 @@ if __name__ == "__main__":
     #
     # adk_conn = ADKconn()
     # datastreamId = adk_conn.createDataStream()
-    # # datastreamId = "67r7y26cnncc8l"
     # adk_conn.postData(datastreamId, data, fileType, liveStatus)
 
     ########################################################################################
@@ -297,19 +257,19 @@ if __name__ == "__main__":
     2. After building a model click LIVE(OFF) button to turn on the LIVE INPUT
     """
 
-    fileAdapter = FileAdapter()
-    fileName = "source1.csv"
-    data, fileType = fileAdapter.getDataStream(fileName)
-    liveStatus = True
+    # fileAdapter = FileAdapter()
+    # fileName = "source1.csv"
+    # data, fileType = fileAdapter.getDataStream(fileName)
+    # liveStatus = True
 
-    adk_conn = ADKconn()### For live stream input
-    p1 = Process(target=adk_conn.getLiveOutput, args=("j7kbqmmwywy78j", ))
-    p1.start()
-    p2 = Process(target=adk_conn.postDataFromStream, args=("kc88g9knrylyvn", data, fileType, liveStatus))
-    p2.start()
+    # adk_conn = ADKconn()### For live stream input
+    # p1 = Process(target=adk_conn.getLiveOutput, args=(assessmentId, ))
+    # p1.start()
+    # p2 = Process(target=adk_conn.postDataFromStream, args=(datastreamId, data, fileType, liveStatus))
+    # p2.start()
     
-    p1.join()
-    p2.join()
+    # p1.join()
+    # p2.join()
 
 
     ###########################################################################
