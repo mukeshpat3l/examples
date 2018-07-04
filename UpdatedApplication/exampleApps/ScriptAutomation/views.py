@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from falkonryclient import client as Falkonry
 from falkonryclient import schemas as Schemas
-# from fileAdapter import FileAdapter
 from multiprocessing import Process
 import pandas as pd
 import random, io, requests, time, json, sys, os
@@ -23,8 +22,6 @@ statusResponse = {
     "liveMonitoring" : False,
     "assessmentId": None
 }
-# dataPath, factsPath = sys.argv
-
 
 def checkDataIngestion(tracker):
         tracker_obj = None

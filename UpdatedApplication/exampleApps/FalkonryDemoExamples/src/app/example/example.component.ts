@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
+import {LOCAL_STORAGE, WebStorageService} from 'angular-webstorage-service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -16,14 +17,21 @@ const httpOptions = {
 
 export class ExampleComponent implements OnInit {
   isCompleted=false;
-  dataStreamHidden = true;
-  addDataHidden = true;
-  learningPatternHidden = true;
-  liveMontoringHidden = true;
+  dataStreamCompleted = false;
+  addDataCompleted = false;
+  learningPatternCompleted = false;
+  liveMonitoringCompleted = false;
+  dataStreamSpinner = true;
+  addDataSpinner = false;
+  learningPatternSpinner = false;
+  liveMonitoringSpinner = false;
   data: any = [];
 
-  constructor(private http: HttpClient, private router: Router) { 
-    this.getStatus();
+  constructor(private http: HttpClient, private router: Router, @Inject(LOCAL_STORAGE) private storage: WebStorageService) {
+    if(this.storage.get("connected"))
+      this.getStatus();
+    else
+      this.router.navigate(['/']);
   }
 
   delay(ms: number) {
@@ -36,16 +44,44 @@ export class ExampleComponent implements OnInit {
       this.http.get("http://127.0.0.1:8000/status/").map(res => res).subscribe(response => {
       this.data = response;
       console.log(this.data);
-      this.dataStreamHidden = !this.data[0]["datastream"];
-      this.addDataHidden = !this.data[0]["addFacts"];
-      this.learningPatternHidden = !this.data[0]["modelCreated"];
-      this.liveMontoringHidden = !this.data[0]["liveMonitoring"];
+      this.dataStreamCompleted = this.data[0]["datastream"];
+      this.addDataCompleted = this.data[0]["addFacts"];
+      this.learningPatternCompleted = this.data[0]["modelCreated"];
+      this.liveMonitoringCompleted = this.data[0]["liveMonitoring"];
+
+      if(this.liveMonitoringCompleted)
+        this.disableAllSpinners()
+      else if(this.learningPatternCompleted)
+        this.setLiveMonitoringSpinner();
+      else if(this.addDataCompleted)
+        this.setLearningPatternSpinner();
+      else if(this.dataStreamCompleted)
+        this.setAddDataSpinner();
     })
-    if(!this.dataStreamHidden && !this.addDataHidden && !this.learningPatternHidden && !this.liveMontoringHidden){
+    if(this.liveMonitoringCompleted){
       break;
     }
     }
     this.isCompleted = true;
+  }
+
+  disableAllSpinners(){
+     this.dataStreamSpinner = this.addDataSpinner = this.learningPatternSpinner = this.liveMonitoringSpinner = false;
+  }
+
+  setAddDataSpinner(){
+    this.addDataSpinner = true;
+    this.dataStreamSpinner = this.learningPatternSpinner = this.liveMonitoringSpinner = false;
+  }
+
+  setLearningPatternSpinner(){
+    this.learningPatternSpinner = true;
+    this.addDataSpinner = this.dataStreamSpinner = this.liveMonitoringSpinner = false;
+  }
+
+  setLiveMonitoringSpinner(){
+    this.liveMonitoringSpinner = true;
+    this.addDataSpinner = this.learningPatternSpinner = this.dataStreamSpinner = false;
   }
 
   deleteClicked() {

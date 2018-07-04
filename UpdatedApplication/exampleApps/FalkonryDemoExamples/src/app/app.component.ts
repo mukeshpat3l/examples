@@ -19,14 +19,13 @@ const httpOptions = {
 
 
 export class AppComponent {
-  myData: Array<Response>;
   host;
   token;
   connected;
   validHostAndToken=false;
   constructor(private http:HttpClient, @Inject(LOCAL_STORAGE) private storage: WebStorageService, private dataService:DataService) {
   }
-  
+
   delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
   }
@@ -43,6 +42,9 @@ export class AppComponent {
           console.log("as\n");
           alert("Connected!");
           this.storage.set("connected", true);
+          this.host = "";
+          this.token = "";
+          this.http.post("http://127.0.0.1:8000/index/",   JSON.stringify({host: "https://"+this.host, token: this.token}), httpOptions).subscribe();
         },
         (err)=>{
           console.log("errrr");
@@ -52,17 +54,5 @@ export class AppComponent {
     }
     catch (err) {
     }
-    // this.dataService.getAssesments(this.host,this.token).subscribe(
-    //   (assesments)=>{
-    //     //console.log(assesments); 
-    //     this.validHostAndToken = true;
-    //   },
-    //   (err)=>{
-    //     this.validHostAndToken = false;
-    //   }
-    // );
-    await this.delay(2000);
-    
-    this.http.post("http://127.0.0.1:8000/index/",   JSON.stringify({host: "https://"+this.host, token: this.token}), httpOptions).subscribe();
   }
 }

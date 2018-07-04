@@ -36,12 +36,13 @@ import { StorageServiceModule} from 'angular-webstorage-service';
     FlexLayoutModule,
     FormsModule,
     Ng2GoogleChartsModule,
+    StorageServiceModule,
+    Ng4LoadingSpinnerModule,
     RouterModule.forRoot([
       {path: '', component: HomeComponent},
       {path: 'example', component: ExampleComponent},
       {path: 'user', component: UserComponent}
-    ]),
-    StorageServiceModule
+    ])
   ],
   providers: [DataService,D3Service],
   bootstrap: [AppComponent]

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import {EventSourcePolyfill} from 'ng-event-source';
 import{EventSourceInit} from 'ng-event-source';
 import {ViewChild} from '@angular/core';
@@ -7,6 +7,8 @@ import { ChartErrorEvent, ChartMouseOverEvent, ChartMouseOutEvent } from 'ng2-go
 import * as _ from 'underscore';
 import * as _$ from 'jquery';
 import { DataService } from '../services/data.service';
+import {LOCAL_STORAGE, WebStorageService} from 'angular-webstorage-service';
+
 declare var require:any;
 declare var $:any;
 var randomColor = require('randomcolor');
@@ -26,15 +28,15 @@ export class UserComponent implements OnInit
     <table style="width:100%;border:1px solid #ddd;">
     <tr style="background-color:beige">
         <td style="border-bottom: 1px solid #ddd;padding:5px">Label</td>
-        <td style="border-bottom: 1px solid #ddd;padding:5px">Unlabeled 1</td> 
+        <td style="border-bottom: 1px solid #ddd;padding:5px">Unlabeled 1</td>
     </tr>
     <tr >
         <td style="border-bottom: 1px solid #ddd;padding:5px">Start</td>
-        <td style="border-bottom: 1px solid #ddd;padding:5px">6/12/2017</td> 
+        <td style="border-bottom: 1px solid #ddd;padding:5px">6/12/2017</td>
     </tr>
     <tr>
         <td style="padding:5px;">End</td>
-        <td style="padding:5px;">7/12/2017</td> 
+        <td style="padding:5px;">7/12/2017</td>
     </tr>
     </table>
   `
@@ -57,6 +59,7 @@ export class UserComponent implements OnInit
   datastreamList:string[] = [];
   datastream_entity_meta_map = {};
   datastream_entitymeta_label_map = {};
+
   columnChartData = {
     chartType: 'ColumnChart',
     dataTable: [[{type: 'string', id: "Label"}, {type: 'number', id: "Frequency"}, {role: 'style'}]],
@@ -68,19 +71,6 @@ export class UserComponent implements OnInit
       legend: {position: "none"}
     },
   };
- 
-  public changeData():void {
-    // forces a reference update (otherwise angular won't detect the change
-    // this.columnChartData = Object.create(this.columnChartData);
-    // for (let i = 1; i < 7; i++) {
-    //   this.columnChartData.dataTable[i][1] = Math.round(
-    //     Math.random() * 1000);
-    //   this.columnChartData.dataTable[i][2] = Math.round(
-    //     Math.random() * 1000);
-    // }
-    this.getLiveData();
-  }
-
 
   timelineChartData = {
     chartType: 'Timeline',
@@ -111,38 +101,28 @@ export class UserComponent implements OnInit
     }
   };
 
-  // timelineChartData = {
-  //   chartType: 'Timeline',
-  //   dataTable: [
-  //     ['Name', 'From', 'To'],
-  //     [ 'Washington', new Date(1789, 3, 30), new Date(1797, 2, 4) ],
-  //     [ 'Adams',      new Date(1797, 2, 4),  new Date(1801, 2, 4) ],
-  //     [ 'Jefferson',  new Date(1801, 2, 4),  new Date(1809, 2, 4) ]
-  //   ],
-  //   groupByRowLabel: false,
-  //   options: {
-  //     timelines: {showRowLabels: false},
-  //     title: 'Timeline',
-  //     height: 300, width: window.screen.availWidth * 0.9,
-  //     timeline: {showBarLabels: false},//, groupByRowLabel: false},
-  //     tooltip: {isHtml: true, trigger: 'focus'},
-  //     hAxis: {
-  //       format: 'M/d/yy HH:mm:ss',
-  //       viewWindow: {
-  //         min: new Date(Date.now()),
-  //         max: new Date(Date.now() + 24400000)
-  //       },
-  //     }
+  constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService, private dataService:DataService, private http: HttpClient){
+    this.host= this.storage.get("host");
+    this.api_key= this.storage.get("token");
+    console.log(this.host);
+    console.log(this.api_key);
 
-  //   }
-  // };
-  constructor(private dataService:DataService, private http: HttpClient){
     this.http.get("http://127.0.0.1:8000/status/").map(res => res).subscribe(response => {
     this.selectedAssessment = response[0]["assessmentId"];
     console.log(this.selectedAssessment);
     })
-    
-    this.getAssessments()
+
+    this.getAssessments();
+    this.plotGraph();
+  }
+
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+  }
+
+  async plotGraph(){
+    await this.delay(8000);
+    this.getLiveData();
   }
 
   public changeData2():void
@@ -154,8 +134,6 @@ export class UserComponent implements OnInit
 
   getLiveData()
   {
-    // this.selectedAssessment = "qljlch4rpy4rd2";
-  
     var eventSourceInitDict={headers:{Authorization:"Bearer ".concat(this.api_key)}};
     this.URL=this.host+"/assessment/"+this.selectedAssessment+"/output";
     let output=new EventSourcePolyfill(this.URL,eventSourceInitDict);
@@ -169,10 +147,10 @@ export class UserComponent implements OnInit
       console.log(data);
       // console.log("json data\n");
       // console.log(json_data["value"]);
-      
+
       let entity = json_data['entity'];
       console.log(entity);
-      
+
       if(this.datastream_entity_meta_map[this.assessment_map[this.selectedAssessment].datastream].length){
         entity=this.datastream_entitymeta_label_map[this.assessment_map[this.selectedAssessment].datastream][json_data["entity"]];
       }
@@ -215,8 +193,8 @@ export class UserComponent implements OnInit
         });
         console.log(this.assessment_data_map);
         console.log(this.assessment_entity_map);
-        
-        
+
+
         this.changeData2();
         this.loaderEnabled = false;
 
@@ -249,8 +227,6 @@ export class UserComponent implements OnInit
 
   getAssessments()
   {
-    this.host = "https://dev.falkonry.ai";
-    this.api_key = "cqgw764qlydc94c7kkcppmvpbjr84dpw";
     console.log(this.host);
     console.log(this.api_key);
     this.dataService.getAssesments(this.host,this.api_key).subscribe(
@@ -469,11 +445,3 @@ test(){
   }
 
 }
-
-
-
-
-
-
-
-
