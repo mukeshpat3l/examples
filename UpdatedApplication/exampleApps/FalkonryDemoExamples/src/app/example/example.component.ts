@@ -2,12 +2,16 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import {LOCAL_STORAGE, WebStorageService} from 'angular-webstorage-service';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json'
   })
 };
+
+export interface DialogData {
+}
 
 @Component({
   selector: 'app-example',
@@ -26,10 +30,16 @@ export class ExampleComponent implements OnInit {
   learningPatternSpinner = false;
   liveMonitoringSpinner = false;
   data: any = [];
+  example: string;
+  notCompleted = true;
 
-  constructor(private http: HttpClient, private router: Router, @Inject(LOCAL_STORAGE) private storage: WebStorageService) {
-    if(this.storage.get("connected"))
+  constructor(private http: HttpClient, private router: Router,
+     @Inject(LOCAL_STORAGE) private storage: WebStorageService) {
+    if(this.storage.get("connected")){
+      this.example = this.storage.get("example");
       this.getStatus();
+      this.storage.set("connected", false);
+    }
     else
       this.router.navigate(['/']);
   }
@@ -39,7 +49,7 @@ export class ExampleComponent implements OnInit {
   }
 
   async getStatus(){
-    while(true){
+    while(this.notCompleted){
       await this.delay(5000);
       this.http.get("http://127.0.0.1:8000/status/").map(res => res).subscribe(response => {
       this.data = response;
@@ -59,7 +69,7 @@ export class ExampleComponent implements OnInit {
         this.setAddDataSpinner();
     })
     if(this.liveMonitoringCompleted){
-      break;
+      this.notCompleted = false;
     }
     }
     this.isCompleted = true;
@@ -86,8 +96,10 @@ export class ExampleComponent implements OnInit {
 
   deleteClicked() {
     this.http.post("http://127.0.0.1:8000/delete/", JSON.stringify({"delete": "true"}), httpOptions).subscribe();
+    this.notCompleted = false;
     this.router.navigate(['/']);
   }
+ 
 
   ngOnInit() {}
 }

@@ -41,7 +41,7 @@ import { StorageServiceModule} from 'angular-webstorage-service';
     RouterModule.forRoot([
       {path: '', component: HomeComponent},
       {path: 'example', component: ExampleComponent},
-      {path: 'user', component: UserComponent}
+      {path: 'visualize', component: UserComponent}
     ])
   ],
   providers: [DataService,D3Service],

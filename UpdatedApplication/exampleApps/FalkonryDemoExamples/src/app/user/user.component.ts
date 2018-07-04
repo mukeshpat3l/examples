@@ -8,6 +8,7 @@ import * as _ from 'underscore';
 import * as _$ from 'jquery';
 import { DataService } from '../services/data.service';
 import {LOCAL_STORAGE, WebStorageService} from 'angular-webstorage-service';
+import { Router } from '@angular/router';
 
 declare var require:any;
 declare var $:any;
@@ -41,13 +42,14 @@ export class UserComponent implements OnInit
     </table>
   `
   colors:any={};
-  host:string = "https://dev.falkonry.ai";
-  api_key:string = "cqgw764qlydc94c7kkcppmvpbjr84dpw";
+  host:string;
+  api_key:string;
   URL:string;
   output:any;
   values:any[];
   entity:string;
   fetched_assessments:any = [];
+  example: string;
 
   selectedAssessment:any= null;
   selectedEntity:any=null;
@@ -101,19 +103,27 @@ export class UserComponent implements OnInit
     }
   };
 
-  constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService, private dataService:DataService, private http: HttpClient){
-    this.host= this.storage.get("host");
-    this.api_key= this.storage.get("token");
-    console.log(this.host);
-    console.log(this.api_key);
-
-    this.http.get("http://127.0.0.1:8000/status/").map(res => res).subscribe(response => {
-    this.selectedAssessment = response[0]["assessmentId"];
-    console.log(this.selectedAssessment);
+  constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService,
+    private dataService:DataService,
+    private http: HttpClient,
+    private router: Router){
+    if(this.storage.get("connected")){
+      this.host= this.storage.get("host");
+      this.api_key= this.storage.get("token");
+      this.example = this.storage.get("example");
+      console.log(this.host);
+      console.log(this.api_key);
+      this.host = "https://" + this.host;
+      this.http.get("http://127.0.0.1:8000/status/").map(res => res).subscribe(response => {
+      this.selectedAssessment = response[0]["assessmentId"];
+      console.log(this.selectedAssessment);
     })
 
     this.getAssessments();
     this.plotGraph();
+    } else{
+      this.router.navigate(['/']);
+    }
   }
 
   delay(ms: number) {
@@ -121,7 +131,7 @@ export class UserComponent implements OnInit
   }
 
   async plotGraph(){
-    await this.delay(8000);
+    await this.delay(5000);
     this.getLiveData();
   }
 

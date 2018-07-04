@@ -326,7 +326,7 @@ def index(request):
         token = json.loads(request.body)["token"]
         falkonry = Falkonry(host, token)
         print(host + " " + token)
-        print(falkonry)
+        # print(falkonry)
         return JsonResponse([{"method":"POST"}], content_type="application/json", safe=False)
     elif request.method == "GET":
         print(request.method)
@@ -341,7 +341,7 @@ def example(request):
 
     if request.method == "POST":
         example = json.loads(request.body)["example"]
-        print(example)
+        # print(example)
         start(example)
         return JsonResponse([{"working": "yes"}], content_type="application/json", safe=False)
     else:

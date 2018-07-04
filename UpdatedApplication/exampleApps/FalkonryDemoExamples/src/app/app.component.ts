@@ -42,9 +42,9 @@ export class AppComponent {
           console.log("as\n");
           alert("Connected!");
           this.storage.set("connected", true);
+          this.http.post("http://127.0.0.1:8000/index/",   JSON.stringify({host: "https://"+this.host, token: this.token}), httpOptions).subscribe();
           this.host = "";
           this.token = "";
-          this.http.post("http://127.0.0.1:8000/index/",   JSON.stringify({host: "https://"+this.host, token: this.token}), httpOptions).subscribe();
         },
         (err)=>{
           console.log("errrr");
