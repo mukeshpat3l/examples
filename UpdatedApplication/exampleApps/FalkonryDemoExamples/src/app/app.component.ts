@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
+import {LOCAL_STORAGE, WebStorageService} from 'angular-webstorage-service';
+import { DataService } from './services/data.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -13,19 +15,54 @@ const httpOptions = {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
+
+
 export class AppComponent {
   myData: Array<Response>;
   host;
   token;
-
-  constructor(private http:HttpClient) {
+  connected;
+  validHostAndToken=false;
+  constructor(private http:HttpClient, @Inject(LOCAL_STORAGE) private storage: WebStorageService, private dataService:DataService) {
   }
   
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+  }
 
-  connect(){
-    console.log(this.host)
-    console.log(this.token)
+  async connect(){
+    this.storage.set("connected", false);
+    this.host = this.host;
+    console.log(this.host);
+    console.log(this.token);
+    try {
+      console.log("inside try");
+      this.dataService.getAssesments("https://" + this.host,this.token).subscribe(
+        (assesments)=>{
+          console.log("as\n");
+          alert("Connected!");
+          this.storage.set("connected", true);
+        },
+        (err)=>{
+          console.log("errrr");
+          alert("Couldn't connect with this host and token");
+        }
+      );
+    }
+    catch (err) {
+    }
+    // this.dataService.getAssesments(this.host,this.token).subscribe(
+    //   (assesments)=>{
+    //     //console.log(assesments); 
+    //     this.validHostAndToken = true;
+    //   },
+    //   (err)=>{
+    //     this.validHostAndToken = false;
+    //   }
+    // );
+    await this.delay(2000);
+    
     this.http.post("http://127.0.0.1:8000/index/",   JSON.stringify({host: "https://"+this.host, token: this.token}), httpOptions).subscribe();
-
   }
 }

@@ -1,11 +1,19 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type':  'application/json'
+  })
+};
 
 @Component({
   selector: 'app-example',
   templateUrl: './example.component.html',
   styleUrls: ['./example.component.css']
 })
+
 export class ExampleComponent implements OnInit {
   isCompleted=false;
   dataStreamHidden = true;
@@ -14,7 +22,7 @@ export class ExampleComponent implements OnInit {
   liveMontoringHidden = true;
   data: any = [];
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient, private router: Router) { 
     this.getStatus();
   }
 
@@ -38,6 +46,11 @@ export class ExampleComponent implements OnInit {
     }
     }
     this.isCompleted = true;
+  }
+
+  deleteClicked() {
+    this.http.post("http://127.0.0.1:8000/delete/", JSON.stringify({"delete": "true"}), httpOptions).subscribe();
+    this.router.navigate(['/']);
   }
 
   ngOnInit() {}

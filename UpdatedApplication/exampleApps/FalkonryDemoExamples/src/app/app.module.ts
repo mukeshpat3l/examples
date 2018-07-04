@@ -17,6 +17,8 @@ import { D3Service } from 'd3-ng2-service';
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { UserComponent } from './user/user.component';
+import { StorageServiceModule} from 'angular-webstorage-service';
+
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { UserComponent } from './user/user.component';
       {path: '', component: HomeComponent},
       {path: 'example', component: ExampleComponent},
       {path: 'user', component: UserComponent}
-    ])
+    ]),
+    StorageServiceModule
   ],
   providers: [DataService,D3Service],
   bootstrap: [AppComponent]

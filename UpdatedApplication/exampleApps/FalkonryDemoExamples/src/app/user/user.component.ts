@@ -249,8 +249,8 @@ export class UserComponent implements OnInit
 
   getAssessments()
   {
-    this.host = "https://example.falkonry.ai";
-    this.api_key = "token";
+    this.host = "https://dev.falkonry.ai";
+    this.api_key = "cqgw764qlydc94c7kkcppmvpbjr84dpw";
     console.log(this.host);
     console.log(this.api_key);
     this.dataService.getAssesments(this.host,this.api_key).subscribe(

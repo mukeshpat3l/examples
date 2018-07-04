@@ -329,6 +329,7 @@ def index(request):
         token = json.loads(request.body)["token"]
         falkonry = Falkonry(host, token)
         print(host + " " + token)
+        print(falkonry)
         return JsonResponse([{"method":"POST"}], content_type="application/json", safe=False)
     elif request.method == "GET":
         print(request.method)
@@ -356,5 +357,13 @@ def status(request):
 
 def viewResults(request):
     pushAndPullLiveData()
+    return JsonResponse([{}],  content_type="application/json", safe=False)
+
+def delete(request):
+    global host, datastreamId, token
+    response=requests.delete(host + "/datastream/" + datastreamId, headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+        })
     return JsonResponse([{}],  content_type="application/json", safe=False)
 

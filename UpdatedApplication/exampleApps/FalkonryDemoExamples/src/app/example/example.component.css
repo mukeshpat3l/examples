@@ -37,3 +37,9 @@ mat-progress-bar{
     background-color: #4562E9;
     color: white;
 }
+
+.delete{
+    position: absolute;
+    right: 10%;
+    top: 20%;
+}
