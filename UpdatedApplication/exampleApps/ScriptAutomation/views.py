@@ -264,17 +264,17 @@ def pushAndPullLiveData():
 
 def start(example):
     global statusResponse, datastreamId, assessmentId, fileName
-    if example == "HumanActivity":
-        datastreamId = createDatastream("millis", "person")
-        addDataToDatastream(datastreamId, "ScriptAutomation/source0.csv")
+    if example == 1:
+        datastreamId = createDatastream("millis", "entity")
+        addDataToDatastream(datastreamId, "ScriptAutomation/Source0.csv")
         assessmentId = getAssessment(datastreamId)
-        addFactsToAssessment(assessmentId, "millis", "GMT", "person", "activity", "ScriptAutomation/partialVerification1.csv")
+        addFactsToAssessment(assessmentId, "millis", "GMT", "entity", "value", "ScriptAutomation/HealthFacts.csv")
         time.sleep(5)
-        createModel(assessmentId, "2017-04-12T06:47:28.469Z", "2017-04-12T06:54:08.429Z", ["p1"])
+        createModel(assessmentId, "2017-02-16T10:30:00.000Z", "2017-02-24T10:27:41.760Z", ["machine1"])
         modelId, pId = getModelIdAndPId(assessmentId)
-        fileName = "ScriptAutomation/source1.csv"
+        fileName = "ScriptAutomation/Source1.csv"
 
-    elif example == "Weather":
+    elif example == 2:
         datastreamId = createDatastream("iso_8601", "city")
         addDataToDatastream(datastreamId, "ScriptAutomation/weatherData0.csv")
         time.sleep(10)
@@ -341,7 +341,7 @@ def example(request):
 
     if request.method == "POST":
         example = json.loads(request.body)["example"]
-        # print(example)
+        print(type(example))
         start(example)
         return JsonResponse([{"working": "yes"}], content_type="application/json", safe=False)
     else:

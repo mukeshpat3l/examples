@@ -105,25 +105,21 @@ export class UserComponent implements OnInit
 
   constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService,
     private dataService:DataService,
-    private http: HttpClient,
-    private router: Router){
-    if(this.storage.get("connected")){
-      this.host= this.storage.get("host");
-      this.api_key= this.storage.get("token");
-      this.example = this.storage.get("example");
-      console.log(this.host);
-      console.log(this.api_key);
-      this.host = "https://" + this.host;
-      this.http.get("http://127.0.0.1:8000/status/").map(res => res).subscribe(response => {
-      this.selectedAssessment = response[0]["assessmentId"];
-      console.log(this.selectedAssessment);
+    private http: HttpClient){
+    this.host= this.storage.get("host");
+    this.api_key= this.storage.get("token");
+    this.example = this.storage.get("example");
+    console.log(this.host);
+    console.log(this.api_key);
+    this.host = "https://" + this.host;
+    this.http.get("http://127.0.0.1:8000/status/").map(res => res).subscribe(response => {
+    this.selectedAssessment = response[0]["assessmentId"];
+    console.log(this.selectedAssessment);
     })
 
     this.getAssessments();
     this.plotGraph();
-    } else{
-      this.router.navigate(['/']);
-    }
+    
   }
 
   delay(ms: number) {
