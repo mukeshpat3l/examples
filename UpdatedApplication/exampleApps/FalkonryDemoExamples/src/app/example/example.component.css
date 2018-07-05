@@ -1,12 +1,13 @@
 .container{
     position:fixed;
-    top: 25%;
+    top: 20%;
     left: 40%;
     align-items: center;
 }
 
 mat-card{
     color: rgb(255, 153, 66);
+    border-radius: 8px;
 }
 
 mat-progress-bar{
@@ -39,7 +40,19 @@ mat-progress-bar{
 }
 
 .delete{
+    position: fixed;
+    right: 5%;
+    top: 15%;
+    color: red;
+    height: 80px;
+    border-radius: 50px;
+}
+
+.example-name-card{
     position: absolute;
-    right: 10%;
-    top: 20%;
+    left: 50px;
+    top: 18%;
+    max-width: 200px;
+    max-height: 70px;
+    color: #494949;
 }

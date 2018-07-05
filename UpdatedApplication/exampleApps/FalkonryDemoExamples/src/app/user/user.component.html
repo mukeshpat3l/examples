@@ -1,7 +1,10 @@
-<div class="flex-container">
-
-    <div [hidden]="!loaderEnabled" class="loading">Loading&#8230;</div>
-    <div [ngClass]="{'test':loaderEnabled, 'tooltip-remove':isTooltipActive}">
+<div  fxLayoutGap="30px" fxLayout="column">
+    <mat-card class="example-name-card mat-elevation-z6" fxLayoutAlign="center center">
+        <mat-card-content class="content">
+          <!-- <h2>{{ example }}</h2> -->
+          <h2>Weather</h2>
+        </mat-card-content>
+      </mat-card>
       <div class="graphs">
         <h3 [hidden]="loaderEnabled || selectedEntity==null">{{selectedEntity}}</h3>
         <google-chart #ctchart [data]="columnChartData" (chartError)='error_column($event)'></google-chart>
@@ -9,5 +12,4 @@
       <div class="graphs" fxLayoutAlign="center center">
         <google-chart #cchart [data]="timelineChartData" (chartError)='error_timeline($event)'></google-chart>
       </div>
-    </div>
   </div>

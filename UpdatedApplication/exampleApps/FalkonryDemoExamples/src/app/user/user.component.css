@@ -1,15 +1,14 @@
 .graphs
 {   
-    margin:10px;
+    margin:15px;
     padding:5px;
 }
 
-.form-group
-{  
-    padding:10px;
-    float: left;
+.example-name-card{
+    left: 50px;
+    top: 20px;
+    border-radius: 8px;
+    max-width: 200px;
+    max-height: 70px;
+    color: #494949;
 }
-
-
-
-

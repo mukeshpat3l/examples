@@ -57,7 +57,7 @@ a {
 }
 
 mat-card {
-
+    border-radius: 8px;
     margin-top: 15%;
 }
 

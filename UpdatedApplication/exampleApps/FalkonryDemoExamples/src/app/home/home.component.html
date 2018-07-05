@@ -1,23 +1,23 @@
 <div class="container">
-  <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="center stretch">
-      <mat-card fxFlex="20%" fxFlex.xs="40%" mat-ripple>
+  <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="40px" fxLayoutAlign="center stretch">
+      <mat-card fxFlex="20%" fxFlex.xs="40%" mat-ripple class="mat-elevation-z6">
           <mat-list-item fxLayout="row" fxLayoutAlign="center">
             <mat-card-content>
-              <h3>Human Activity</h3>
+              <h2>Machine</h2>
             </mat-card-content>
           </mat-list-item>
           <mat-list-item fxLayout="row" fxLayoutAlign="center">
-            <button mat-raised-button (click)="selectExample('HumanActivity')" class="startButton">Start</button>
+            <button mat-raised-button (click)="selectExample('Machine')" class="startButton"><strong>Start</strong></button>
           </mat-list-item>
         </mat-card>
-      <mat-card fxFlex="20%" fxFlex.xs="40%" mat-ripple>
+      <mat-card fxFlex="20%" fxFlex.xs="40%" mat-ripple class="mat-elevation-z6">
         <mat-list-item fxLayout="row" fxLayoutAlign="center">
           <mat-card-content>
-            <h3>Weather</h3>
+            <h2>Weather</h2>
           </mat-card-content>
         </mat-list-item>
         <mat-list-item fxLayout="row" fxLayoutAlign="center">
-          <button mat-raised-button (click)="selectExample('Weather')" class="startButton">Start</button>  
+          <button mat-raised-button (click)="selectExample('Weather')" class="startButton"><strong>Start</strong></button>  
         </mat-list-item>
       </mat-card>
     </div>

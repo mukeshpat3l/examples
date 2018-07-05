@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import {LOCAL_STORAGE, WebStorageService} from 'angular-webstorage-service';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -29,14 +30,19 @@ export class ExampleComponent implements OnInit {
   learningPatternSpinner = false;
   liveMonitoringSpinner = false;
   data: any = [];
+  example: string;
+  notCompleted = true;
 
-  constructor(private http: HttpClient, private router: Router, @Inject(LOCAL_STORAGE) private storage: WebStorageService) {
+  constructor(private http: HttpClient, private router: Router,
+     @Inject(LOCAL_STORAGE) private storage: WebStorageService) {
     if(this.storage.get("connected")){
+      this.example = this.storage.get("example");
       this.getStatus();
       this.storage.set("connected", false);
     }
     else
       this.router.navigate(['/']);
+    
   }
 
   delay(ms: number) {
@@ -44,7 +50,7 @@ export class ExampleComponent implements OnInit {
   }
 
   async getStatus(){
-    while(true){
+    while(this.notCompleted){
       await this.delay(5000);
       this.http.get("http://127.0.0.1:8000/status/").map(res => res).subscribe(response => {
       this.data = response;
@@ -64,11 +70,13 @@ export class ExampleComponent implements OnInit {
         this.setAddDataSpinner();
     })
     if(this.liveMonitoringCompleted){
-      break;
+      this.notCompleted = false;
     }
     }
     this.isCompleted = true;
   }
+
+  
 
   disableAllSpinners(){
      this.dataStreamSpinner = this.addDataSpinner = this.learningPatternSpinner = this.liveMonitoringSpinner = false;
@@ -91,9 +99,16 @@ export class ExampleComponent implements OnInit {
 
   deleteClicked() {
     this.http.post("http://127.0.0.1:8000/delete/", JSON.stringify({"delete": "true"}), httpOptions).subscribe();
+    this.notCompleted = false;
     this.router.navigate(['/']);
   }
-
+ 
+  @HostListener("window:beforeunload", ["$event"]) unloadHandler(event: Event) {
+    alert("Your datastream will be deleted!");
+    //console.log("Processing beforeunload...");
+    this.deleteClicked();
+    // Do more processing...
+  }
   ngOnInit() {}
 }
 

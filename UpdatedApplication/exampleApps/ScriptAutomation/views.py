@@ -20,7 +20,8 @@ statusResponse = {
     "addFacts" : False,
     "modelCreated" : False,
     "liveMonitoring" : False,
-    "assessmentId": None
+    "assessmentId": None,
+    "datastreamId": None
 }
 
 def checkDataIngestion(tracker):
@@ -43,7 +44,7 @@ def checkDataIngestion(tracker):
 
 
 #create Datastream
-def createDatastream(timeFormat, entityIdentifier):
+def createDatastream(example, timeFormat, entityIdentifier):
     global statusResponse, datastream
     datastream = Schemas.Datastream()
     datasource = Schemas.Datasource()
@@ -52,7 +53,7 @@ def createDatastream(timeFormat, entityIdentifier):
     signal = Schemas.Signal()
 
     randomName = random.random()
-    datastream.set_name('Example App' + str(randomName))  
+    datastream.set_name(example + str(randomName))  
     time.set_zone("GMT")                                       
     time.set_identifier("time")                                 
     time.set_format(timeFormat)                      
@@ -70,6 +71,7 @@ def createDatastream(timeFormat, entityIdentifier):
     datastreamId = createdDatastream.get_id()
 
     statusResponse["datastream"] = True
+    statusResponse["datastreamId"] = datastreamId
     return datastreamId
 
 # add data to datastream
@@ -85,19 +87,20 @@ def addDataToDatastream(datastreamId, filePath):
         inputResponse = falkonry.add_input_stream(datastreamId, 'csv', options, stream)
     elif filePath.endswith('.json'):
         inputResponse = falkonry.add_input_stream(datastreamId, 'json', options, stream)
-    checkDataIngestion(inputResponse)
     statusResponse["addData"] = True
+    checkDataIngestion(inputResponse)
+    
     
 # get the created assessment
 def getAssessment(datastreamId):
-    global falkonry
+    global falkonry, statusResponse
     assessmentResponse = falkonry.get_assessments()
     assessmentId = None
 
     for assessment in assessmentResponse:
         if assessment.get_datastream() == datastreamId:
             assessmentId = assessment.get_id()
-
+    statusResponse["assessmentId"] = assessmentId
     return assessmentId
 
 #add facts to the assessment
@@ -119,7 +122,6 @@ def addFactsToAssessment(assessmentId, timeFormat, timeZone, entityIdentifier, v
     elif filePath.endswith('.json'):
         response = falkonry.add_facts_stream(assessmentId, 'json', options, stream)
     #print(response)
-    
     statusResponse["addFacts"] = True
 
 
@@ -264,18 +266,18 @@ def pushAndPullLiveData():
 
 def start(example):
     global statusResponse, datastreamId, assessmentId, fileName
-    if example == "HumanActivity":
-        datastreamId = createDatastream("millis", "person")
-        addDataToDatastream(datastreamId, "ScriptAutomation/source0.csv")
+    if example == 1:
+        datastreamId = createDatastream("Machine", "millis", "entity")
+        addDataToDatastream(datastreamId, "ScriptAutomation/Source0.csv")
         assessmentId = getAssessment(datastreamId)
-        addFactsToAssessment(assessmentId, "millis", "GMT", "person", "activity", "ScriptAutomation/partialVerification1.csv")
+        addFactsToAssessment(assessmentId, "millis", "GMT", "entity", "value", "ScriptAutomation/HealthFacts.csv")
         time.sleep(5)
-        createModel(assessmentId, "2017-04-12T06:47:28.469Z", "2017-04-12T06:54:08.429Z", ["p1"])
+        createModel(assessmentId, "2017-02-16T10:30:00.000Z", "2017-02-24T10:27:41.760Z", ["machine1"])
         modelId, pId = getModelIdAndPId(assessmentId)
-        fileName = "ScriptAutomation/source1.csv"
+        fileName = "ScriptAutomation/Source1.csv"
 
-    elif example == "Weather":
-        datastreamId = createDatastream("iso_8601", "city")
+    elif example == 2:
+        datastreamId = createDatastream("Weather", "iso_8601", "city")
         addDataToDatastream(datastreamId, "ScriptAutomation/weatherData0.csv")
         time.sleep(10)
         assessmentId = getAssessment(datastreamId)
@@ -294,7 +296,6 @@ def start(example):
     
     if state == 'FAILED':
         print('Model learning failed')
-        raise Exception()
 
     # print("Model is now Running.")
 
@@ -305,7 +306,7 @@ def start(example):
         
     print('State: ', state)
     statusResponse["modelCreated"] = True
-    statusResponse["assessmentId"] = assessmentId
+    #statusResponse["assessmentId"] = assessmentId
     #applyModel(assessmentId, modelId)
     turnOnLiveMonitoring(datastreamId)
     time.sleep(10)
@@ -315,7 +316,8 @@ def start(example):
         "addFacts" : False,
         "modelCreated" : False,
         "liveMonitoring" : False,
-        "assessmentId" : assessmentId
+        "assessmentId" : assessmentId,
+         "datastreamId": datastreamId
     }
 
 
@@ -326,7 +328,7 @@ def index(request):
         token = json.loads(request.body)["token"]
         falkonry = Falkonry(host, token)
         print(host + " " + token)
-        print(falkonry)
+        # print(falkonry)
         return JsonResponse([{"method":"POST"}], content_type="application/json", safe=False)
     elif request.method == "GET":
         print(request.method)
@@ -341,7 +343,7 @@ def example(request):
 
     if request.method == "POST":
         example = json.loads(request.body)["example"]
-        print(example)
+        print(type(example))
         start(example)
         return JsonResponse([{"working": "yes"}], content_type="application/json", safe=False)
     else:
@@ -349,7 +351,7 @@ def example(request):
         return JsonResponse([{"working": "no"}], content_type="application/json", safe=False)
 
 def status(request):
-
+    global statusResponse
     return JsonResponse([statusResponse], content_type="application/json", safe=False)
 
 def viewResults(request):
@@ -357,10 +359,19 @@ def viewResults(request):
     return JsonResponse([{}],  content_type="application/json", safe=False)
 
 def delete(request):
-    global host, datastreamId, token
+    global host, datastreamId, token, statusResponse
     response=requests.delete(host + "/datastream/" + datastreamId, headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token
         })
+    statusResponse = {
+        "datastream" : False,
+        "addData" : False,
+        "addFacts" : False,
+        "modelCreated" : False,
+        "liveMonitoring" : False,
+        "assessmentId" : None,
+        "datastreamId": None
+    }
     return JsonResponse([{}],  content_type="application/json", safe=False)
 

@@ -29,7 +29,12 @@ export class HomeComponent implements OnInit {
       this.connected = this.storage.get("connected");
       console.log(this.connected);
       if(this.connected){
-        this.http.post("http://127.0.0.1:8000/example/",   JSON.stringify({example: example}), httpOptions).subscribe();
+        if(example == "Machine"){
+          this.http.post("http://127.0.0.1:8000/example/",   JSON.stringify({example: 1}), httpOptions).subscribe();
+        } else if(example == "Weather"){
+          this.http.post("http://127.0.0.1:8000/example/",   JSON.stringify({example: 2}), httpOptions).subscribe();
+        }
+        this.storage.set("example", example);
         this.router.navigate(['/example']);
       }
       else
