@@ -31,7 +31,6 @@ export class HomeComponent implements OnInit {
       if(this.connected){
         this.http.post("http://127.0.0.1:8000/example/",   JSON.stringify({example: example}), httpOptions).subscribe();
         this.router.navigate(['/example']);
-        this.storage.set("connected", false);
       }
       else
         alert("Please Enter a valid host and token");

@@ -1,19 +1,11 @@
-
-
-nav{
-    background-color:#ffa900
-}
-
-
-
 .graphs
 {   
-    margin:5px;
+    margin:10px;
     padding:5px;
 }
+
 .form-group
-{   
-    
+{  
     padding:10px;
     float: left;
 }
