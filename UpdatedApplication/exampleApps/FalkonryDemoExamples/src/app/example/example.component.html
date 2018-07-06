@@ -1,5 +1,9 @@
 <!-- <img src="assets/img/delete.png" width="50px" height="50px" class="delete" (click)="deleteClicked()" /> -->
-<button mat-button class="delete" (click)="deleteClicked()"><mat-icon>delete</mat-icon></button>
+
+
+<button mat-button class="delete" (click)="deleteClicked()">
+  <mat-icon>delete</mat-icon>
+</button>
 <mat-card class="example-name-card mat-elevation-z6" fxLayoutAlign="center center">
   <mat-card-content class="content">
     <h2>{{ example }}</h2>
@@ -16,7 +20,7 @@
       <span class="example-spacer"></span>
       <mat-list-item fxLayoutAlign="center">
         <div *ngIf="dataStreamSpinner">
-          <mat-spinner strokeWidth="2" [diameter]="20" color="warn"></mat-spinner>
+          <mat-spinner strokeWidth="2" [diameter]="20"></mat-spinner>
         </div>
         <div *ngIf="dataStreamCompleted">
           <img src="assets/img/gr_tick.png" width="20px" height="20px">
@@ -32,7 +36,7 @@
       <span class="example-spacer"></span>
       <mat-list-item fxLayoutAlign="center">
         <div *ngIf="addDataSpinner">
-          <mat-spinner strokeWidth="2" [diameter]="20" color="warn"></mat-spinner>
+          <mat-spinner strokeWidth="2" [diameter]="20"></mat-spinner>
         </div>
         <div *ngIf="addDataCompleted">
           <img src="assets/img/gr_tick.png" width="20px" height="20px">
@@ -48,7 +52,7 @@
       <span class="example-spacer"></span>
       <mat-list-item fxLayoutAlign="center">
         <div *ngIf="learningPatternSpinner">
-          <mat-spinner strokeWidth="2" [diameter]="20" color="warn"></mat-spinner>
+          <mat-spinner strokeWidth="2" [diameter]="20"></mat-spinner>
         </div>
         <div *ngIf="learningPatternCompleted">
           <img src="assets/img/gr_tick.png" width="20px" height="20px">
@@ -64,7 +68,7 @@
       <span class="example-spacer"></span>
       <mat-list-item fxLayoutAlign="center">
         <div *ngIf="liveMonitoringSpinner">
-          <mat-spinner strokeWidth="2" [diameter]="20" color="warn"></mat-spinner>
+          <mat-spinner strokeWidth="2" [diameter]="20"></mat-spinner>
         </div>
         <div *ngIf="liveMonitoringCompleted">
           <img src="assets/img/gr_tick.png" width="20px" height="20px">
@@ -73,7 +77,7 @@
     </mat-card>
     <div *ngIf="isCompleted; then viewResults else pb"></div>
     <ng-template #pb>
-      <mat-progress-bar mode="indeterminate" color="warn"></mat-progress-bar>
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     </ng-template>
     <ng-template #viewResults>
       <button mat-raised-button class="viewResultsButton" routerLink="/visualize">View Results</button>

@@ -54,11 +54,17 @@ mat-sidenav-container, mat-sidenav-content, mat-sidenav {
 
 .example-form {
     min-width: 150px;
-    max-width: 500px;
+    max-width: 650px;
 }
 
-.example-form-field {
-    padding: 10px;
+.example-form-field-host {
+    padding: 20px;
+    color: white;
+}
+
+.example-form-field-token {
+    padding: 20px;
+    min-width: 300px;
     color: white;
 }
 

@@ -7,8 +7,8 @@ import { ChartErrorEvent, ChartMouseOverEvent, ChartMouseOutEvent } from 'ng2-go
 import * as _ from 'underscore';
 import * as _$ from 'jquery';
 import { DataService } from '../services/data.service';
-import {LOCAL_STORAGE, WebStorageService} from 'angular-webstorage-service';
 import { Router } from '@angular/router';
+
 
 declare var require:any;
 declare var $:any;
@@ -43,7 +43,7 @@ export class UserComponent implements OnInit
   `
   colors:any={};
   host:string;
-  api_key:string;
+  token:string;
   URL:string;
   output:any;
   values:any[];
@@ -68,7 +68,7 @@ export class UserComponent implements OnInit
     options: {
       'title': 'Distribution of Conditions Over Time',
       'height': window.screen.availHeight * 0.4, 'width': window.screen.availWidth * 0.4,
-      'vAxis': {maxValue: 110, minValue: 0},
+      'vAxis': {maxValue: 100, minValue: 0},
       'titleTextStyle': {fontName: "Calibri", fontSize: 17},
       legend: {position: "none"}
     },
@@ -103,15 +103,14 @@ export class UserComponent implements OnInit
     }
   };
 
-  constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService,
-    private dataService:DataService,
-    private http: HttpClient){
-    this.host= this.storage.get("host");
-    this.api_key= this.storage.get("token");
-    this.example = this.storage.get("example");
+  constructor(private dataService:DataService,
+    private http: HttpClient,
+    private router: Router){
+    this.host= sessionStorage.getItem("host");
+    this.token= sessionStorage.getItem("token");
+    this.example = sessionStorage.getItem("example");
     console.log(this.host);
-    console.log(this.api_key);
-    this.host = "https://" + this.host;
+    console.log(this.token);
     this.http.get("http://127.0.0.1:8000/status/").map(res => res).subscribe(response => {
     this.selectedAssessment = response[0]["assessmentId"];
     console.log(this.selectedAssessment);
@@ -127,7 +126,7 @@ export class UserComponent implements OnInit
   }
 
   async plotGraph(){
-    await this.delay(5000);
+    await this.delay(3000);
     this.getLiveData();
   }
 
@@ -140,7 +139,7 @@ export class UserComponent implements OnInit
 
   getLiveData()
   {
-    var eventSourceInitDict={headers:{Authorization:"Bearer ".concat(this.api_key)}};
+    var eventSourceInitDict={headers:{Authorization:"Bearer ".concat(this.token)}};
     this.URL=this.host+"/assessment/"+this.selectedAssessment+"/output";
     let output=new EventSourcePolyfill(this.URL,eventSourceInitDict);
     this.output = output;
@@ -234,8 +233,8 @@ export class UserComponent implements OnInit
   getAssessments()
   {
     console.log(this.host);
-    console.log(this.api_key);
-    this.dataService.getAssesments(this.host,this.api_key).subscribe(
+    console.log(this.token);
+    this.dataService.getAssesments(this.host,this.token).subscribe(
       (assesments)=>{
           console.log(assesments);
           assesments.forEach(assessment => {
@@ -260,12 +259,12 @@ export class UserComponent implements OnInit
       ()=> {
         this.datastreamList.forEach(datastreamid => {
           if(!this.assessment_datastream_map[datastreamid]) {
-            this.dataService.getDatastream(this.host, this.api_key, datastreamid).subscribe((datastream) => {
+            this.dataService.getDatastream(this.host, this.token, datastreamid).subscribe((datastream) => {
               this.assessment_datastream_map[datastream.id] = datastream;
             });
           }
          if(!(_.has(this.datastream_entity_meta_map,datastreamid))){
-            this.dataService.getEntityMeta(this.host, this.api_key, datastreamid).subscribe((entityMeta) => {
+            this.dataService.getEntityMeta(this.host, this.token, datastreamid).subscribe((entityMeta) => {
               this.datastream_entity_meta_map[datastreamid] = entityMeta;
               if(!(_.has(this.datastream_entitymeta_label_map,datastreamid))){
                 this.datastream_entitymeta_label_map[datastreamid] = {};
@@ -283,7 +282,7 @@ export class UserComponent implements OnInit
 
   fetch_datastream(datastreamid){
     if(datastreamid){
-      this.dataService.getDatastream(this.host, this.api_key, datastreamid).subscribe(
+      this.dataService.getDatastream(this.host, this.token, datastreamid).subscribe(
         (datastream)=>{
           this.assessment_datastream_map[datastream.id] = datastream
         },
@@ -448,6 +447,11 @@ test(){
        '<td style="padding:5px;">'+End+'</td>' +
     '</tr>'+
    ' </table>';
+  }
+
+  goToHome(){
+      this.http.get("http://127.0.0.1:8000/delete/").subscribe();
+      this.router.navigate(['']);
   }
 
 }

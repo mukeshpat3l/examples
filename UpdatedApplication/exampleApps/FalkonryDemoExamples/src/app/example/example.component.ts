@@ -1,8 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, Inject, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
-import {LOCAL_STORAGE, WebStorageService} from 'angular-webstorage-service';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -20,7 +18,8 @@ export interface DialogData {
 })
 
 export class ExampleComponent implements OnInit {
-  isCompleted=false;
+  isCompleted = false;
+  isDeleted = false;
   dataStreamCompleted = false;
   addDataCompleted = false;
   learningPatternCompleted = false;
@@ -33,12 +32,12 @@ export class ExampleComponent implements OnInit {
   example: string;
   notCompleted = true;
 
-  constructor(private http: HttpClient, private router: Router,
-     @Inject(LOCAL_STORAGE) private storage: WebStorageService) {
-    if(this.storage.get("connected")){
-      this.example = this.storage.get("example");
+  constructor(private http: HttpClient, private router: Router) {
+       
+    if(sessionStorage.getItem("start")){
+      this.example = sessionStorage.getItem("example");
+      sessionStorage.setItem("start", JSON.stringify(false));
       this.getStatus();
-      this.storage.set("connected", false);
     }
     else
       this.router.navigate(['/']);
@@ -98,17 +97,18 @@ export class ExampleComponent implements OnInit {
   }
 
   deleteClicked() {
-    this.http.post("http://127.0.0.1:8000/delete/", JSON.stringify({"delete": "true"}), httpOptions).subscribe();
+    this.http.get("http://127.0.0.1:8000/delete/").subscribe();
     this.notCompleted = false;
-    this.router.navigate(['/']);
+    this.router.navigate(['']);
+    // this.isDeleted = true;
   }
  
   @HostListener("window:beforeunload", ["$event"]) unloadHandler(event: Event) {
-    alert("Your datastream will be deleted!");
-    //console.log("Processing beforeunload...");
+    sessionStorage.removeItem("start")
     this.deleteClicked();
-    // Do more processing...
   }
-  ngOnInit() {}
+  ngOnInit() {
+    // this.deleteClicked();
+  }
 }
 

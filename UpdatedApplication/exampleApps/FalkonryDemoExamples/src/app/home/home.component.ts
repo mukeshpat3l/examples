@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, Inject } from '@angular/core';
-import {LOCAL_STORAGE, WebStorageService} from 'angular-webstorage-service';
 import { Router } from '@angular/router';
 
 const httpOptions = {
@@ -20,22 +19,30 @@ export class HomeComponent implements OnInit {
   token;
   connected;
   someThing = true;
-  constructor(private http: HttpClient, @Inject(LOCAL_STORAGE) private storage: WebStorageService, private router:Router) { }
+  constructor(private http: HttpClient, private router:Router) { 
+  }
 
   ngOnInit() {
   }
 
   selectExample(example: string){
-      this.connected = this.storage.get("connected");
+      this.connected = sessionStorage.getItem("connected");
       console.log(this.connected);
+      this.host = sessionStorage.getItem("host");
+      this.token = sessionStorage.getItem("token");
       if(this.connected){
+        sessionStorage.setItem("start", JSON.stringify(true));
         if(example == "Machine"){
-          this.http.post("http://127.0.0.1:8000/example/",   JSON.stringify({example: 1}), httpOptions).subscribe();
+          this.http.post("http://127.0.0.1:8000/example/",   JSON.stringify({host: this.host,
+          token: this.token,
+          example: 1}), httpOptions).subscribe();
         } else if(example == "Weather"){
-          this.http.post("http://127.0.0.1:8000/example/",   JSON.stringify({example: 2}), httpOptions).subscribe();
+          this.http.post("http://127.0.0.1:8000/example/",   JSON.stringify({host: this.host,
+          token: this.token,
+          example: 2}), httpOptions).subscribe();
         }
-        this.storage.set("example", example);
-        this.router.navigate(['/example']);
+        sessionStorage.setItem("example", example);
+        this.router.navigate(['example']);
       }
       else
         alert("Please Enter a valid host and token");

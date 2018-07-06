@@ -127,7 +127,7 @@ def addFactsToAssessment(assessmentId, timeFormat, timeZone, entityIdentifier, v
 
 # create a model
 def createModel(assessmentId, startTime, endTime, entityList):
-    global statusResponse    
+    global statusResponse, host, token    
     url = host + '/assessment/' + assessmentId + '/model'
     body = {
       "factConfig": None,
@@ -173,6 +173,7 @@ def getModelIdAndPId(assessmentId):
 
 # check the status of model if it is running or completed
 def checkStateOfModel(modelId, pId):
+    global host, token
     url = host + '/processSpec/' + pId + '/status?modelId=' + modelId
     response = requests.get(url,  headers = {
         'Authorization': 'Bearer ' + token
@@ -296,6 +297,8 @@ def start(example):
     
     if state == 'FAILED':
         print('Model learning failed')
+    elif state == 'COMPLETED':
+        statusResponse["modelCreated"] = True
 
     # print("Model is now Running.")
 
@@ -305,21 +308,18 @@ def start(example):
     #     state = checkStateOfModel(modelId, pId)
         
     print('State: ', state)
-    statusResponse["modelCreated"] = True
     #statusResponse["assessmentId"] = assessmentId
     #applyModel(assessmentId, modelId)
-    turnOnLiveMonitoring(datastreamId)
-    time.sleep(10)
-    statusResponse = {
-        "datastream" : False,
-        "addData" : False,
-        "addFacts" : False,
-        "modelCreated" : False,
-        "liveMonitoring" : False,
-        "assessmentId" : assessmentId,
-         "datastreamId": datastreamId
-    }
-
+    turnOnLiveMonitoring(datastreamId)    
+    # statusResponse = {
+    #     "datastream" : False,
+    #     "addData" : False,
+    #     "addFacts" : False,
+    #     "modelCreated" : False,
+    #     "liveMonitoring" : False,
+    #     "assessmentId" : assessmentId,
+    #      "datastreamId": datastreamId
+    # }
 
 def index(request):
     if request.method == "POST":
@@ -340,9 +340,11 @@ def index(request):
         return JsonResponse(r.json(), content_type="application/json", safe=False)
 
 def example(request):
-
+    global host, token
     if request.method == "POST":
         example = json.loads(request.body)["example"]
+        host = json.loads(request.body)["host"]
+        token = json.loads(request.body)["token"]
         print(type(example))
         start(example)
         return JsonResponse([{"working": "yes"}], content_type="application/json", safe=False)
@@ -355,6 +357,16 @@ def status(request):
     return JsonResponse([statusResponse], content_type="application/json", safe=False)
 
 def viewResults(request):
+    global assessmentId, datastreamId, statusResponse
+    statusResponse = {
+        "datastream" : False,
+        "addData" : False,
+        "addFacts" : False,
+        "modelCreated" : False,
+        "liveMonitoring" : False,
+        "assessmentId" : assessmentId,
+         "datastreamId": datastreamId
+    }
     pushAndPullLiveData()
     return JsonResponse([{}],  content_type="application/json", safe=False)
 
@@ -374,4 +386,5 @@ def delete(request):
         "datastreamId": None
     }
     return JsonResponse([{}],  content_type="application/json", safe=False)
+
 
