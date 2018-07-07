@@ -387,4 +387,6 @@ def delete(request):
     }
     return JsonResponse([{}],  content_type="application/json", safe=False)
 
+def angular(request):
+    return render(request, "index.html", {})
 

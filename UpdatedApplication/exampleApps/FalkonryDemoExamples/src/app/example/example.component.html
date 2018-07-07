@@ -4,11 +4,7 @@
 <button mat-button class="delete" (click)="deleteClicked()">
   <mat-icon>delete</mat-icon>
 </button>
-<mat-card class="example-name-card mat-elevation-z6" fxLayoutAlign="center center">
-  <mat-card-content class="content">
-    <h2>{{ example }}</h2>
-  </mat-card-content>
-</mat-card>
+<h2>{{ example }}</h2>
 <div class="container">
   <div fxLayout="column" fxLayout.xs="column" fxLayoutGap="20px" fxLayoutAlign="center stretch">
     <mat-card class="mat-elevation-z4" fxFlex="20%" fxFlex.xs="40%" mat-ripple fxLayout="row" fxLayoutGap="10px">
@@ -23,7 +19,7 @@
           <mat-spinner strokeWidth="2" [diameter]="20"></mat-spinner>
         </div>
         <div *ngIf="dataStreamCompleted">
-          <img src="assets/img/gr_tick.png" width="20px" height="20px">
+          <img src="/static/js/assets/img/gr_tick.png" width="20px" height="20px">
         </div>
       </mat-list-item>
     </mat-card>
@@ -39,7 +35,7 @@
           <mat-spinner strokeWidth="2" [diameter]="20"></mat-spinner>
         </div>
         <div *ngIf="addDataCompleted">
-          <img src="assets/img/gr_tick.png" width="20px" height="20px">
+          <img src="/static/js/assets/img/gr_tick.png" width="20px" height="20px">
         </div>
       </mat-list-item>
     </mat-card>
@@ -55,7 +51,7 @@
           <mat-spinner strokeWidth="2" [diameter]="20"></mat-spinner>
         </div>
         <div *ngIf="learningPatternCompleted">
-          <img src="assets/img/gr_tick.png" width="20px" height="20px">
+          <img src="/static/js/assets/img/gr_tick.png" width="20px" height="20px">
         </div>
       </mat-list-item>
     </mat-card>
@@ -71,7 +67,7 @@
           <mat-spinner strokeWidth="2" [diameter]="20"></mat-spinner>
         </div>
         <div *ngIf="liveMonitoringCompleted">
-          <img src="assets/img/gr_tick.png" width="20px" height="20px">
+          <img src="/static/js/assets/img/gr_tick.png" width="20px" height="20px">
         </div>
       </mat-list-item>
     </mat-card>

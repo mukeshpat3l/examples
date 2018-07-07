@@ -72,3 +72,11 @@ mat-progress-bar{
     max-height: 70px;
     color: #494949;
 }
+
+h2{
+    position: absolute;
+    left: 50px;
+    top: 12%;
+    color: #494949;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
