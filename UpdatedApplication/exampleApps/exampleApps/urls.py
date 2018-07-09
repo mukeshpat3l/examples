@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from ScriptAutomation.views import index, example, status, viewResults, delete, angular
+from ScriptAutomation.views import index, example, status, viewResults, delete, angular, visualize
 
 urlpatterns = [
    path('admin/', admin.site.urls),
@@ -25,4 +25,5 @@ urlpatterns = [
    path('viewResults/', viewResults, name="viewResults"),
    path('delete/', delete, name="delete"),
    path('', angular, name="angular"),
+   path('visualize/', visualize, name="visualize"),
 ]

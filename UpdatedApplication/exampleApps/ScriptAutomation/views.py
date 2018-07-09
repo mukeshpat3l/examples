@@ -20,6 +20,7 @@ statusResponse = {
     "addFacts" : False,
     "modelCreated" : False,
     "liveMonitoring" : False,
+    "isInterrupted" : False,
     "assessmentId": None,
     "datastreamId": None
 }
@@ -297,6 +298,7 @@ def start(example):
     
     if state == 'FAILED':
         print('Model learning failed')
+        statusResponse["isInterrupted"] = True
     elif state == 'COMPLETED':
         statusResponse["modelCreated"] = True
 
@@ -347,10 +349,9 @@ def example(request):
         token = json.loads(request.body)["token"]
         print(type(example))
         start(example)
-        return JsonResponse([{"working": "yes"}], content_type="application/json", safe=False)
+        return render(request, "index.html", {})
     else:
-
-        return JsonResponse([{"working": "no"}], content_type="application/json", safe=False)
+        return render(request, "index.html", {})
 
 def status(request):
     global statusResponse
@@ -390,3 +391,5 @@ def delete(request):
 def angular(request):
     return render(request, "index.html", {})
 
+def visualize(request):
+    return render(request, "index.html", {})

@@ -30,7 +30,7 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "mat-sidenav-container, mat-sidenav-content, mat-sidenav {\n    height: 100%;\n  }\n\n  mat-sidenav {\n    width: 250px;\n  }\n\n  a {\n    text-decoration: none;\n    color: white;\n  }\n\n  a:hover,\n  a:active {\n    color: lightgray;\n  }\n\n  .navigation-items {\n    list-style: none;\n    padding: 0;\n    margin: 0;\n    cursor: pointer;\n}\n\n  .icon {\n    display: inline-block;\n    height: 30px;\n    margin: 0 auto;\n    padding-right: 5px;\n    text-align: center;\n    vertical-align: middle;\n    width: 15%;\n}\n\n  .label {\n    display: inline-block;\n    line-height: 30px;\n    margin: 0;\n    width: 85%;\n}\n\n  .example-header-image {\n    background-image: url('logo.png');\n    background-size: cover;\n    width: 50px;\n    height: 50px;\n    margin: 10px;\n}\n\n  .example-spacer {\n    flex: 1 1 auto;\n}\n\n  .example-form {\n    min-width: 150px;\n    max-width: 700px;\n}\n\n  .example-form-field-host {\n    padding: 20px;\n    color: white;\n}\n\n  .example-form-field-token {\n    padding: 20px;\n    min-width: 350px;\n    color: white;\n}\n\n  mat-toolbar-row {\n    height: 85px !important;\n}\n\n  .logo{\n    margin-top: 10px;\n}\n"
+module.exports = "mat-sidenav-container, mat-sidenav-content, mat-sidenav {\n    height: 100%;\n  }\n\n  mat-sidenav {\n    width: 250px;\n  }\n\n  a {\n    text-decoration: none;\n    color: white;\n  }\n\n  a:hover,\n  a:active {\n    color: lightgray;\n  }\n\n  .navigation-items {\n    list-style: none;\n    padding: 0;\n    margin: 0;\n    cursor: pointer;\n}\n\n  .icon {\n    display: inline-block;\n    height: 30px;\n    margin: 0 auto;\n    padding-right: 5px;\n    text-align: center;\n    vertical-align: middle;\n    width: 15%;\n}\n\n  .label {\n    display: inline-block;\n    line-height: 30px;\n    margin: 0;\n    width: 85%;\n}\n\n  .example-spacer {\n    flex: 1 1 auto;\n}\n\n  .example-form {\n    min-width: 150px;\n    max-width: 700px;\n}\n\n  .example-form-field-host {\n    padding: 20px;\n    color: white;\n}\n\n  .example-form-field-token {\n    padding: 20px;\n    min-width: 350px;\n    color: white;\n}\n\n  mat-toolbar-row {\n    height: 85px !important;\n}\n\n  .logo{\n    margin-top: 10px;\n}\n"
 
 /***/ }),
 
@@ -41,7 +41,7 @@ module.exports = "mat-sidenav-container, mat-sidenav-content, mat-sidenav {\n   
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-toolbar style=\"background-color:  #494949;\">\n  <mat-toolbar-row class=\"mat-elevation-z6\">\n    <img src=\"/static/js/assets/img/logo.png\" width=\"150px\" height=\"60px\">\n    <span class=\"example-spacer\"></span>\n    <form class=\"example-form\">\n      <mat-form-field class=\"example-form-field-host\" >\n        <input matInput placeholder=\"Host\" [(ngModel)]=\"host\" name=\"hostUrl\">\n      </mat-form-field>\n      <mat-form-field class=\"example-form-field-token\">\n        <input matInput placeholder=\"Token\" [(ngModel)]=\"token\" name=\"apiToken\">\n      </mat-form-field>\n    </form>\n    <button mat-raised-button style=\"background-color: #FF9E00\" (click)=\"connect()\">Connect</button>\n  </mat-toolbar-row>\n</mat-toolbar>\n<router-outlet></router-outlet>"
+module.exports = "<mat-toolbar style=\"background-color:  #494949;\">\n  <mat-toolbar-row class=\"mat-elevation-z6\">\n    <img src=\"/static/js/assets/img/logo.png\" width=\"150px\" height=\"60px\">\n    <span class=\"example-spacer\"></span>\n    <form class=\"example-form\">\n      <mat-form-field class=\"example-form-field-host\" >\n        <input matInput placeholder=\"Host\" [(ngModel)]=\"host\" name=\"hostUrl\">\n      </mat-form-field>\n      <mat-form-field class=\"example-form-field-token\">\n        <input matInput placeholder=\"Token\" [(ngModel)]=\"token\" name=\"apiToken\">\n      </mat-form-field>\n    </form>\n    <button mat-raised-button style=\"background-color: #FF9E00\" (click)=\"connect()\">Connect</button>\n  </mat-toolbar-row>\n</mat-toolbar>\n<router-outlet></router-outlet>\n<ng4-loading-spinner> </ng4-loading-spinner>"
 
 /***/ }),
 
@@ -55,8 +55,8 @@ module.exports = "<mat-toolbar style=\"background-color:  #494949;\">\n  <mat-to
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppComponent", function() { return AppComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "../../../../node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "../../../../node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _services_data_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./services/data.service */ "./src/app/services/data.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -132,14 +132,12 @@ var AppComponent = /** @class */ (function () {
                 sessionStorage.setItem("host", this.finalHost);
                 sessionStorage.setItem("token", this.token);
                 try {
-                    console.log("inside try");
                     this.dataService.getAssesments(this.finalHost, this.token).subscribe(function (assesments) {
-                        console.log("as\n");
                         alert("Connected!");
                         sessionStorage.setItem("connected", JSON.stringify(true));
-                        _this.http.post("http://127.0.0.1:8000/index/", JSON.stringify({ host: "https://" + _this.host, token: _this.token }), httpOptions).subscribe();
+                        _this.http.post("http://127.0.0.1:8000/index/", JSON.stringify({ host: _this.finalHost, token: _this.token }), httpOptions).subscribe();
                     }, function (err) {
-                        console.log("errrr");
+                        console.log("error");
                         alert("Couldn't connect with this host and token");
                     });
                 }
@@ -175,24 +173,24 @@ var AppComponent = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppModule", function() { return AppModule; });
 /* harmony import */ var _material_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./material.module */ "./src/app/material.module.ts");
-/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/http */ "./node_modules/@angular/http/fesm5/http.js");
-/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
-/* harmony import */ var _angular_flex_layout__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/flex-layout */ "./node_modules/@angular/flex-layout/esm5/flex-layout.es5.js");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser */ "../../../../node_modules/@angular/platform-browser/fesm5/platform-browser.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "../../../../node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/http */ "../../../../node_modules/@angular/http/fesm5/http.js");
+/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/platform-browser/animations */ "../../../../node_modules/@angular/platform-browser/fesm5/animations.js");
+/* harmony import */ var _angular_flex_layout__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/flex-layout */ "../../../../node_modules/@angular/flex-layout/esm5/flex-layout.es5.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/router */ "../../../../node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/forms */ "../../../../node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/common/http */ "../../../../node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _home_home_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./home/home.component */ "./src/app/home/home.component.ts");
 /* harmony import */ var _example_example_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./example/example.component */ "./src/app/example/example.component.ts");
 /* harmony import */ var _services_data_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./services/data.service */ "./src/app/services/data.service.ts");
-/* harmony import */ var d3_ng2_service__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! d3-ng2-service */ "./node_modules/d3-ng2-service/index.js");
-/* harmony import */ var ng2_google_charts__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ng2-google-charts */ "./node_modules/ng2-google-charts/index.js");
-/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ng4-loading-spinner */ "./node_modules/ng4-loading-spinner/ng4-loading-spinner.umd.js");
+/* harmony import */ var d3_ng2_service__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! d3-ng2-service */ "../../../../node_modules/d3-ng2-service/index.js");
+/* harmony import */ var ng2_google_charts__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ng2-google-charts */ "../../../../node_modules/ng2-google-charts/index.js");
+/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ng4-loading-spinner */ "../../../../node_modules/ng4-loading-spinner/ng4-loading-spinner.umd.js");
 /* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_15__);
 /* harmony import */ var _user_user_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./user/user.component */ "./src/app/user/user.component.ts");
-/* harmony import */ var angular_webstorage_service__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! angular-webstorage-service */ "./node_modules/angular-webstorage-service/bundles/angular-webstorage-service.es5.js");
+/* harmony import */ var angular_webstorage_service__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! angular-webstorage-service */ "../../../../node_modules/angular-webstorage-service/bundles/angular-webstorage-service.es5.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -238,7 +236,7 @@ var AppModule = /** @class */ (function () {
                 _angular_forms__WEBPACK_IMPORTED_MODULE_8__["FormsModule"],
                 ng2_google_charts__WEBPACK_IMPORTED_MODULE_14__["Ng2GoogleChartsModule"],
                 angular_webstorage_service__WEBPACK_IMPORTED_MODULE_17__["StorageServiceModule"],
-                ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_15__["Ng4LoadingSpinnerModule"],
+                ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_15__["Ng4LoadingSpinnerModule"].forRoot(),
                 _angular_router__WEBPACK_IMPORTED_MODULE_6__["RouterModule"].forRoot([
                     { path: '', component: _home_home_component__WEBPACK_IMPORTED_MODULE_10__["HomeComponent"] },
                     { path: 'example', component: _example_example_component__WEBPACK_IMPORTED_MODULE_11__["ExampleComponent"] },
@@ -274,7 +272,7 @@ module.exports = ".container{\n    position:fixed;\n    top: 20%;\n    left: 40%
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- <img src=\"assets/img/delete.png\" width=\"50px\" height=\"50px\" class=\"delete\" (click)=\"deleteClicked()\" /> -->\n\n\n<button mat-button class=\"delete\" (click)=\"deleteClicked()\">\n  <mat-icon>delete</mat-icon>\n</button>\n<h2>{{ example }}</h2>\n<div class=\"container\">\n  <div fxLayout=\"column\" fxLayout.xs=\"column\" fxLayoutGap=\"20px\" fxLayoutAlign=\"center stretch\">\n    <mat-card class=\"mat-elevation-z4\" fxFlex=\"20%\" fxFlex.xs=\"40%\" mat-ripple fxLayout=\"row\" fxLayoutGap=\"10px\">\n      <mat-list-item fxLayout=\"row\" fxLayoutAlign=\"center\">\n        <mat-card-content class=\"content\">\n          <h3>Creating datastream</h3>\n        </mat-card-content>\n      </mat-list-item>\n      <span class=\"example-spacer\"></span>\n      <mat-list-item fxLayoutAlign=\"center\">\n        <div *ngIf=\"dataStreamSpinner\">\n          <mat-spinner strokeWidth=\"2\" [diameter]=\"20\"></mat-spinner>\n        </div>\n        <div *ngIf=\"dataStreamCompleted\">\n          <img src=\"/static/js/assets/img/gr_tick.png\" width=\"20px\" height=\"20px\">\n        </div>\n      </mat-list-item>\n    </mat-card>\n    <mat-card class=\"mat-elevation-z4\" fxFlex=\"20%\" fxFlex.xs=\"40%\" mat-ripple fxLayout=\"row\" fxLayoutGap=\"10px\">\n      <mat-list-item fxLayout=\"row\" fxLayoutAlign=\"center\">\n        <mat-card-content class=\"content\">\n          <h3>Adding data and facts</h3>\n        </mat-card-content>\n      </mat-list-item>\n      <span class=\"example-spacer\"></span>\n      <mat-list-item fxLayoutAlign=\"center\">\n        <div *ngIf=\"addDataSpinner\">\n          <mat-spinner strokeWidth=\"2\" [diameter]=\"20\"></mat-spinner>\n        </div>\n        <div *ngIf=\"addDataCompleted\">\n          <img src=\"/static/js/assets/img/gr_tick.png\" width=\"20px\" height=\"20px\">\n        </div>\n      </mat-list-item>\n    </mat-card>\n    <mat-card class=\"mat-elevation-z4\" fxFlex=\"20%\" fxFlex.xs=\"40%\" mat-ripple fxLayout=\"row\" fxLayoutGap=\"10px\">\n      <mat-list-item fxLayout=\"row\" fxLayoutAlign=\"center\">\n        <mat-card-content class=\"content\">\n          <h3>Learning patterns</h3>\n        </mat-card-content>\n      </mat-list-item>\n      <span class=\"example-spacer\"></span>\n      <mat-list-item fxLayoutAlign=\"center\">\n        <div *ngIf=\"learningPatternSpinner\">\n          <mat-spinner strokeWidth=\"2\" [diameter]=\"20\"></mat-spinner>\n        </div>\n        <div *ngIf=\"learningPatternCompleted\">\n          <img src=\"/static/js/assets/img/gr_tick.png\" width=\"20px\" height=\"20px\">\n        </div>\n      </mat-list-item>\n    </mat-card>\n    <mat-card class=\"mat-elevation-z4\" fxFlex=\"20%\" fxFlex.xs=\"40%\" mat-ripple fxLayout=\"row\" fxLayoutGap=\"10px\">\n      <mat-list-item fxLayout=\"row\" fxLayoutAlign=\"center\">\n        <mat-card-content class=\"content\">\n          <h3>Starting live monitoring</h3>\n        </mat-card-content>\n      </mat-list-item>\n      <span class=\"example-spacer\"></span>\n      <mat-list-item fxLayoutAlign=\"center\">\n        <div *ngIf=\"liveMonitoringSpinner\">\n          <mat-spinner strokeWidth=\"2\" [diameter]=\"20\"></mat-spinner>\n        </div>\n        <div *ngIf=\"liveMonitoringCompleted\">\n          <img src=\"/static/js/assets/img/gr_tick.png\" width=\"20px\" height=\"20px\">\n        </div>\n      </mat-list-item>\n    </mat-card>\n    <div *ngIf=\"isCompleted; then viewResults else pb\"></div>\n    <ng-template #pb>\n      <mat-progress-bar mode=\"indeterminate\"></mat-progress-bar>\n    </ng-template>\n    <ng-template #viewResults>\n      <button mat-raised-button class=\"viewResultsButton\" routerLink=\"/visualize\">View Results</button>\n    </ng-template>\n  </div>\n</div>\n"
+module.exports = "<!-- <img src=\"assets/img/delete.png\" width=\"50px\" height=\"50px\" class=\"delete\" (click)=\"deleteClicked()\" /> -->\n<div *ngIf=\"isInterrupted; then error else progress\"></div>\n<ng-template #error>\n  <h2>Oops! Something went wrong</h2>\n</ng-template>\n<ng-template #progress>\n  <button mat-button class=\"delete\" (click)=\"deleteClicked()\">\n    <mat-icon>delete</mat-icon>\n  </button>\n  <h2>{{ example }}</h2>\n  <div class=\"container\">\n    <div fxLayout=\"column\" fxLayout.xs=\"column\" fxLayoutGap=\"20px\" fxLayoutAlign=\"center stretch\">\n      <mat-card class=\"mat-elevation-z4\" fxFlex=\"20%\" fxFlex.xs=\"40%\" mat-ripple fxLayout=\"row\" fxLayoutGap=\"10px\">\n        <mat-list-item fxLayout=\"row\" fxLayoutAlign=\"center\">\n          <mat-card-content class=\"content\">\n            <h3>Creating datastream</h3>\n          </mat-card-content>\n        </mat-list-item>\n        <span class=\"example-spacer\"></span>\n        <mat-list-item fxLayoutAlign=\"center\">\n          <div *ngIf=\"dataStreamSpinner\">\n            <mat-spinner strokeWidth=\"2\" [diameter]=\"20\"></mat-spinner>\n          </div>\n          <div *ngIf=\"dataStreamCompleted\">\n            <img src=\"/static/js/assets/img/gr_tick.png\" width=\"20px\" height=\"20px\">\n          </div>\n        </mat-list-item>\n      </mat-card>\n      <mat-card class=\"mat-elevation-z4\" fxFlex=\"20%\" fxFlex.xs=\"40%\" mat-ripple fxLayout=\"row\" fxLayoutGap=\"10px\">\n        <mat-list-item fxLayout=\"row\" fxLayoutAlign=\"center\">\n          <mat-card-content class=\"content\">\n            <h3>Adding data and facts</h3>\n          </mat-card-content>\n        </mat-list-item>\n        <span class=\"example-spacer\"></span>\n        <mat-list-item fxLayoutAlign=\"center\">\n          <div *ngIf=\"addDataSpinner\">\n            <mat-spinner strokeWidth=\"2\" [diameter]=\"20\"></mat-spinner>\n          </div>\n          <div *ngIf=\"addDataCompleted\">\n            <img src=\"/static/js/assets/img/gr_tick.png\" width=\"20px\" height=\"20px\">\n          </div>\n        </mat-list-item>\n      </mat-card>\n      <mat-card class=\"mat-elevation-z4\" fxFlex=\"20%\" fxFlex.xs=\"40%\" mat-ripple fxLayout=\"row\" fxLayoutGap=\"10px\">\n        <mat-list-item fxLayout=\"row\" fxLayoutAlign=\"center\">\n          <mat-card-content class=\"content\">\n            <h3>Learning patterns</h3>\n          </mat-card-content>\n        </mat-list-item>\n        <span class=\"example-spacer\"></span>\n        <mat-list-item fxLayoutAlign=\"center\">\n          <div *ngIf=\"learningPatternSpinner\">\n            <mat-spinner strokeWidth=\"2\" [diameter]=\"20\"></mat-spinner>\n          </div>\n          <div *ngIf=\"learningPatternCompleted\">\n            <img src=\"/static/js/assets/img/gr_tick.png\" width=\"20px\" height=\"20px\">\n          </div>\n        </mat-list-item>\n      </mat-card>\n      <mat-card class=\"mat-elevation-z4\" fxFlex=\"20%\" fxFlex.xs=\"40%\" mat-ripple fxLayout=\"row\" fxLayoutGap=\"10px\">\n        <mat-list-item fxLayout=\"row\" fxLayoutAlign=\"center\">\n          <mat-card-content class=\"content\">\n            <h3>Starting live monitoring</h3>\n          </mat-card-content>\n        </mat-list-item>\n        <span class=\"example-spacer\"></span>\n        <mat-list-item fxLayoutAlign=\"center\">\n          <div *ngIf=\"liveMonitoringSpinner\">\n            <mat-spinner strokeWidth=\"2\" [diameter]=\"20\"></mat-spinner>\n          </div>\n          <div *ngIf=\"liveMonitoringCompleted\">\n            <img src=\"/static/js/assets/img/gr_tick.png\" width=\"20px\" height=\"20px\">\n          </div>\n        </mat-list-item>\n      </mat-card>\n      <div *ngIf=\"isCompleted; then viewResults else pb\"></div>\n      <ng-template #pb>\n        <mat-progress-bar mode=\"indeterminate\"></mat-progress-bar>\n      </ng-template>\n      <ng-template #viewResults>\n        <button mat-raised-button class=\"viewResultsButton\" routerLink=\"/visualize\">View Results</button>\n      </ng-template>\n    </div>\n  </div>\n</ng-template>\n"
 
 /***/ }),
 
@@ -288,9 +286,9 @@ module.exports = "<!-- <img src=\"assets/img/delete.png\" width=\"50px\" height=
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ExampleComponent", function() { return ExampleComponent; });
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "../../../../node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "../../../../node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "../../../../node_modules/@angular/router/fesm5/router.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -357,6 +355,7 @@ var ExampleComponent = /** @class */ (function () {
         this.addDataSpinner = false;
         this.learningPatternSpinner = false;
         this.liveMonitoringSpinner = false;
+        this.isInterrupted = false;
         this.data = [];
         this.notCompleted = true;
         if (sessionStorage.getItem("start")) {
@@ -387,7 +386,10 @@ var ExampleComponent = /** @class */ (function () {
                             _this.addDataCompleted = _this.data[0]["addFacts"];
                             _this.learningPatternCompleted = _this.data[0]["modelCreated"];
                             _this.liveMonitoringCompleted = _this.data[0]["liveMonitoring"];
-                            if (_this.liveMonitoringCompleted)
+                            _this.isInterrupted = _this.data[0]["isInterrupted"];
+                            if (_this.isInterrupted)
+                                _this.notCompleted = false;
+                            else if (_this.liveMonitoringCompleted)
                                 _this.disableAllSpinners();
                             else if (_this.learningPatternCompleted)
                                 _this.setLiveMonitoringSpinner();
@@ -488,9 +490,9 @@ module.exports = "<div class=\"container\">\n  <div fxLayout=\"row\" fxLayout.xs
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HomeComponent", function() { return HomeComponent; });
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "../../../../node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "../../../../node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "../../../../node_modules/@angular/router/fesm5/router.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -564,8 +566,8 @@ var HomeComponent = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MaterialModule", function() { return MaterialModule; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "../../../../node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/material */ "../../../../node_modules/@angular/material/esm5/material.es5.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -632,9 +634,9 @@ var MaterialModule = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DataService", function() { return DataService; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/http */ "./node_modules/@angular/http/fesm5/http.js");
-/* harmony import */ var rxjs_add_operator_map__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/add/operator/map */ "./node_modules/rxjs-compat/_esm5/add/operator/map.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "../../../../node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/http */ "../../../../node_modules/@angular/http/fesm5/http.js");
+/* harmony import */ var rxjs_add_operator_map__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/add/operator/map */ "../../../../node_modules/rxjs-compat/_esm5/add/operator/map.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -745,15 +747,17 @@ module.exports = "<div fxLayoutGap=\"30px\" fxLayout=\"column\">\n  <div fxLayou
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserComponent", function() { return UserComponent; });
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var ng_event_source__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ng-event-source */ "./node_modules/ng-event-source/eventsource.js");
-/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/underscore.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "../../../../node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "../../../../node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var ng_event_source__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ng-event-source */ "../../../../node_modules/ng-event-source/eventsource.js");
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! underscore */ "../../../../node_modules/underscore/underscore.js");
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(underscore__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! jquery */ "../../../../node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _services_data_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../services/data.service */ "./src/app/services/data.service.ts");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/router */ "../../../../node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ng4-loading-spinner */ "../../../../node_modules/ng4-loading-spinner/ng4-loading-spinner.umd.js");
+/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_7__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -806,13 +810,15 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
-var randomColor = __webpack_require__(/*! randomcolor */ "./node_modules/randomcolor/randomColor.js");
+
+var randomColor = __webpack_require__(/*! randomcolor */ "../../../../node_modules/randomcolor/randomColor.js");
 var UserComponent = /** @class */ (function () {
-    function UserComponent(dataService, http, router) {
+    function UserComponent(dataService, http, router, spinnerService) {
         var _this = this;
         this.dataService = dataService;
         this.http = http;
         this.router = router;
+        this.spinnerService = spinnerService;
         this.html = "\n    <table style=\"width:100%;border:1px solid #ddd;\">\n    <tr style=\"background-color:beige\">\n        <td style=\"border-bottom: 1px solid #ddd;padding:5px\">Label</td>\n        <td style=\"border-bottom: 1px solid #ddd;padding:5px\">Unlabeled 1</td>\n    </tr>\n    <tr >\n        <td style=\"border-bottom: 1px solid #ddd;padding:5px\">Start</td>\n        <td style=\"border-bottom: 1px solid #ddd;padding:5px\">6/12/2017</td>\n    </tr>\n    <tr>\n        <td style=\"padding:5px;\">End</td>\n        <td style=\"padding:5px;\">7/12/2017</td>\n    </tr>\n    </table>\n  ";
         this.colors = {};
         this.fetched_assessments = [];
@@ -906,11 +912,10 @@ var UserComponent = /** @class */ (function () {
         var counter = 0;
         this.http.get("http://127.0.0.1:8000/viewResults/").subscribe();
         output.onmessage = function (evt) {
+            _this.spinnerService.hide();
             var data = evt.data;
             var json_data = JSON.parse(data);
             console.log(data);
-            // console.log("json data\n");
-            // console.log(json_data["value"]);
             var entity = json_data['entity'];
             console.log(entity);
             if (_this.datastream_entity_meta_map[_this.assessment_map[_this.selectedAssessment].datastream].length) {
@@ -968,6 +973,7 @@ var UserComponent = /** @class */ (function () {
     };
     UserComponent.prototype.getAssessments = function () {
         var _this = this;
+        this.spinnerService.show();
         console.log(this.host);
         console.log(this.token);
         this.dataService.getAssesments(this.host, this.token).subscribe(function (assesments) {
@@ -1171,7 +1177,8 @@ var UserComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [_services_data_service__WEBPACK_IMPORTED_MODULE_5__["DataService"],
             _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_6__["Router"]])
+            _angular_router__WEBPACK_IMPORTED_MODULE_6__["Router"],
+            ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_7__["Ng4LoadingSpinnerService"]])
     ], UserComponent);
     return UserComponent;
 }());
@@ -1216,8 +1223,8 @@ var environment = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser-dynamic */ "./node_modules/@angular/platform-browser-dynamic/fesm5/platform-browser-dynamic.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "../../../../node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser-dynamic */ "../../../../node_modules/@angular/platform-browser-dynamic/fesm5/platform-browser-dynamic.js");
 /* harmony import */ var _app_app_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./app/app.module */ "./src/app/app.module.ts");
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./environments/environment */ "./src/environments/environment.ts");
 
@@ -1240,7 +1247,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/ruturaj/Downloads/examples/UpdatedApplication/exampleApps/FalkonryDemoExamples/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /home/ruturaj/Documents/Hackathon/examples/UpdatedApplication/exampleApps/FalkonryDemoExamples/src/main.ts */"./src/main.ts");
 
 
 /***/ })

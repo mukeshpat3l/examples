@@ -40,16 +40,14 @@ export class AppComponent {
     sessionStorage.setItem("host", this.finalHost);
     sessionStorage.setItem("token", this.token);
     try {
-      console.log("inside try");
       this.dataService.getAssesments(this.finalHost, this.token).subscribe(
         (assesments) => {
-          console.log("as\n");
           alert("Connected!");
           sessionStorage.setItem("connected", JSON.stringify(true));
-          this.http.post("http://127.0.0.1:8000/index/", JSON.stringify({ host: "https://" + this.host, token: this.token }), httpOptions).subscribe();
+          this.http.post("http://127.0.0.1:8000/index/", JSON.stringify({ host: this.finalHost, token: this.token }), httpOptions).subscribe();
         },
         (err) => {
-          console.log("errrr");
+          console.log("error");
           alert("Couldn't connect with this host and token");
         }
       );

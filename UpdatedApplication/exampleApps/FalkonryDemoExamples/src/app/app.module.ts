@@ -37,7 +37,7 @@ import { StorageServiceModule} from 'angular-webstorage-service';
     FormsModule,
     Ng2GoogleChartsModule,
     StorageServiceModule,
-    Ng4LoadingSpinnerModule,
+    Ng4LoadingSpinnerModule.forRoot(),
     RouterModule.forRoot([
       {path: '', component: HomeComponent},
       {path: 'example', component: ExampleComponent},

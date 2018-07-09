@@ -28,6 +28,7 @@ export class ExampleComponent implements OnInit {
   addDataSpinner = false;
   learningPatternSpinner = false;
   liveMonitoringSpinner = false;
+  isInterrupted = false;
   data: any = [];
   example: string;
   notCompleted = true;
@@ -58,8 +59,11 @@ export class ExampleComponent implements OnInit {
       this.addDataCompleted = this.data[0]["addFacts"];
       this.learningPatternCompleted = this.data[0]["modelCreated"];
       this.liveMonitoringCompleted = this.data[0]["liveMonitoring"];
+      this.isInterrupted = this.data[0]["isInterrupted"];
 
-      if(this.liveMonitoringCompleted)
+      if (this.isInterrupted)
+        this.notCompleted = false;
+      else if(this.liveMonitoringCompleted)
         this.disableAllSpinners()
       else if(this.learningPatternCompleted)
         this.setLiveMonitoringSpinner();

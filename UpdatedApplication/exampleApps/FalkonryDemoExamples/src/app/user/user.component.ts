@@ -8,6 +8,7 @@ import * as _ from 'underscore';
 import * as _$ from 'jquery';
 import { DataService } from '../services/data.service';
 import { Router } from '@angular/router';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 
 declare var require:any;
@@ -105,7 +106,8 @@ export class UserComponent implements OnInit
 
   constructor(private dataService:DataService,
     private http: HttpClient,
-    private router: Router){
+    private router: Router,
+    private spinnerService: Ng4LoadingSpinnerService){
     this.host= sessionStorage.getItem("host");
     this.token= sessionStorage.getItem("token");
     this.example = sessionStorage.getItem("example");
@@ -147,12 +149,11 @@ export class UserComponent implements OnInit
     this.http.get("http://127.0.0.1:8000/viewResults/").subscribe();
 
     output.onmessage=(evt)=>{
+      this.spinnerService.hide();
       const data=evt.data;
       var json_data=JSON.parse(data);
       console.log(data);
-      // console.log("json data\n");
-      // console.log(json_data["value"]);
-
+      
       let entity = json_data['entity'];
       console.log(entity);
 
@@ -232,6 +233,7 @@ export class UserComponent implements OnInit
 
   getAssessments()
   {
+    this.spinnerService.show();
     console.log(this.host);
     console.log(this.token);
     this.dataService.getAssesments(this.host,this.token).subscribe(

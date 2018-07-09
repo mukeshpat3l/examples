@@ -40,14 +40,6 @@ mat-sidenav-container, mat-sidenav-content, mat-sidenav {
     width: 85%;
 }
 
-.example-header-image {
-    background-image: url('src/assets/img/logo.png');
-    background-size: cover;
-    width: 50px;
-    height: 50px;
-    margin: 10px;
-}
-
 .example-spacer {
     flex: 1 1 auto;
 }
