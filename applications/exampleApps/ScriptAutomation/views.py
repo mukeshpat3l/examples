@@ -19,7 +19,6 @@ statusResponse = {
     "addFacts" : False,
     "modelCreated" : False,
     "liveMonitoring" : False,
-    "isInterrupted" : False,
     "assessmentId": None,
     "datastreamId": None
 }
@@ -255,7 +254,6 @@ def start(example):
     
     if state == 'FAILED':
         print('Model learning failed')
-        statusResponse["isInterrupted"] = True
     elif state == 'COMPLETED':
         statusResponse["modelCreated"] = True
         
@@ -280,8 +278,6 @@ def example(request):
     global host, token
     if request.method == "POST":
         example = json.loads(request.body)["example"]
-        host = json.loads(request.body)["host"]
-        token = json.loads(request.body)["token"]
         start(example)
         return render(request, "index.html", {})
     else:
@@ -300,7 +296,7 @@ def viewResults(request):
         "modelCreated" : False,
         "liveMonitoring" : False,
         "assessmentId" : assessmentId,
-         "datastreamId": datastreamId
+        "datastreamId": datastreamId
     }
     pushAndPullLiveData()
     return JsonResponse([{}],  content_type="application/json", safe=False)

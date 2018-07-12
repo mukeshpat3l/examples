@@ -9,7 +9,6 @@ export class DataService {
   private options:RequestOptions;
   result:any;
   constructor(private http:Http){ console.log("Data service connected");}
-  getLiveJSON(){}
   getAssesments( host:string,api_key:string){
     this.headers = new Headers();
     host=host+"/assessment"
@@ -17,6 +16,7 @@ export class DataService {
     this.options=new RequestOptions({headers:this.headers});
     return this.http.get(host,this.options).map(result=>this.result=result.json());
     }
+
 
   getDatastream( host:string,api_key:string,datastream_id:string){
     this.headers = new Headers();

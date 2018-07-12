@@ -27,18 +27,12 @@ export class HomeComponent implements OnInit {
 
   selectExample(example: string){
       this.connected = sessionStorage.getItem("connected");
-      this.host = sessionStorage.getItem("host");
-      this.token = sessionStorage.getItem("token");
       if(this.connected){
         sessionStorage.setItem("start", JSON.stringify(true));
         if(example == "Machine"){
-          this.http.post("http://127.0.0.1:8000/example/",   JSON.stringify({host: this.host,
-          token: this.token,
-          example: 1}), httpOptions).subscribe();
+          this.http.post("/example/",   JSON.stringify({example: 1}), httpOptions).subscribe();
         } else if(example == "Weather"){
-          this.http.post("http://127.0.0.1:8000/example/",   JSON.stringify({host: this.host,
-          token: this.token,
-          example: 2}), httpOptions).subscribe();
+          this.http.post("/example/",   JSON.stringify({example: 2}), httpOptions).subscribe();
         }
         sessionStorage.setItem("example", example);
         this.router.navigate(['example']);

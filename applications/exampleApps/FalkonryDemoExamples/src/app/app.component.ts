@@ -42,7 +42,7 @@ export class AppComponent {
         (assesments) => {
           alert("Connected!");
           sessionStorage.setItem("connected", JSON.stringify(true));
-          this.http.post("http://127.0.0.1:8000/index/", JSON.stringify({ host: this.finalHost, token: this.token }), httpOptions).subscribe();
+          this.http.post("/index/", JSON.stringify({ host: this.finalHost, token: this.token }), httpOptions).subscribe();
         },
         (err) => {
           alert("Couldn't connect with this host and token");

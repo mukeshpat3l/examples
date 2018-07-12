@@ -43,7 +43,7 @@ export class ExampleComponent implements OnInit {
   async getStatus(){
     while(this.notCompleted){
       await this.delay(5000);
-      this.http.get("http://127.0.0.1:8000/status/").map(res => res).subscribe(response => {
+      this.http.get("/status/").map(res => res).subscribe(response => {
       this.data = response;
       this.dataStreamCompleted = this.data[0]["datastream"];
       this.addDataCompleted = this.data[0]["addFacts"];

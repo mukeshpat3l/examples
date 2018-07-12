@@ -1,85 +1,79 @@
-<div *ngIf="isInterrupted; then error else progress"></div>
-<ng-template #error>
-  <h2>Oops! Something went wrong</h2>
-</ng-template>
-<ng-template #progress>
-  <button mat-button class="delete" (click)="deleteClicked()">
-    <mat-icon>delete</mat-icon>
-  </button>
-  <h2>{{ example }}</h2>
-  <div class="container">
-    <div fxLayout="column" fxLayout.xs="column" fxLayoutGap="20px" fxLayoutAlign="center stretch">
-      <mat-card class="mat-elevation-z4" fxFlex="20%" fxFlex.xs="40%" mat-ripple fxLayout="row" fxLayoutGap="10px">
-        <mat-list-item fxLayout="row" fxLayoutAlign="center">
-          <mat-card-content class="content">
-            <h3>Creating datastream</h3>
-          </mat-card-content>
-        </mat-list-item>
-        <span class="example-spacer"></span>
-        <mat-list-item fxLayoutAlign="center">
-          <div *ngIf="dataStreamSpinner">
-            <mat-spinner strokeWidth="2" [diameter]="20"></mat-spinner>
-          </div>
-          <div *ngIf="dataStreamCompleted">
-            <img src="/static/js/assets/img/gr_tick.png" width="20px" height="20px">
-          </div>
-        </mat-list-item>
-      </mat-card>
-      <mat-card class="mat-elevation-z4" fxFlex="20%" fxFlex.xs="40%" mat-ripple fxLayout="row" fxLayoutGap="10px">
-        <mat-list-item fxLayout="row" fxLayoutAlign="center">
-          <mat-card-content class="content">
-            <h3>Adding data and facts</h3>
-          </mat-card-content>
-        </mat-list-item>
-        <span class="example-spacer"></span>
-        <mat-list-item fxLayoutAlign="center">
-          <div *ngIf="addDataSpinner">
-            <mat-spinner strokeWidth="2" [diameter]="20"></mat-spinner>
-          </div>
-          <div *ngIf="addDataCompleted">
-            <img src="/static/js/assets/img/gr_tick.png" width="20px" height="20px">
-          </div>
-        </mat-list-item>
-      </mat-card>
-      <mat-card class="mat-elevation-z4" fxFlex="20%" fxFlex.xs="40%" mat-ripple fxLayout="row" fxLayoutGap="10px">
-        <mat-list-item fxLayout="row" fxLayoutAlign="center">
-          <mat-card-content class="content">
-            <h3>Learning patterns</h3>
-          </mat-card-content>
-        </mat-list-item>
-        <span class="example-spacer"></span>
-        <mat-list-item fxLayoutAlign="center">
-          <div *ngIf="learningPatternSpinner">
-            <mat-spinner strokeWidth="2" [diameter]="20"></mat-spinner>
-          </div>
-          <div *ngIf="learningPatternCompleted">
-            <img src="/static/js/assets/img/gr_tick.png" width="20px" height="20px">
-          </div>
-        </mat-list-item>
-      </mat-card>
-      <mat-card class="mat-elevation-z4" fxFlex="20%" fxFlex.xs="40%" mat-ripple fxLayout="row" fxLayoutGap="10px">
-        <mat-list-item fxLayout="row" fxLayoutAlign="center">
-          <mat-card-content class="content">
-            <h3>Starting live monitoring</h3>
-          </mat-card-content>
-        </mat-list-item>
-        <span class="example-spacer"></span>
-        <mat-list-item fxLayoutAlign="center">
-          <div *ngIf="liveMonitoringSpinner">
-            <mat-spinner strokeWidth="2" [diameter]="20"></mat-spinner>
-          </div>
-          <div *ngIf="liveMonitoringCompleted">
-            <img src="/static/js/assets/img/gr_tick.png" width="20px" height="20px">
-          </div>
-        </mat-list-item>
-      </mat-card>
-      <div *ngIf="isCompleted; then viewResults else pb"></div>
-      <ng-template #pb>
-        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-      </ng-template>
-      <ng-template #viewResults>
-        <button mat-raised-button class="viewResultsButton" routerLink="/visualize">View Results</button>
-      </ng-template>
-    </div>
+<button mat-button class="delete" (click)="deleteClicked()">
+  <mat-icon>delete</mat-icon>
+</button>
+<h2>{{ example }}</h2>
+<div class="container">
+  <div fxLayout="column" fxLayout.xs="column" fxLayoutGap="20px" fxLayoutAlign="center stretch">
+    <mat-card class="mat-elevation-z4" fxFlex="20%" fxFlex.xs="40%" mat-ripple fxLayout="row" fxLayoutGap="10px">
+      <mat-list-item fxLayout="row" fxLayoutAlign="center">
+        <mat-card-content class="content">
+          <h3>Creating datastream</h3>
+        </mat-card-content>
+      </mat-list-item>
+      <span class="example-spacer"></span>
+      <mat-list-item fxLayoutAlign="center">
+        <div *ngIf="dataStreamSpinner">
+          <mat-spinner strokeWidth="2" [diameter]="20"></mat-spinner>
+        </div>
+        <div *ngIf="dataStreamCompleted">
+          <img src="/static/js/assets/img/gr_tick.png" width="20px" height="20px">
+        </div>
+      </mat-list-item>
+    </mat-card>
+    <mat-card class="mat-elevation-z4" fxFlex="20%" fxFlex.xs="40%" mat-ripple fxLayout="row" fxLayoutGap="10px">
+      <mat-list-item fxLayout="row" fxLayoutAlign="center">
+        <mat-card-content class="content">
+          <h3>Adding data and facts</h3>
+        </mat-card-content>
+      </mat-list-item>
+      <span class="example-spacer"></span>
+      <mat-list-item fxLayoutAlign="center">
+        <div *ngIf="addDataSpinner">
+          <mat-spinner strokeWidth="2" [diameter]="20"></mat-spinner>
+        </div>
+        <div *ngIf="addDataCompleted">
+          <img src="/static/js/assets/img/gr_tick.png" width="20px" height="20px">
+        </div>
+      </mat-list-item>
+    </mat-card>
+    <mat-card class="mat-elevation-z4" fxFlex="20%" fxFlex.xs="40%" mat-ripple fxLayout="row" fxLayoutGap="10px">
+      <mat-list-item fxLayout="row" fxLayoutAlign="center">
+        <mat-card-content class="content">
+          <h3>Learning patterns</h3>
+        </mat-card-content>
+      </mat-list-item>
+      <span class="example-spacer"></span>
+      <mat-list-item fxLayoutAlign="center">
+        <div *ngIf="learningPatternSpinner">
+          <mat-spinner strokeWidth="2" [diameter]="20"></mat-spinner>
+        </div>
+        <div *ngIf="learningPatternCompleted">
+          <img src="/static/js/assets/img/gr_tick.png" width="20px" height="20px">
+        </div>
+      </mat-list-item>
+    </mat-card>
+    <mat-card class="mat-elevation-z4" fxFlex="20%" fxFlex.xs="40%" mat-ripple fxLayout="row" fxLayoutGap="10px">
+      <mat-list-item fxLayout="row" fxLayoutAlign="center">
+        <mat-card-content class="content">
+          <h3>Starting live monitoring</h3>
+        </mat-card-content>
+      </mat-list-item>
+      <span class="example-spacer"></span>
+      <mat-list-item fxLayoutAlign="center">
+        <div *ngIf="liveMonitoringSpinner">
+          <mat-spinner strokeWidth="2" [diameter]="20"></mat-spinner>
+        </div>
+        <div *ngIf="liveMonitoringCompleted">
+          <img src="/static/js/assets/img/gr_tick.png" width="20px" height="20px">
+        </div>
+      </mat-list-item>
+    </mat-card>
+    <div *ngIf="isCompleted; then viewResults else pb"></div>
+    <ng-template #pb>
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </ng-template>
+    <ng-template #viewResults>
+      <button mat-raised-button class="viewResultsButton" routerLink="/visualize">View Results</button>
+    </ng-template>
   </div>
-</ng-template>
+</div>
