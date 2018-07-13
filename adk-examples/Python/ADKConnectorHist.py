@@ -1,13 +1,9 @@
 from falkonryclient import client as Falkonry
 from falkonryclient import schemas as Schemas
 from fileAdapter import FileAdapter
-from multiprocessing import Process
-import io
 import os
-import json
 import time as timepkg
 import logging
-import csv
 import pandas as pd
 
 

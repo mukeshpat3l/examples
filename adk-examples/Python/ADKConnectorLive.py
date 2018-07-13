@@ -1,13 +1,10 @@
 from falkonryclient import client as Falkonry
 from falkonryclient import schemas as Schemas
 from requests.exceptions import ChunkedEncodingError
-
 from fileAdapter import FileAdapter
 from multiprocessing import Process
-import io
 import os
 import json
-import time as timepkg
 import logging
 import sys
 
