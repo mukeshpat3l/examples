@@ -1,8 +1,8 @@
 import os
 import io
 
-class FileAdapter:
 
+class FileAdapter:
     def getData(self, fileName):
         try:
             os.path.isfile(fileName)
@@ -16,8 +16,6 @@ class FileAdapter:
         fileType = fileExtension.lower()[1:]
         return stream, fileType
 
-
-
     def getDataStream(self, fileName):
         try:
             os.path.isfile(fileName)
@@ -29,4 +27,3 @@ class FileAdapter:
         stream = io.open(fileName + fileExtension)
         fileType = fileExtension.lower()[1:]
         return stream, fileType
-
