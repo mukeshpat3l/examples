@@ -299,7 +299,7 @@ class ADKConnHist {
         Datastream datastream = falkonry.getDatastream(datastreamId);
 
         Map<String, String> options = new HashMap<String, String>();
-        options.put("startTimeIdentifier", "time");
+        options.put("startTimeIdentifier", "start");
         options.put("endTimeIdentifier", "end");
         options.put("timeFormat", datastream.getField().getTime().getFormat());
         options.put("timeZone", datastream.getField().getTime().getZone());
@@ -346,7 +346,7 @@ class ADKConnHist {
         Datastream datastream = falkonry.getDatastream(datastreamId);
 
         Map<String, String> options = new HashMap<String, String>();
-        options.put("startTimeIdentifier", "time");
+        options.put("startTimeIdentifier", "start");
         options.put("endTimeIdentifier", "end");
         options.put("timeFormat", datastream.getField().getTime().getFormat());
         options.put("timeZone", datastream.getField().getTime().getZone());
