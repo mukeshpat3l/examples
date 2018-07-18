@@ -2,3 +2,4 @@
 *.sqlite3
 __pycache__
 package-lock.json
+adk-examples/Java/falkonryadk/target
