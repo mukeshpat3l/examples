@@ -18,7 +18,8 @@ and the `ADKConn class` which ever in use and also examples of each
 method inside the **main** class.<br>
 &nbsp;&nbsp;&nbsp;&nbsp; **Note:-** <br>
 &nbsp;&nbsp;&nbsp;&nbsp; Inside the `ADKConnHist class` and the `ADKConn class` present in `ADKConnectorHist.java` and &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`ADKConnectorLive.java` files
-respectively you need to add the **URL and API Token** provided to you by the Falkonry Team.
+respectively you need to add the **URL and API Token** provided to you by the Falkonry 
+&nbsp;&nbsp;&nbsp;&nbsp;Team.
 
 **4)** After editing the code according to your application just use the `Run` option in any premier IDE (Integrated Development Environment) for Java and it will prompt you to select a particular class.
 
