@@ -240,43 +240,43 @@ public class ADKConnectorLive {
 
 */
 
-//    final ADKConn adk = new ADKConn();
-//
-//    FileAdapter f = new FileAdapter();
-//    String fileName = "fileName";
-//    final String fileType = FilenameUtils.getExtension(fileName);
-//    URL url = ADKConnectorLive.class.getResource(fileName);
-//
-//    final ByteArrayInputStream stream = f.getDataStream(url.getPath());
-//    final String datastreamId = "datastremId";
-//    final String assessmentId = "assessmentId";
-//
-//    Thread thread1 = new Thread() {
-//        public void run() {
-//            try {
-//                adk.ingestDataFromFile(datastreamId, stream, fileType);
-//            } catch (Exception e) {
-//                log.error(e);
-//            }
-//        }
-//    };
-//
-//    Thread thread2 = new Thread() {
-//        public void run() {
-//            try {
-//                adk.getLiveOutput(assessmentId);
-//
-//            } catch (Exception e) {
-//                log.error(e);
-//            }
-//        }
-//    };
-//
-//    thread1.start();
-//    thread2.start();
-//
-//    thread1.join();
-//    thread2.join();
+    final ADKConn adk = new ADKConn();
+
+    FileAdapter f = new FileAdapter();
+    String fileName = "fileName";
+    final String fileType = FilenameUtils.getExtension(fileName);
+    URL url = ADKConnectorLive.class.getResource(fileName);
+
+    final ByteArrayInputStream stream = f.getDataStream(url.getPath());
+    final String datastreamId = "datastremId";
+    final String assessmentId = "assessmentId";
+
+    Thread thread1 = new Thread() {
+        public void run() {
+            try {
+                adk.ingestDataFromFile(datastreamId, stream, fileType);
+            } catch (Exception e) {
+                log.error(e);
+            }
+        }
+    };
+
+    Thread thread2 = new Thread() {
+        public void run() {
+            try {
+                adk.getLiveOutput(assessmentId);
+
+            } catch (Exception e) {
+                log.error(e);
+            }
+        }
+    };
+
+    thread1.start();
+    thread2.start();
+
+    thread1.join();
+    thread2.join();
 
 // ########################################################################################################
 
