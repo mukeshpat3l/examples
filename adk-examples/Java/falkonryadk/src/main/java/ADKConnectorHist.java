@@ -271,18 +271,6 @@ class ADKConnHist {
     }
 
 
-    private String checkStatus(String trackerId) throws Exception {
-        for(int i=0; i < 12; i++) {
-            Tracker tracker = falkonry.getStatus(trackerId);
-
-            if(tracker.getStatus().equals("SUCCESS") || tracker.getStatus().equals("COMPLETED")){
-                return "SUCCESS";
-            }
-            Thread.sleep(5000);
-        }
-        return null;
-    }
-
     /**
      * This method adds facts to an existing data stream.
      * @param datastreamId The ID of an existing data stream.
@@ -299,10 +287,15 @@ class ADKConnHist {
         Datastream datastream = falkonry.getDatastream(datastreamId);
 
         Map<String, String> options = new HashMap<String, String>();
+//     TODO: Change the name of the start time identifier according to your data.
         options.put("startTimeIdentifier", "start");
+//     TODO: Change the name of the value end time identifier according to your data.
         options.put("endTimeIdentifier", "end");
+//     TODO: Change the name of the value time format according to your data.
         options.put("timeFormat", datastream.getField().getTime().getFormat());
+//     TODO: Change the name of the value time zone according to your data.
         options.put("timeZone", datastream.getField().getTime().getZone());
+//     TODO: Change the name of the value entity identifier according to your data.
         options.put("entityIdentifier",  datastream.getField().getEntityIdentifier());
 //     TODO: Change the name of the value identifier according to your data.
         options.put("valueIdentifier", "value");
@@ -346,10 +339,15 @@ class ADKConnHist {
         Datastream datastream = falkonry.getDatastream(datastreamId);
 
         Map<String, String> options = new HashMap<String, String>();
+//     TODO: Change the name of the start time identifier according to your data.
         options.put("startTimeIdentifier", "start");
+//     TODO: Change the name of the value end time identifier according to your data.
         options.put("endTimeIdentifier", "end");
+//     TODO: Change the name of the value time format according to your data.
         options.put("timeFormat", datastream.getField().getTime().getFormat());
+//     TODO: Change the name of the value time zone according to your data.
         options.put("timeZone", datastream.getField().getTime().getZone());
+//     TODO: Change the name of the value entity identifier according to your data.
         options.put("entityIdentifier",  datastream.getField().getEntityIdentifier());
 //     TODO: Change the name of the value identifier according to your data.
         options.put("valueIdentifier", "value");
@@ -375,6 +373,24 @@ class ADKConnHist {
             log.error("Cannot add facts to the datastream!");
             System.exit(0);
         }
+    }
+
+    /**
+     *
+     * @param trackerId This ID is received from the InputStatus method.
+     * @throws Exception Will throw an exception if something is wrong
+     *                   or missing.
+     */
+    private String checkStatus(String trackerId) throws Exception {
+        for(int i=0; i < 12; i++) {
+            Tracker tracker = falkonry.getStatus(trackerId);
+
+            if(tracker.getStatus().equals("SUCCESS") || tracker.getStatus().equals("COMPLETED")){
+                return "SUCCESS";
+            }
+            Thread.sleep(5000);
+        }
+        return null;
     }
 
     /**
@@ -409,7 +425,7 @@ public class ADKConnectorHist {
 
 /*
      USAGE:-
-
+     Comment the snippets which are not required.
      File adapter will be used to get the appropriate data from the different files and to provide it
      in the format in which we can send to the ADK methods.
 
@@ -426,16 +442,16 @@ public class ADKConnectorHist {
 
 */
 
-//        final ADKConnHist adk = new ADKConnHist();
-//
-//        FileAdapter f = new FileAdapter();
-//        String fileName = "fileName";
-//        String fileType = FilenameUtils.getExtension(fileName);
-//        URL url = ADKConnectorHist.class.getResource(fileName);
-//        String stream = f.getData(url.getPath());
-//
-//        String datastreamId = adk.createDataStream();
-//        adk.ingestData(datastreamId, stream, fileType);
+        final ADKConnHist adk = new ADKConnHist();
+
+        FileAdapter f = new FileAdapter();
+        String fileName = "fileName";
+        String fileType = FilenameUtils.getExtension(fileName);
+        URL url = ADKConnectorHist.class.getResource(fileName);
+        String stream = f.getData(url.getPath());
+
+        String datastreamId = adk.createDataStream();
+        adk.ingestData(datastreamId, stream, fileType);
 
 //  ##################################################################################################
 
@@ -449,16 +465,16 @@ public class ADKConnectorHist {
 
 */
 
-//    final ADKConnHist adk = new ADKConnHist();
-//
-//    FileAdapter f = new FileAdapter();
-//    String fileName = "fileName";
-//    String fileType = FilenameUtils.getExtension(fileName);
-//    URL url = ADKConnectorHist.class.getResource(fileName);
-//
-//    ByteArrayInputStream stream = f.getDataStream(url.getPath());
-//    String datastreamId = adk.createDataStream();
-//    adk.ingestDatafromFile(datastreamId, stream, fileType);
+    final ADKConnHist adk = new ADKConnHist();
+
+    FileAdapter f = new FileAdapter();
+    String fileName = "fileName";
+    String fileType = FilenameUtils.getExtension(fileName);
+    URL url = ADKConnectorHist.class.getResource(fileName);
+
+    ByteArrayInputStream stream = f.getDataStream(url.getPath());
+    String datastreamId = adk.createDataStream();
+    adk.ingestDatafromFile(datastreamId, stream, fileType);
 
 // ########################################################################################################
 
@@ -471,11 +487,11 @@ public class ADKConnectorHist {
     addMoreHistoricalDataFromStream() in the adk connector
 
 */
-//
-//    final ADKConnHist adk = new ADKConnHist();
-//
-//    String folderPath= "../path/../demo-data/";
-//    adk.ingestDataFromFolder("datastream_id", folderPath);
+
+    final ADKConnHist adk = new ADKConnHist();
+
+    String folderPath= "../path/../demo-data/";
+    adk.ingestDataFromFolder("datastream_id", folderPath);
 
 // ########################################################################################################
 
@@ -486,15 +502,15 @@ public class ADKConnectorHist {
 
 */
 
-//    final ADKConnHist adk = new ADKConnHist();
-//    FileAdapter f = new FileAdapter();
-//    String fileName = "simple_batch_numerical_multiple_entity_facts.csv";
-//    URL url = ADKConnectorLive.class.getResource(fileName);
-//
-//    final String fileType = FilenameUtils.getExtension(fileName);
-//    final String stream = f.getData(url.getPath());
-//
-//    adk.ingestFactsData("datastreamId", "assessmentId", stream, fileType);
+    final ADKConnHist adk = new ADKConnHist();
+    FileAdapter f = new FileAdapter();
+    String fileName = "simple_batch_numerical_multiple_entity_facts.csv";
+    URL url = ADKConnectorLive.class.getResource(fileName);
+
+    final String fileType = FilenameUtils.getExtension(fileName);
+    final String stream = f.getData(url.getPath());
+
+    adk.ingestFactsData("datastreamId", "assessmentId", stream, fileType);
 
 // ########################################################################################################
 
@@ -505,15 +521,15 @@ public class ADKConnectorHist {
 
 */
 
-//    final ADKConnHist adk = new ADKConnHist();
-//    FileAdapter f = new FileAdapter();
-//    String fileName = "fileName";
-//    URL url = ADKConnectorLive.class.getResource(fileName);
-//
-//    final String fileType = FilenameUtils.getExtension(fileName);
-//    final ByteArrayInputStream stream = f.getDataStream(url.getPath());
-//
-//    adk.ingestFactsFromFile("datastream_id", "assessment_id", stream, fileType);
+    final ADKConnHist adk = new ADKConnHist();
+    FileAdapter f = new FileAdapter();
+    String fileName = "fileName";
+    URL url = ADKConnectorLive.class.getResource(fileName);
+
+    final String fileType = FilenameUtils.getExtension(fileName);
+    final ByteArrayInputStream stream = f.getDataStream(url.getPath());
+
+    adk.ingestFactsFromFile("datastream_id", "assessment_id", stream, fileType);
 
 // ########################################################################################################
 
@@ -524,9 +540,9 @@ public class ADKConnectorHist {
 
 */
 
-//    final ADKConnHist adk = new ADKConnHist();
-//
-//    adk.exportFacts("datastream_id", "assessment_id");
+    final ADKConnHist adk = new ADKConnHist();
+
+    adk.exportFacts("datastream_id", "assessment_id");
 
 // ########################################################################################################
     }
