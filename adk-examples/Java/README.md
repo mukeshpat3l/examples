@@ -10,15 +10,15 @@
 &nbsp;&nbsp;&nbsp;&nbsp; ii) `ADKConnectorLive.java` <br>
 
 &nbsp;&nbsp;&nbsp;&nbsp;_If you want to work with Historical data open up &nbsp;`ADKConnectorHist.java` and for live
-input and &nbsp;&nbsp; output open up the &nbsp;&nbsp;&nbsp;`ADKConnectorLive.java`._ <br>
+input and output open up the &nbsp;&nbsp;&nbsp;`ADKConnectorLive.java`._ <br>
 
 **3)** You can use our code as it has been explained inside our files and
 there are also docs for each method inside the &nbsp;&nbsp;&nbsp;`ADKConnHist class`
-&nbsp;&nbsp;and the `ADKConn class` which ever in use and also examples of each
-&nbsp;&nbsp;&nbsp;&nbsp;method inside the **main** &nbsp;&nbsp;&nbsp;&nbsp;class.<br>
+and the `ADKConn class` which ever in use and also examples of each
+method inside the **main** class.<br>
 &nbsp;&nbsp;&nbsp;&nbsp; **Note:-** <br>
-&nbsp;&nbsp;&nbsp;&nbsp; Inside the `ADKConnHist class ` and the `ADKConn class` present in &nbsp;&nbsp;&nbsp;&nbsp;`ADKConnectorHist.java` and &nbsp;&nbsp;&nbsp;&nbsp;`ADKConnectorLive.java` files
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;respectively you need to add the **URL and API Token** provided to
+&nbsp;&nbsp;&nbsp;&nbsp; Inside the `ADKConnHist class` and the `ADKConn class` present in `ADKConnectorHist.java` and &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`ADKConnectorLive.java` files
+respectively you need to add the **URL and API Token** provided to
 you by the &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Falkonry Team.
 
 **4)** After editing the code according to your application just use the `Run` option in any premier IDE (Integrated Development Environment) for Java and it will prompt you to select a particular class.
