@@ -14,8 +14,10 @@
 
 **3)** You can use our code as it has been explained inside our files and there are also docs &nbsp;&nbsp;&nbsp;&nbsp; for each method inside the `ADKConnHist class ` and the `ADKConn class` which ever in &nbsp;&nbsp;&nbsp;&nbsp;  use and also examples of each method inside the **main** class.<br>
 &nbsp;&nbsp;&nbsp;&nbsp; **Note:-** <br>
-&nbsp;&nbsp;&nbsp;&nbsp; Inside the `ADKConnHist class ` and the `ADKConn class` present in &nbsp;&nbsp;&nbsp;&nbsp;`ADKConnectorHist.java` and `ADKConnectorLive.java` files respectively you need to	 
-&nbsp;&nbsp;&nbsp;&nbsp; add the **URL and API Token** provided to you by the Falkonry Team.
+&nbsp;&nbsp;&nbsp;&nbsp; Inside the `ADKConnHist class ` and the `ADKConn class` present in &nbsp;&nbsp;&nbsp;&nbsp;`ADKConnectorHist.java` and 
+&nbsp;&nbsp;&nbsp;&nbsp;`ADKConnectorLive.java` files respectively you need to
+add the **URL and API Token** provided to you by the Falkonry 
+&nbsp;&nbsp;&nbsp;&nbsp;Team.
 
 **4)** After editing the code according to your application just use the `Run` option in any &nbsp;&nbsp;&nbsp;&nbsp;premier IDE (Integrated Development Environment) for Java and it will prompt you to   &nbsp;&nbsp;&nbsp;&nbsp;select a particular class.
 
