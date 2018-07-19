@@ -9,21 +9,19 @@
 &nbsp;&nbsp;&nbsp;&nbsp; i) `ADKConnectorHist.java` <br>
 &nbsp;&nbsp;&nbsp;&nbsp; ii) `ADKConnectorLive.java` <br>
 
-&nbsp;&nbsp;&nbsp;&nbsp;_If you want to work with Historical data open up &nbsp;&nbsp;&nbsp;`ADKConnectorHist.java` and for live
-input and output open up the &nbsp;&nbsp;&nbsp;`ADKConnectorLive.java`._ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;_If you want to work with Historical data open up &nbsp;`ADKConnectorHist.java` and for live
+input and &nbsp;&nbsp; output open up the `ADKConnectorLive.java`._ <br>
 
 **3)** You can use our code as it has been explained inside our files and
-&nbsp;&nbsp;&nbsp;&nbsp;there are also docs for each method inside the `ADKConnHist class`
-&nbsp;&nbsp;&nbsp;&nbsp;and the `ADKConn class` which ever in use and also examples of each
-&nbsp;&nbsp;&nbsp;&nbsp;method inside the **main** class.<br>
+there are also docs for each method inside the &nbsp;&nbsp;&nbsp;`ADKConnHist class`
+&nbsp;&nbsp;and the `ADKConn class` which ever in use and also examples of each
+&nbsp;&nbsp;&nbsp;&nbsp;method inside the **main** &nbsp;&nbsp;&nbsp;&nbsp;class.<br>
 &nbsp;&nbsp;&nbsp;&nbsp; **Note:-** <br>
-&nbsp;&nbsp;&nbsp;&nbsp; Inside the `ADKConnHist class ` and the `ADKConn class` present in &nbsp;&nbsp;&nbsp;&nbsp;`ADKConnectorHist.java` and `ADKConnectorLive.java` files
+&nbsp;&nbsp;&nbsp;&nbsp; Inside the `ADKConnHist class ` and the `ADKConn class` present in &nbsp;&nbsp;&nbsp;&nbsp;`ADKConnectorHist.java` and &nbsp;&nbsp;&nbsp;&nbsp;`ADKConnectorLive.java` files
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;respectively you need to add the **URL and API Token** provided to
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;you by the Falkonry Team.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;you by the &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Falkonry Team.
 
-**4)** After editing the code according to your application just use the
-&nbsp;&nbsp;&nbsp;&nbsp;`Run` option in any premier IDE (Integrated Development
-&nbsp;&nbsp;&nbsp;&nbsp;Environment) for Java and it will prompt you to select a particular &nbsp;&nbsp;&nbsp;&nbsp;class.
+**4)** After editing the code according to your application just use the `Run` option in any premier IDE (Integrated &nbsp;&nbsp;&nbsp;Development Environment) for Java and it will prompt you to select a particular class.
 
 **_For usage of this Example App, there is no need to install or do a setup for adding external dependencies they can be added to the `pom.xml` file and loaded accordingly._**<br>
 
