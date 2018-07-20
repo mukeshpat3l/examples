@@ -28,6 +28,19 @@ class ADKconn:
     datastreamId = None
 
     def ingestData(self, datastreamId, data, fileType):
+        """
+        Adding historical data to an existing datastream.
+
+        :param datastreamId: The id of an existing datastream
+                            or received from the
+                         createDatastream method.
+        :param data: This is the stream received
+                      from file adapters getData()
+                      method.
+        :param fileType: We need to mention which type of file it is
+                       i.e. csv/json.
+        """
+
         datastream = self.falkonry.get_datastream(datastreamId)
 
         options = {
@@ -49,6 +62,19 @@ class ADKconn:
         )
 
     def ingestDataFromFile(self, datastreamId, data, fileType):
+        """
+        Adding historical data stream to an existing datastream.
+
+        :param datastreamId: The id of an existing datastream
+                            or received from the
+                            createDatastream method.
+        :param data: This is the stream received
+                      from file adapters getDataStream()
+                      method.
+        :param fileType: We need to mention which type of file it is
+                        i.e. csv/json.
+        """
+
         datastream = self.falkonry.get_datastream(datastreamId)
         options = {
             "streaming": True,  # NOTE: Streaming true since we are ingesting live data.
@@ -69,6 +95,21 @@ class ADKconn:
         )
 
     def ingestDataFromFolder(self, datastreamId, path):
+        """
+        This method is just an example to show how our ADK manages
+        multiple data files in a particular folder. It reads all
+        the files and passes each one of them as a stream to an existing
+        datastream.
+
+        NOTE: You can also use this method by calling it again and again for multiple folders by changing the path.
+
+        :param datastreamId: The id of an existing datastream
+                            or received from the
+                            createDatastream method.
+        :param path: Complete folder path where the data files
+                          are stored.
+        """
+
         # NOTE: You can also use this method by calling it again and again for multiple folders by changing the path.
 
         onlyfiles = [
@@ -107,6 +148,18 @@ class ADKconn:
             )
 
     def getLiveOutput(self, assessmentId):
+        """
+        This method is used get the streaming output or live data
+        output which is only visible if there is a live datastream
+        on or by calling our postRealTimeData method and this method
+        can only be used if you have trained a model on Falkonry UI
+        and then turned ON LIVE button on Falkonry UI.
+
+
+        :param assessmentId: This ID you can find in the Assesment tab
+                              after you have trained a model.
+        """
+
         while True:
             try:
                 stream = self.falkonry.get_output(assessmentId, None)
@@ -138,22 +191,20 @@ if __name__ == "__main__":
     3. This is only a example. Change this as per your workflow.
     """
 
-    # fileAdapter = FileAdapter()
-    # fileName = "source1.csv"
-    # data, fileType = fileAdapter.getDataStream(fileName)
-    #
-    # ## For live stream input
-    #
-    # assessmentId = "assesmentId Here"
-    # datastreamId = "datastreamId Here"
-    #
-    # adk_conn = ADKconn()
-    # p1 = Process(target=adk_conn.getLiveOutput, args=(assessmentId, ))
-    # p1.start()
-    # p2 = Process(target=adk_conn.ingestDataFromFile, args=(datastreamId, data, fileType))
-    # p2.start()
-    #
-    # p1.join()
-    # p2.join()
+    fileAdapter = FileAdapter()
+    fileName = "file name"
+    data, fileType = fileAdapter.getDataStream(fileName)
+
+    assessmentId = "assesmentId Here"
+    datastreamId = "datastreamId Here"
+
+    adk_conn = ADKconn()
+    p1 = Process(target=adk_conn.getLiveOutput, args=(assessmentId, ))
+    p1.start()
+    p2 = Process(target=adk_conn.ingestDataFromFile, args=(datastreamId, data, fileType))
+    p2.start()
+
+    p1.join()
+    p2.join()
 
     ###########################################################################
