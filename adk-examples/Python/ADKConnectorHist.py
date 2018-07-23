@@ -26,6 +26,16 @@ class ADKconn:
     datastreamId = None
 
     def checkDataIngestion(self, tracker):
+        """
+        This method is used to check whether the data is successfully ingested or not.
+
+        :param tracker: It takes the data returned from
+                         the add_inout_data() function.
+        :raises Exception: When the data addition is
+                             fails each time in a loop.
+        :raises AddDataException: When the data cannot be added in one complete try.
+        """
+
         tracker_obj = None
         for i in range(0, 12):
             tracker_obj = self.falkonry.get_status(tracker["__$id"])
@@ -50,6 +60,12 @@ class ADKconn:
             raise AddDataException()
 
     def createDataStream(self):
+        """
+        Creates a new datastream on the Falkonry UI.
+
+        :returns: Datastream ID.
+        """
+
         name = "SL_MIXED_MUL_PY_12327"
         self.datastream.set_name(name)
 
@@ -90,6 +106,20 @@ class ADKconn:
         return datastreamId
 
     def ingestData(self, datastreamId, data, fileType):
+        """
+        Adding historical data to an existing datastream.
+
+        :param datastreamId: The id of an existing datastream
+                             or received from the
+                             createDatastream method.
+        :param data: This is the stream received
+                      from file adapters getData()
+                      method.
+        :param fileType:  We need to mention which type of file it is
+                          i.e. csv/json.
+        :raises Exception: When the data cannot be added to the datastream.
+        """
+
         datastream = self.falkonry.get_datastream(datastreamId)
 
         options = {
@@ -121,6 +151,20 @@ class ADKconn:
             raise Exception("Cannot add data to the datastream!")
 
     def ingestDataFromFile(self, datastreamId, data, fileType):
+        """
+        Adding historical data stream to an existing datastream.
+
+        :param datastreamId: The id of an existing datastream
+                             or received from the
+                             createDatastream method.
+        :param data: This is the stream received
+                     from file adapters getDataStream()
+                     method.
+        :param fileType:  We need to mention which type of file it is
+                          i.e. csv/json.
+        :raises Exception: When the data cannot be added to the datastream.
+        """
+
         datastream = self.falkonry.get_datastream(datastreamId)
         options = {
             "streaming": False,
@@ -151,7 +195,20 @@ class ADKconn:
             raise Exception("Cannot add data to the datastream!")
 
     def ingestDataFromFolder(self, datastreamId, path):
-        # NOTE: You can also use this method by calling it again and again for multiple folders by changing the path.
+        """
+        This method is just an example to show how our ADK manages
+        multiple data files in a particular folder. It reads all
+        the files and passes each one of them as a stream to an existing
+        datastream.
+        NOTE: You can also use this method by calling it again and again for multiple folders by changing the path.
+
+        :param datastreamId: The id of an existing datastream
+                            or received from the
+                            createDatastream method.
+        :param path: Complete folder path where the data files
+                          are stored.
+        :raises Exception: When the data cannot be added to the datastream.
+        """
 
         onlyfiles = [
             f
@@ -199,6 +256,19 @@ class ADKconn:
                 raise Exception("Cannot add data to the datastream!")
 
     def ingestFactsData(self, datastreamId, assessmentId, data, fileType):
+        """
+        This method adds facts to an existing data stream.
+
+        :param datastreamId: The ID of an existing data stream.
+        :param assessmentId: The ID of an existing assessment.
+        :param data: This is the stream received
+                     from file adapters getData()
+                     method
+        :param fileType: We need to mention which type of file it is
+                       i.e. csv/json.
+        :raises Exception: When the facts cannot be added to the assessment.
+        """
+
         datastream = self.falkonry.get_datastream(datastreamId)
         options = {
             "startTimeIdentifier": "start",
@@ -227,6 +297,19 @@ class ADKconn:
             raise Exception("Cannot add facts to the assessment!")
 
     def ingestFactsDataFromFile(self, datastreamId, assessmentId, data, fileType):
+        """
+        This method adds facts to an existing data stream.
+
+        :param datastreamId: The ID of an existing data stream.
+        :param assessmentId: The ID of an existing assessment.
+        :param data: This is the stream received
+                     from file adapters getDataStream()
+                     method
+        :param fileType: We need to mention which type of file it is
+                       i.e. csv/json.
+        :raises Exception: When the facts cannot be added to the assessment.
+        """
+
         datastream = self.falkonry.get_datastream(datastreamId)
         options = {
             "startTimeIdentifier": "time",
@@ -255,6 +338,13 @@ class ADKconn:
             raise Exception("Cannot add facts to the assessment!")
 
     def exportFacts(self, assessmentId, fileFormat):
+        """
+        This method exports the facts from a particular assessment to a file.
+
+        :param fileFormat: The type of file format ie. csv/json.
+        :param assessmentId: The ID of an existing assessment.
+        """
+
         options = {format: fileFormat}
         response = self.falkonry.get_facts(assessmentId, options)
         file = open("testfile.txt", "w")
@@ -279,13 +369,13 @@ if __name__ == "__main__":
     to the get_data() method of the file adapter.
     """
 
-    # fileAdapter = FileAdapter()
-    # fileName = "file name"
-    # data, fileType = fileAdapter.getData(fileName)
-    #
-    # adk_conn = ADKconn()
-    # datastreamId = adk_conn.createDataStream()
-    # adk_conn.ingestData(datastreamId, data, fileType)
+    fileAdapter = FileAdapter()
+    fileName = "file name"
+    data, fileType = fileAdapter.getData(fileName)
+
+    adk_conn = ADKconn()
+    datastreamId = adk_conn.createDataStream()
+    adk_conn.ingestData(datastreamId, data, fileType)
 
     ########################################################################################
 
@@ -296,13 +386,13 @@ if __name__ == "__main__":
     get_data_stream() method of the file adapter.
     """
 
-    # fileAdapter = FileAdapter()
-    # fileName = "file name"
-    # data, fileType = fileAdapter.getDataStream(fileName)
-    #
-    # adk_conn = ADKconn()
-    # datastreamId = adk_conn.createDataStream()
-    # adk_conn.ingestDataFromFile(datastreamId, data, fileType)
+    fileAdapter = FileAdapter()
+    fileName = "file name"
+    data, fileType = fileAdapter.getDataStream(fileName)
+
+    adk_conn = ADKconn()
+    datastreamId = adk_conn.createDataStream()
+    adk_conn.ingestDataFromFile(datastreamId, data, fileType)
 
     ###############################################################################################
 
@@ -313,11 +403,11 @@ if __name__ == "__main__":
     postMoreHistoricalDataFromStream() in the adk connector
     """
 
-    # path = "folder path"
-    #
-    # adk_conn = ADKconn()
-    # datastreamId = adk_conn.createDataStream()
-    # adk_conn.ingestDataFromFolder(datastreamId, path)
+    path = "folder path"
+
+    adk_conn = ADKconn()
+    datastreamId = adk_conn.createDataStream()
+    adk_conn.ingestDataFromFolder(datastreamId, path)
 
     ##############################################################################################################
 
@@ -327,14 +417,14 @@ if __name__ == "__main__":
     And for adding facts the model must be trained by the Falkonry UI.
     """
 
-    # fileAdapter = FileAdapter()
-    # fileName = "file name"
-    # data, fileType = fileAdapter.getData(fileName)
-    #
-    # adk_conn = ADKconn()
-    # datastreamId = "datastreamId"
-    # assessmentId = "assessmentid"
-    # adk_conn.ingestFactsData(datastreamId, assessmentId, data, fileType)
+    fileAdapter = FileAdapter()
+    fileName = "file name"
+    data, fileType = fileAdapter.getData(fileName)
+
+    adk_conn = ADKconn()
+    datastreamId = "datastreamId"
+    assessmentId = "assessmentid"
+    adk_conn.ingestFactsData(datastreamId, assessmentId, data, fileType)
 
     ########################################################################################
 
@@ -344,14 +434,14 @@ if __name__ == "__main__":
     And for adding facts the model must be trained by the Falkonry UI.
     """
 
-    # fileAdapter = FileAdapter()
-    # fileName = "file name"
-    # data, fileType = fileAdapter.getDataStream(fileName)
-    #
-    # adk_conn = ADKconn()
-    # datastreamId = "datastreamId"
-    # assessmentId = "assessmentId"
-    # adk_conn.addFactsDataFromStream(datastreamId, assessmentId, data, fileType)
+    fileAdapter = FileAdapter()
+    fileName = "file name"
+    data, fileType = fileAdapter.getDataStream(fileName)
+
+    adk_conn = ADKconn()
+    datastreamId = "datastreamId"
+    assessmentId = "assessmentId"
+    adk_conn.addFactsDataFromStream(datastreamId, assessmentId, data, fileType)
 
     ####################################################################################################
 
@@ -360,9 +450,9 @@ if __name__ == "__main__":
     The code below will export facts from an existing assessment to the file.
     """
 
-    # adk_conn = ADKconn()
-    # assessmentId = "assessmentId"
-    # fileFormat = "json"
-    # adk_conn.exportFacts(assessmentId, fileFormat)
+    adk_conn = ADKconn()
+    assessmentId = "assessmentId"
+    fileFormat = "json"
+    adk_conn.exportFacts(assessmentId, fileFormat)
 
     ####################################################################################################
