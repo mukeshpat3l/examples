@@ -30,7 +30,7 @@ class ADKconn:
         This method is used to check whether the data is successfully ingested or not.
 
         :param tracker: It takes the data returned from
-                         the add_inout_data() function.
+                         the add_input_data() function.
         :raises Exception: When the data addition is
                              fails each time in a loop.
         :raises AddDataException: When the data cannot be added in one complete try.
@@ -257,9 +257,9 @@ class ADKconn:
 
     def ingestFactsData(self, datastreamId, assessmentId, data, fileType):
         """
-        This method adds facts to an existing data stream.
+        This method adds facts to an existing assessment.
 
-        :param datastreamId: The ID of an existing data stream.
+        :param datastreamId: The ID of an existing datastream.
         :param assessmentId: The ID of an existing assessment.
         :param data: This is the stream received
                      from file adapters getData()
@@ -298,9 +298,9 @@ class ADKconn:
 
     def ingestFactsDataFromFile(self, datastreamId, assessmentId, data, fileType):
         """
-        This method adds facts to an existing data stream.
+        This method adds facts to an existing assessment.
 
-        :param datastreamId: The ID of an existing data stream.
+        :param datastreamId: The ID of an existing datastream.
         :param assessmentId: The ID of an existing assessment.
         :param data: This is the stream received
                      from file adapters getDataStream()
