@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using FalkonryClient;
 using FalkonryClient.Helper.Models;
 
-namespace ConsoleApp2
+namespace examples
 {
     class FileAdapter
     {
@@ -33,11 +33,5 @@ namespace ConsoleApp2
             return bytes;
         }
 
-        /*static void Main(string[] args)
-        {
-            FileAdapter file_adapter = new FileAdapter("C:\\Users\\Parth Shah\\Desktop\\Falkonry\\June 12\\source2.csv");
-            Console.Write(file_adapter.GetData());
-            Console.ReadKey();
-        }*/
     }
 }
