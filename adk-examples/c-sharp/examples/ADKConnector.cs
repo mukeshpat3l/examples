@@ -133,8 +133,8 @@ namespace examples
             //FileAdapter f = new FileAdapter();
             //String fileName = "fileName";
             //String fileType = "csv";
-            //String datastreamId = "pdw7y6hck6k8vw";
-            //String assessmentId = "k7vmjmlqqhtdtt";
+            //String datastreamId = "datastreamID";
+            //String assessmentId = "assessmentID";
 
             ////  TODO: Uncomment the following line for json file.
             //// fileType = "json";
@@ -171,8 +171,8 @@ namespace examples
                 folder.
             */
             //ADKConnHist aDK = new ADKConnHist();
-            //String assessmentId = "k7vmjmlqqhtdtt";
-            //String datastreamId = "pdw7y6hck6k8vw";
+            //String assessmentId = "assessmentID";
+            //String datastreamId = "datastreamID";
             //aDK.ExportFacts(datastreamId, assessmentId);
 
             //  ########################################################################################################
