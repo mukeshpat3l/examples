@@ -5,7 +5,7 @@
 
 **1)** Make sure you have Visual Studio and .NET4 or higher.
 
-**2)** Inside this folder, open `ADKConnector.cs` in VS.
+**2)** Inside this folder, open `ADKConnector.cs` in VS and run.
 
 **3)** Add URL and API Token to the code. [Reference](https://help.falkonry.com/en/latest/using/accounts.html?highlight=token#integration)
 
