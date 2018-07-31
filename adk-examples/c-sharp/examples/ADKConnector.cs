@@ -31,19 +31,19 @@ namespace examples
                 to the getData() method of the file adapter.
             */
 
-            //FileAdapter f = new FileAdapter();
-            //ADKConnHist aDK = new ADKConnHist();
+            FileAdapter f = new FileAdapter();
+            ADKConnHist aDK = new ADKConnHist();
 
-            //var datastreamId = aDK.CreateDataStream();
+            var datastreamId = aDK.CreateDataStream();
 
-            //String fileName = "fileName";
-            //var stream = f.GetData(fileName);
-            //String fileType = "csv";
+            String fileName = "fileName";
+            var stream = f.GetData(fileName);
+            String fileType = "csv";
 
-            ////  TODO: Uncomment the following line for json file.
-            //// fileType = "json";
+            //  TODO: Uncomment the following line for json file.
+            // fileType = "json";
 
-            //aDK.IngestData(datastreamId, stream, fileType);
+            aDK.IngestData(datastreamId, stream, fileType);
 
             //  ###############################################################################
 
@@ -54,19 +54,19 @@ namespace examples
                 getDataStream() method of the file adapter.
             */
 
-            //FileAdapter f = new FileAdapter();
-            //ADKConnHist aDK = new ADKConnHist();
+            FileAdapter f = new FileAdapter();
+            ADKConnHist aDK = new ADKConnHist();
 
-            //var datastreamId = aDK.CreateDataStream();
+            var datastreamId = aDK.CreateDataStream();
 
-            //String fileName = "fileName";
-            //var stream = f.GetStream(fileName);
-            //String fileType = "csv";
+            String fileName = "fileName";
+            var stream = f.GetStream(fileName);
+            String fileType = "csv";
 
-            ////  TODO: Uncomment the following line for json file.
-            //// fileType = "json";
+            //  TODO: Uncomment the following line for json file.
+            // fileType = "json";
 
-            //aDK.IngestDataFromFile(datastreamId, stream, fileType);
+            aDK.IngestDataFromFile(datastreamId, stream, fileType);
 
 
             //  #############################################################################################
@@ -83,27 +83,27 @@ namespace examples
                  and set live parameter as true.
             */
 
-            //FileAdapter f = new FileAdapter();
-            //ADKConnLive aDK = new ADKConnLive();
+            FileAdapter f = new FileAdapter();
+            ADKConnLive aDK = new ADKConnLive();
 
-            //String datastreamId = "datastreamId";
-            //String assessmentId = "assessmentId";
+            String datastreamId = "datastreamId";
+            String assessmentId = "assessmentId";
 
-            //String fileName = "fileName";
-            //var stream = f.GetStream(fileName);
-            //String fileType = "csv";
+            String fileName = "fileName";
+            var stream = f.GetStream(fileName);
+            String fileType = "csv";
 
-            ////  TODO: Uncomment the following line for json file.
-            //// fileType = "json";
+            //  TODO: Uncomment the following line for json file.
+            // fileType = "json";
 
-            //Parallel.Invoke(() =>
-            //{
-            //    aDK.IngestDataFromFile(datastreamId, stream, fileType);
-            //},
-            //() =>
-            //{
-            //    aDK.GetLiveOutput(assessmentId);
-            //});
+            Parallel.Invoke(() =>
+            {
+                aDK.IngestDataFromFile(datastreamId, stream, fileType);
+            },
+            () =>
+            {
+                aDK.GetLiveOutput(assessmentId);
+            });
 
 
             //  #########################################################################
@@ -115,11 +115,11 @@ namespace examples
                 the folder containing multiple files to the datastream. You will have to give the folder path and pass it to the
                 addMoreHistoricalDataFromStream() in the adk connector
             */
-            //ADKConnHist aDK = new ADKConnHist();
+            ADKConnHist aDK = new ADKConnHist();
 
-            //String folderPath = "folderPath";
-            //String datastreamId = aDK.CreateDataStream();
-            //aDK.IngestDataFromFolder(datastreamId, folderPath);
+            String folderPath = "folderPath";
+            String datastreamId = aDK.CreateDataStream();
+            aDK.IngestDataFromFolder(datastreamId, folderPath);
 
             //  ########################################################################################################
 
@@ -129,18 +129,18 @@ namespace examples
                 And for adding facts the model must be trained by the Falkonry UI.
             */
 
-            //ADKConnHist aDK = new ADKConnHist();
-            //FileAdapter f = new FileAdapter();
-            //String fileName = "fileName";
-            //String fileType = "csv";
-            //String datastreamId = "datastreamID";
-            //String assessmentId = "assessmentID";
+            ADKConnHist aDK = new ADKConnHist();
+            FileAdapter f = new FileAdapter();
+            String fileName = "fileName";
+            String fileType = "csv";
+            String datastreamId = "datastreamID";
+            String assessmentId = "assessmentID";
 
-            ////  TODO: Uncomment the following line for json file.
-            //// fileType = "json";
+            //  TODO: Uncomment the following line for json file.
+            // fileType = "json";
 
-            //String stream = f.GetData(fileName);
-            //aDK.IngestFactsData(datastreamId, assessmentId, stream, fileType);
+            String stream = f.GetData(fileName);
+            aDK.IngestFactsData(datastreamId, assessmentId, stream, fileType);
 
             //  ########################################################################################################
 
@@ -150,18 +150,18 @@ namespace examples
                 And for adding facts the model must be trained by the Merlin.
             */
 
-            //ADKConnHist aDK = new ADKConnHist();
-            //FileAdapter f = new FileAdapter();
-            //String fileName = "fileName";
-            //String fileType = "csv";
-            //String datastreamId = "datastreamID";
-            //String assessmentId = "assessmentID";
+            ADKConnHist aDK = new ADKConnHist();
+            FileAdapter f = new FileAdapter();
+            String fileName = "fileName";
+            String fileType = "csv";
+            String datastreamId = "datastreamID";
+            String assessmentId = "assessmentID";
 
-            ////  TODO: Uncomment the following line for json file.
-            //// fileType = "json";
+            //  TODO: Uncomment the following line for json file.
+            // fileType = "json";
 
-            //byte[] stream = f.GetStream(fileName);
-            //aDK.IngestFactsFromFile(datastreamId, assessmentId, stream, fileType);
+            byte[] stream = f.GetStream(fileName);
+            aDK.IngestFactsFromFile(datastreamId, assessmentId, stream, fileType);
 
             //  ########################################################################################################
 
@@ -170,10 +170,10 @@ namespace examples
                 This method will export the existing facts and then store them in a file named exportedFacts.json in the resources
                 folder.
             */
-            //ADKConnHist aDK = new ADKConnHist();
-            //String assessmentId = "assessmentID";
-            //String datastreamId = "datastreamID";
-            //aDK.ExportFacts(datastreamId, assessmentId);
+            ADKConnHist aDK = new ADKConnHist();
+            String assessmentId = "assessmentID";
+            String datastreamId = "datastreamID";
+            aDK.ExportFacts(datastreamId, assessmentId);
 
             //  ########################################################################################################
 
