@@ -21,7 +21,7 @@ namespace examples
                  File adapter will be used to get the appropriate data from the different files and to provide it
                  in the format in which we can send to the ADK methods.
 
-                *************** PLEASE NOTE ALL DATA FILES TO BE KEPT INSIDE THE 'ConsoleApp2/bin/debug/' FOLDER for relative path purposes.***************
+                *************** PLEASE NOTE ALL DATA FILES TO BE KEPT INSIDE THE 'examples/bin/debug/' FOLDER for relative path purposes.***************
              */
 
             /*

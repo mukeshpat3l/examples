@@ -33,8 +33,7 @@ namespace examples
         /// </summary>
         /// <exception cref="System.ArgumentNullException">Thrown when one parameter is missing 
         /// in the function call.</exception>
-        /// <exception cref="FalkonryClient.Service.FalkonryException">Generally thrown when a 100 second timeout 
-        /// is met.</exception>
+        /// <exception cref="FalkonryClient.Service.FalkonryException">Generally thrown when there is a request timeout.</exception>
         /// <exception cref="System.Exception">Thrown when any other error causes 
         /// the program to not add live data.</exception>
         /// <param name="datastreamId">A String that contains the ID of existing datastream 
@@ -95,8 +94,7 @@ namespace examples
         /// </summary>
         /// <exception cref="System.ArgumentNullException">Thrown when one parameter is missing 
         /// in the function call.</exception>
-        /// <exception cref="FalkonryClient.Service.FalkonryException">Generally thrown when a 100 second timeout 
-        /// is met.</exception>
+        /// <exception cref="FalkonryClient.Service.FalkonryException">Generally thrown when there is a request timeout.</exception>
         /// <exception cref="System.Exception">Thrown when any other error causes 
         /// the program to not add live data.</exception>
         /// <param name="datastreamId">A String that contains the ID of existing datastream 
@@ -161,8 +159,7 @@ namespace examples
         /// </summary>
         /// <exception cref="System.ArgumentNullException">Thrown when one parameter is missing 
         /// in the function call.</exception>
-        /// <exception cref="FalkonryClient.Service.FalkonryException">Generally thrown when a 100 second timeout 
-        /// is met.</exception>
+        /// <exception cref="FalkonryClient.Service.FalkonryException">Generally thrown when there is a request timeout.</exception>
         /// <exception cref="System.Exception">Thrown when any other error causes 
         /// the program to not add live data.</exception>
         /// <param name="datastreamId">A String that contains the ID of existing datastream 

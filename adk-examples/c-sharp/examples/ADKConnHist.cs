@@ -33,7 +33,7 @@ namespace examples
         /// comes out to be FAILED or ERROR.</exception>
         /// <param name = "trackerId" > A string which is an ID to the tracker for which status is
         /// to be checked.</param>
-        /// <returns>An integer 1 or 0, depending on the status.</returns>
+        /// <returns>An integer 1 or 0, depending on the status. 1 for success and 0 for failure.</returns>
         private int CheckStatus(System.String trackerId)
         {
             for (int i = 0; i < 12; i++)
@@ -108,8 +108,7 @@ namespace examples
         /// </summary>
         /// <exception cref="System.ArgumentNullException">Thrown when one parameter is missing 
         /// in the function call.</exception>
-        /// <exception cref="FalkonryClient.Service.FalkonryException">Thrown when a 100 second timeout 
-        /// is met.</exception>
+        /// <exception cref="FalkonryClient.Service.FalkonryException">Thrown when there is a request timeout.</exception>
         /// <exception cref="System.Exception">Thrown when any other error causes 
         /// the program to not add historical data.</exception>
         /// <param name="datastreamId">A String that contains the ID of existing datastream 
@@ -180,8 +179,7 @@ namespace examples
         /// </summary>
         /// <exception cref="System.ArgumentNullException">Thrown when one parameter is missing 
         /// in the function call.</exception>
-        /// <exception cref="FalkonryClient.Service.FalkonryException">Thrown when a 100 second timeout 
-        /// is met.</exception>
+        /// <exception cref="FalkonryClient.Service.FalkonryException">Thrown when there is a request timeout.</exception>
         /// <exception cref="System.Exception">Thrown when any other error causes 
         /// the program to not add historical data.</exception>
         /// <param name="datastreamId">A String that contains the ID of existing datastream 
@@ -257,8 +255,7 @@ namespace examples
         /// </summary>
         /// <exception cref="System.ArgumentNullException">Thrown when one parameter is missing 
         /// in the function call.</exception>
-        /// <exception cref="FalkonryClient.Service.FalkonryException">Thrown when a 100 second timeout 
-        /// is met.</exception>
+        /// <exception cref="FalkonryClient.Service.FalkonryException">Thrown when there is a request timeout.</exception>
         /// <exception cref="System.Exception">Thrown when any other error causes 
         /// the program to not add historical data.</exception>
         /// <param name="datastreamId">A String that contains the ID of existing datastream 
@@ -346,8 +343,7 @@ namespace examples
         /// </summary>
         /// <exception cref="System.ArgumentNullException">Thrown when one parameter is missing 
         /// in the function call.</exception>
-        /// <exception cref="FalkonryClient.Service.FalkonryException">Thrown when a 100 second timeout 
-        /// is met.</exception>
+        /// <exception cref="FalkonryClient.Service.FalkonryException">Thrown when there is a request timeout.</exception>
         /// <exception cref="System.Exception">Thrown when any other error causes 
         /// the program to not add facts.</exception>
         /// <param name="datastreamId">A String that contains the ID of existing datastream 
@@ -424,8 +420,7 @@ namespace examples
         /// </summary>
         /// <exception cref="System.ArgumentNullException">Thrown when one parameter is missing 
         /// in the function call.</exception>
-        /// <exception cref="FalkonryClient.Service.FalkonryException">Thrown when a 100 second timeout 
-        /// is met.</exception>
+        /// <exception cref="FalkonryClient.Service.FalkonryException">Thrown when there is a request timeout.</exception>
         /// <exception cref="System.Exception">Thrown when any other error causes 
         /// <param name="datastreamId">A String that contains the ID of existing datastream 
         /// in which the facts are supposed to be added.</param>
@@ -507,8 +502,7 @@ namespace examples
         public void ExportFacts(String datastreamId, String assessmentId)
         {
             Datastream datastream = falkonry.GetDatastream(datastreamId);
-            //String path = "G:\\Falkonry\\July 1\\ConsoleApp2\\ConsoleApp2\\bin\\Debug\\facts\\" + datastream.Name + DateTime.Now + ".txt";
-            String path = "G:\\Falkonry\\July 1\\ConsoleApp2\\ConsoleApp2\\bin\\Debug\\facts";
+            String path = "..\\examples\\bin\\Debug\\facts";
             String fileName = datastream.Name + "_" + DateTime.Now.ToString().Replace(":", "-") + ".json";
             StreamWriter sw = File.CreateText(Path.Combine(path, fileName));
             var options = new SortedDictionary<string, string>();
