@@ -240,7 +240,7 @@ namespace examples
         /// This method is used to get the streaming output or live data output
         /// </summary>
         /// <remarks>
-        /// Should only be used when there is a lve datastream
+        /// Should only be used when there is a live datastream
         /// or by calling IngestData Method.
         /// Can only be used if a model is trained on Falkonry UI and
         /// Live is turned ON.
