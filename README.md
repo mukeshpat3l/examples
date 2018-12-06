@@ -2,6 +2,6 @@
 
 Integrational examples to connect with Falkonry easily.
 
-* PubNub
+* PubNub (Deprecated)
 * Application development (Deprecated)
 * Realtime dashboard
