@@ -1,39 +1,25 @@
 #!/usr/bin/env python3
-
 """
 The MIT License
-
-Copyright © 2010-2016 Falkonry.com
-
+Copyright © 2010-2019 Falkonry.com
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
 THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-Written by Raj Talla <raj.talla@falkonry.com>, Jan 2019
 """
 
 """
 README
-
 This is a *simple example* of "Falkonry Live Monitoring" script.
 It reads a CSV file for input data. It saves the condition, confidence and explanation factors in an output file.
 This code assumes a wide format CSV file for input.  Although Falkonry supports other formats and data ingestion methods,
 this code does not illustrate those methods.
-
-Requirement: 
-   * Python 3 or higher and a running edge analyzer docker instance 
-
 
 Assumptions:
 * You only have default entity in your datastream
 * This script does not support historical data ingestion; just live monitoring
 * This script can only monitor one assessment for live monitoring.
 * You are supplying data to Falkonry in csv format.
-* Even though this script is written for Sliding Window models, it can easily be updated for Batch Window models
-The assessment output will be printed to console.  You can replace the code with the one suitable for your requirements.
-Focus on <Customer:TODO> items
+* Output will be saved to csv file.
 """
 
 import sys
@@ -54,8 +40,7 @@ import json
 #
 EXCEPTION_LIMIT = 100
 CHUNK_SIZE = 10000
-# This is the endpoint of edge analyzer
-F_EDGE_URL = 'http://lcoalhost:9004/'
+F_EDGE_URL = 'http://192.168.2.2:9004/'
 
 class Headers:
     header = None
@@ -78,7 +63,7 @@ class Headers:
     @staticmethod
     def signals():
         result = []
-        columns = Headers.header.split(',')
+        columns = Headers.header.split(',') if Headers.header else []
         for nI in range(0, len(columns)):
             if (not (nI == Headers.timeColumnIndex or nI == Headers.entityColumnIndex or nI == Headers.batchColumnIndex)):
                 result.append(columns[nI])
@@ -469,6 +454,7 @@ def input_thread(args=None):
                     last = lines[nJ]
                     data += lines[nJ]
 
+            #info(data)
             info("Sending " + str(nI) + " to " + str(nI+bucket) + " records to Edge.")
             try:
                 inputResponse = requests.post(F_EDGE_URL + 'api/1.0/ingestjobs/' + input_job_id + '/inputs', auth=None,
@@ -518,8 +504,8 @@ def setup_parser():
 def main():
     """
     Setup the Falkonry connection parameters.
-    Launch an input thread for sending signal data to Falkonry.
-    Launch an output thread to get the assessment output.
+    Launch a thread for sending signal data to Falkonry.
+    Launch a thread to get the assessment output.
     """
     parser = setup_parser()
     args = parser.parse_args()
@@ -587,7 +573,7 @@ def main():
     # Start a thread for getting assessment output from Falkonry
     #
     info("Waiting for headers to be prepared...")
-    while (Headers.header is None):
+    while (Headers.header is None and len(Headers.signals()) == 0):
         time.sleep(1)
     info("Done waiting for headers to be prepared...")
 
