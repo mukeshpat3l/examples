@@ -6,6 +6,7 @@
 `conda env create -f environment-jupyter.yml`. This will create a conda environment name jupyter3.6, you can see it listed by 
 running `conda env list`
 * Activate conda environment `source activate jupyter3.6`
+* Other option if you have docker is to get this docker image [https://jupyter-docker-stacks.readthedocs.io/en/latest/using/selecting.html#jupyter-scipy-notebook] and run it and upload the notebook. (you probably want to mount folder of jupyter-example-notebooks so that you do not lose changes)
 * Run jupyter notebook by running `jupyter notebook'
 * It will launch browser with current directy listing, select ExplanationConfidenceLRSExample.ipynb notebook and launch it.
 * Specify api_host, account_id and token
